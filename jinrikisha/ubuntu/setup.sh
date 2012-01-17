@@ -2,6 +2,10 @@
 
 . "$(dirname $0)/VERSION"
 
+if [ -r "$(dirname $0)/.buildinfo" ]; then
+  . "$(dirname $0)/.buildinfo"
+fi
+
 #---------------------------------------
 # Define Defalut Valuables
 #---------------------------------------
@@ -36,7 +40,7 @@ echo "
                                                   
 - Asakusa Framework Starter Package with Installer -
                                                   
-  Version: $_RIKISHA_VERSION
+  Version: $_RIKISHA_VERSION ($_BUILD_ID)
 ****************************************************
 "
 

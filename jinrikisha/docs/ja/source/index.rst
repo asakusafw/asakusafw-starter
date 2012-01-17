@@ -56,7 +56,8 @@ Eclipseからサンプルアプリケーションのプロジェクトをイン�
 
 1. デスクトップのショートカットからEclipseを起動します。
 2. Eclipseのメニューから [File] -> [Import] -> [General] -> [Existing Projects into Workspace]を選択します。
-3. Importダイアログで右上の Browse ボタンを押して、そのまま[OK]を押します。``example-app`` というプロジェクトが選択されているはずですので、そのまま右下の [Finish]を押します。
+3. Importダイアログで右上の [Browse]ボタンを押して、表示されたダイアログでそのまま[OK]ボタンを押します。 
+4. ``example-app`` というプロジェクトが選択されていることを確認したら、そのまま右下の [Finish]ボタンを押します。
 
 これでサンプルアプリケーションのプロジェクトがEclipseにインポートされました。 この後は、 ``src`` ディレクトリ配下のソースコードをチェックしたり、 `Asakusa Framework入門`_ の `Asakusa Framework スタートガイド`_  を参考にして、バッチアプリケーションを実行してみてもよいでしょう。
 
