@@ -33,7 +33,7 @@ for _PLATFORM in "$@"; do
   mkdir "target/jinrikisha-$_PLATFORM"
 
   if [ $BUILD_ID ]; then
-    echo $BUILD_ID > "target/jinrikisha-$_PLATFORM"/.buildinfo
+    echo _BUILD_ID=$BUILD_ID > "target/jinrikisha-$_PLATFORM"/.buildinfo
   fi
 
   cp LICENSE VERSION "target/jinrikisha-$_PLATFORM"
