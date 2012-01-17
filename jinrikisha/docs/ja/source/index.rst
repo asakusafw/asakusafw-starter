@@ -14,9 +14,9 @@ Jinrikisha (人力車) は、Asakusa Frameworkの開発環境を手軽に構築�
     :widths: 5 10
 
     * - Ubuntu版
-      - `jinrikisha-ubuntu-0.1.0-beta2.tar.gz`_
+      - `jinrikisha-ubuntu-0.1.0-beta3.tar.gz`_
 
-..  _`jinrikisha-ubuntu-0.1.0-beta2.tar.gz`: http://www.asakusafw.com/download/jinrikisha/ubuntu/jinrikisha-ubuntu-0.1.0-beta2.tar.gz
+..  _`jinrikisha-ubuntu-0.1.0-beta3.tar.gz`: http://www.asakusafw.com/download/jinrikisha/ubuntu/jinrikisha-ubuntu-0.1.0-beta3.tar.gz
 
 スナップショット版
 ~~~~~~~~~~~~~~~~~~
