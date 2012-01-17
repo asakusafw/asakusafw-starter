@@ -32,6 +32,10 @@ for _PLATFORM in "$@"; do
 
   mkdir "target/jinrikisha-$_PLATFORM"
 
+  if [ $BUILD_ID ]; then
+    echo $BUILD_ID > "target/jinrikisha-$_PLATFORM"/.buildinfo
+  fi
+
   cp LICENSE VERSION "target/jinrikisha-$_PLATFORM"
   cp -r common/* "target/jinrikisha-$_PLATFORM"
   cp -r "$RIKISHA_ARCHIVE_HOME"/common/* "target/jinrikisha-$_PLATFORM"
