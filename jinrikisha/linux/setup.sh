@@ -103,14 +103,14 @@ http://java.sun.com/javase/ja/6/webnotes/install/index.html
       which apt-get > /dev/null 2>&1
       _RET=$?
       if [ $_RET -eq 0 ]; then
-        sudo apt-get install -y openjdk-6-jdk
         _JAVA_HOME="/usr/lib/jvm/java-6-openjdk"
+        sudo apt-get install -y openjdk-6-jdk
       else
         which yum > /dev/null 2>&1
         _RET=$?
         if [ $_RET -eq 0 ]; then
-          sudo yum install java-1.6.0-openjdk-devel
           _JAVA_HOME="/usr/lib/jvm/java-1.6.0-openjdk"
+          sudo yum install java-1.6.0-openjdk-devel
         else
           echo "apt-get または yum が使用出来ないため、インストールを中断します。"
           exit_abort
