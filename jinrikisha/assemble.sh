@@ -46,7 +46,7 @@ for _PLATFORM in "$@"; do
   cp -r "$_PLATFORM"/* "target/jinrikisha-$_PLATFORM"
   cp -r "$RIKISHA_ARCHIVE_HOME/$_PLATFORM"/* "target/jinrikisha-$_PLATFORM"
 
-  tar -C target -czvf "jinrikisha-${_PLATFORM}-${_RIKISHA_VERSION}.tar.gz" jinrikisha-ubuntu
+  tar -C target -czvf "jinrikisha-${_PLATFORM}-${_RIKISHA_VERSION}.tar.gz" "jinrikisha-$_PLATFORM"
   mv "jinrikisha-${_PLATFORM}-${_RIKISHA_VERSION}.tar.gz" target
   echo "$_PLATFORM 版のアーカイブを作成しました: target/jinrikisha-${_PLATFORM}-${_RIKISHA_VERSION}.tar.gz"
 

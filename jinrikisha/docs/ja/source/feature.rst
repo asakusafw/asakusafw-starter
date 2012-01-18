@@ -11,9 +11,9 @@ JinrikishaはAsakusa Frmaeworkによるアプリケーション開発に必要�
 
 Javaのインストール
 ------------------
-Ubuntu版では、Javaのインストールが行われていない場合、 `OpenJDK`_ を自動インストールすることでJavaのインストールを自動化することができます。本格的なアプリケーションの開発時にはOpenJDKの使用は推奨しませんが、Asakusa Frameworkを簡単に試すには便利なオプションです [#]_ 。
+Ubuntu版では、Javaのインストールが行われていない場合、 `OpenJDK`_ を自動インストールすることでJavaのインストールを自動化することができます。本格的なアプリケーションの開発時にはOpenJDKの使用は推奨しませんが、Asakusa Frameworkを簡単に試すには便利なオプションです。
 
-..  [#] とりあえずOpenJDKで試用し、後からOracleJDKに切り替えることもできます。
+とりあえずOpenJDKで試用し、後からOracleJDKに切り替えることもできます。JDKを切り替える場合、Jinrikishaのインストールディレクトリ配下の ``.rikisha_profile`` に定義されているJAVA_HOMEの値を変更してください。
 
 Mavenのインストールとセットアップ
 ---------------------------------
@@ -23,6 +23,8 @@ Hadoopのインストールとセットアップ
 ----------------------------------
 HadoopはJinrikishaによって自動的にインストールされます。JinrikishaはHadoopのディストリビューションとして、 `Cloudera's Distribution including Apache Hadoop Version 3 (CDH3)`_ をイ
 ンストールします。
+
+デフォルトではHadoopはスタンドアロンモードで動作します。
 
 環境変数の設定
 --------------
@@ -37,15 +39,35 @@ Asakusa Frameowrkのインストール
 Asakusa Frameworkのインストールとサンプルアプリケーションの作成、ビルドがJinrikishaによって自動的に行われます。
 
 1つのディレクトリ配下にすべてのコンポーネントをインストール
------------------------------------------------------------
-Jinrikisha のインストール時に指定した単一のディレクトリ配下に、HadoopやEclipseなど、Asakusa Frameworkの開発に必要なすべてのコンポーネントをインストールします [#]_ 。環境を汚さない
-ため、とりあえず触ってみようという方でも安心して使えるでしょう。
+===========================================================
+Jinrikisha のインストール時に指定した単一のディレクトリ配下に、HadoopやEclipseなど、Asakusa Frameworkの開発に必要なすべてのコンポーネントをインストールします [#]_ 。既にHadoopやMavenが入っている環境と共存することなども容易になっています。
 
-また、既にHadoopやMavenが入っている環境と共存することなども容易になっています。
+..  [#] Java本体についてはOSのパッケージ管理システムの仕様に依存します。また、OSユーザのプロファイル設定ファイル( ``$HOME/.profile`` または ``$HOME/.bash_profile`` )に対する設定の追加や、デスクトップに対するショートカットを加えるような処理については、インストール時にこれらの設定を行うかどうかを選択します。
 
-例外的に、JinrikishaのインストーラがOSユーザのプロファイル設定ファイル( ``$HOME/.profile`` )やデスクトップのショートカットなどに設定を加えるような処理については、インストール時に>設定を行うかどうかを選択することができます。
+インストールディレクトリ構成
+----------------------------
+Jinrikisha のインストールディレクトリ配下の構成を以下に示します。
 
-..  [#] Java本体についてはOSのパッケージ管理システムの仕様に依存します。
+..  list-table::
+    :widths: 3 7
+    :header-rows: 1
+
+    * - ディレクトリ/ファイル
+      - 説明
+    * - ``asakusa``
+      - Asakusa Frameworkのインストールディレクトリ
+    * - ``eclipse``
+      - Eclipseのインストールディレクトリ
+    * - ``hadoop``
+      - Hadoopのインストールディレクトリ
+    * - ``maven``
+      - Mavenのインストールディレクトリ
+    * - ``repository``
+      - Mavenのローカルリポジトリ用ディレクトリ
+    * - ``workspace``
+      - Eclipseのワークスペース用ディレクトリ
+    * - ``.rikisha_profile``
+      - Jinrikshaでセットアップした各ソフトウェアの動作に必要な環境変数の設定ファイル
 
 ..  _`Asakusa Framework入門`: http://asakusafw.s3.amazonaws.com/documents/0.2/release/ja/html/introduction/index.html
 ..  _`Asakusa Framework スタートガイド`: http://asakusafw.s3.amazonaws.com/documents/0.2/release/ja/html/introduction/start-guide.html
