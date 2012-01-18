@@ -9,8 +9,7 @@ fi
 #---------------------------------------
 # Define Defalut Valuables
 #---------------------------------------
-_JAVA_HOME_DEFAULT="/usr/lib/jvm/java-6-openjdk"
-_RIKISHA_HOME_DEFAULT="$HOME/jinrikisha"
+_ASAKUSA_DEVELOP_HOME_DEFAULT="$HOME/asakusa-develop"
 _ADD_PROFILE_DEFAULT="y"
 _CREATE_ECLIPSE_SHORTCUT_DEFAULT="y"
 
@@ -83,15 +82,15 @@ else
 Java(JDK)がインストールされていないため、
 OpenJDKをインストールしてセットアップを続行します。
 
-** WARNING ***************************************
+** WARNING ******************************************************
 OracleJDKを使用する場合は一旦インストールを中断し、
 OracleJDKをインストール後、JAVA_HOMEにOracleJDKの
 インストールディレクトリを指定してから
 再度インストールを行なってください。
 
 OracleJDKのインストール方法は以下のサイトなどを参考にしてください
-http://asakusafw.s3.amazonaws.com/documents/0.2/release/ja/html/introduction/start-guide.html#java-jdk
-**************************************************
+http://java.sun.com/javase/ja/6/webnotes/install/index.html
+*****************************************************************
 
   '
     read -p "OpenJDKをインストールしてインストールを続行しますか？: Y: " _YN
@@ -101,13 +100,28 @@ http://asakusafw.s3.amazonaws.com/documents/0.2/release/ja/html/introduction/sta
       _YN="y"
     fi
     if [ "$_YN" = y ]; then
-      sudo apt-get install -y openjdk-6-jdk
+      which apt-get > /dev/null 2>&1
+      _RET=$?
+      if [ $_RET -eq 0 ]; then
+        sudo apt-get install -y openjdk-6-jdk
+        _JAVA_HOME="/usr/lib/jvm/java-6-openjdk"
+      else
+        which yum > /dev/null 2>&1
+        _RET=$?
+        if [ $_RET -eq 0 ]; then
+          sudo yum install java-1.6.0-openjdk-devel
+          _JAVA_HOME="/usr/lib/jvm/java-1.6.0-openjdk"
+        else
+          echo "apt-get または yum が使用出来ないため、インストールを中断します。"
+          exit_abort
+        fi
+      fi
       _RET=$?
       if [ $_RET -ne 0 ]; then
         exit_abort
       fi
-      _JAVA_HOME="$_JAVA_HOME_DEFAULT"
       echo "OpenJDKのインストールが完了しました。"
+      echo "JAVA_HOMEに $_JAVA_HOME を指定しました。"
     else
       echo "インストールを中断します。"
       exit_abort
@@ -118,16 +132,16 @@ http://asakusafw.s3.amazonaws.com/documents/0.2/release/ja/html/introduction/sta
       echo ""
       while :
       do
-        read -p "JAVA_HOMEを指定してください: $_JAVA_HOME_DEFAULT: " _INSTR
+        read -p "JAVA_HOMEを指定してください:: " _INSTR
         if [ "$_INSTR" ]; then
           _JAVA_HOME_TEMP="$_INSTR"
         else
-          _JAVA_HOME_TEMP="$_JAVA_HOME_DEFAULT"
+          continue
         fi
         if [ -f "${_JAVA_HOME_TEMP}/bin/javac" ]; then
           _JAVA_HOME="$_JAVA_HOME_TEMP"
           echo "JAVA_HOMEに $_JAVA_HOME を指定しました。"
-          break;
+          break
         else
           echo "[ERROR] 指定したディレクトリ $_JAVA_HOME_TEMP にはJava(JDK)がインストールされていません。"
         fi
@@ -148,28 +162,28 @@ echo "------------------------------------------------"
 
 while :
 do
-  read -p "Jinrikishaのインストールディレクトリ(RIKISHA_HOME)を入力してください。: $_RIKISHA_HOME_DEFAULT: " _INSTR
+  read -p "Asakusa Framework開発環境のインストールディレクトリ(ASAKUSA_DEVELOP_HOME)を入力してください。: $_ASAKUSA_DEVELOP_HOME_DEFAULT: " _INSTR
   if [ "$_INSTR" ]; then
     eval _INSTR=$_INSTR
-    _RIKISHA_HOME_TEMP=$(cd $(dirname $_INSTR) && pwd)/$(basename $_INSTR)
+    _ASAKUSA_DEVELOP_HOME_TEMP=$(cd $(dirname $_INSTR) && pwd)/$(basename $_INSTR)
   else
-    _RIKISHA_HOME_TEMP="$_RIKISHA_HOME_DEFAULT"
+    _ASAKUSA_DEVELOP_HOME_TEMP="$_ASAKUSA_DEVELOP_HOME_DEFAULT"
   fi
 
-  if [ -w $(dirname "$_RIKISHA_HOME_TEMP") ]; then
-    _RIKISHA_HOME="$_RIKISHA_HOME_TEMP"
-    echo "インストールディレクトリ(RIKISHA_HOME)に $_RIKISHA_HOME を指定しました。"
+  if [ -w $(dirname "$_ASAKUSA_DEVELOP_HOME_TEMP") ]; then
+    _ASAKUSA_DEVELOP_HOME="$_ASAKUSA_DEVELOP_HOME_TEMP"
+    echo "インストールディレクトリ(ASAKUSA_DEVELOP_HOME)に $_ASAKUSA_DEVELOP_HOME を指定しました。"
     break
   else
-    echo "[ERROR] 指定したディレクトリ $_RIKISHA_HOME_TEMP を作成する権限がありません。"
+    echo "[ERROR] 指定したディレクトリ $_ASAKUSA_DEVELOP_HOME_TEMP を作成する権限がありません。"
   fi
 done
 
-export RIKISHA_HOME="$_RIKISHA_HOME"
-_RIKISHA_PROFILE="$RIKISHA_HOME/.rikisha_profile"
+export ASAKUSA_DEVELOP_HOME="$_ASAKUSA_DEVELOP_HOME"
+_RIKISHA_PROFILE="$ASAKUSA_DEVELOP_HOME/.rikisha_profile"
 
-_EXPORT="${_EXPORT}export RIKISHA_HOME=${RIKISHA_HOME}"'\n'
-_EXPORT="${_EXPORT}"'export ASAKUSA_HOME=${RIKISHA_HOME}/asakusa\n'
+_EXPORT="${_EXPORT}export ASAKUSA_DEVELOP_HOME=${ASAKUSA_DEVELOP_HOME}"'\n'
+_EXPORT="${_EXPORT}"'export ASAKUSA_HOME=${ASAKUSA_DEVELOP_HOME}/asakusa\n'
 
 read -p "Asakusa Frameworkのバージョンを入力してください。: $_ASAKUSAFW_VERSION_DEFAULT: " _INSTR
 if [ "$_INSTR" ]; then
@@ -178,7 +192,13 @@ else
   _ASAKUSAFW_VERSION="$_ASAKUSAFW_VERSION_DEFAULT"
 fi
 
-read -p "$HOME/.profile に $_RIKISHA_PROFILE を実行する定義を追加しますか？: Y: " _YN
+if [ -r "$HOME/.bash_profile" ]; then
+  _TARGET_PROFILE="$HOME/.bash_profile"
+else
+  _TARGET_PROFILE="$HOME/.profile"
+fi
+
+read -p "$_TARGET_PROFILE に $_RIKISHA_PROFILE を実行する定義を追加しますか？: Y: " _YN
 if [ "$_YN" ]; then
   _YN=`echo $_YN | tr "[:upper:]" "[:lower:]"`
 else
@@ -207,20 +227,28 @@ fi
 # Start Install
 ########################################
 echo "
-************************************************************
+***************************************************************
 インストールの準備が完了しました。
+以下の注意事項を確認した上で、[Enter]キーを押してください。
 
-Mavenリモートリポジトリからライブラリをダウンロードするため、
-インストールには10分以上かかる可能性があります。
+1) Mavenリモートリポジトリからライブラリをダウンロードするため、
+   インストールには10分以上かかる可能性があります。
+
+2) インストールを実行することにより、
+   ホームディレクトリ[$HOME]のパーミッションに対して
+   OTHERに対するread,execute権限が付与されます。
+   (Ubuntuなどではデフォルトでこれらの権限が付与されていますが、
+    CentOSなどではデフォルトに対して権限が追加になります)
+***************************************************************
 "
 read -p "インストールを続行するには[Enter]キーを押してください。: " _DUMMY
 
-if [ -d "$RIKISHA_HOME" ]; then
-  _RIKISHA_BACKUP="${RIKISHA_HOME}_`date +%Y%m%d%H%M%S`"
-  echo "インストールディレクトリ $RIKISHA_HOME に既にディレクトリが存在するため、$_RIKISHA_BACKUP に退避します。"
-  mv "$RIKISHA_HOME" "$_RIKISHA_BACKUP"
+if [ -d "$ASAKUSA_DEVELOP_HOME" ]; then
+  _ASAKUSA_DEVELOP_BACKUP="${ASAKUSA_DEVELOP_HOME}_`date +%Y%m%d%H%M%S`"
+  echo "インストールディレクトリ $ASAKUSA_DEVELOP_HOME に既にディレクトリが存在するため、$_ASAKUSA_DEVELOP_BACKUP に退避します。"
+  mv "$ASAKUSA_DEVELOP_HOME" "$_ASAKUSA_DEVELOP_BACKUP"
 fi
-mkdir "$RIKISHA_HOME"
+mkdir "$ASAKUSA_DEVELOP_HOME"
 
 ########################################
 # Install Maven
@@ -230,19 +258,19 @@ echo "Mavenをインストールしています。"
 cd archives
 tar xf apache-maven-*-bin.tar.gz
 mv apache-maven-*/ maven
-mv maven "$RIKISHA_HOME"
+mv maven "$ASAKUSA_DEVELOP_HOME"
 cd ..
 
-cp -p "$RIKISHA_HOME"/maven/conf/settings.xml "$RIKISHA_HOME"/maven/conf/settings.xml.ORG
-cp _templates/maven/conf/settings.xml "$RIKISHA_HOME"/maven/conf
-sed -i -e "s;/path/to/local/repo;$RIKISHA_HOME/repository;" "$RIKISHA_HOME"/maven/conf/settings.xml
+cp -p "$ASAKUSA_DEVELOP_HOME"/maven/conf/settings.xml "$ASAKUSA_DEVELOP_HOME"/maven/conf/settings.xml.ORG
+cp _templates/maven/conf/settings.xml "$ASAKUSA_DEVELOP_HOME"/maven/conf
+sed -i -e "s;/path/to/local/repo;$ASAKUSA_DEVELOP_HOME/repository;" "$ASAKUSA_DEVELOP_HOME"/maven/conf/settings.xml
 
 if [ "${_OPT_M2REPO_ARCHIVE}" ]; then
   tar -xf "${_VAL_M2REPO_ARCHIVE}"
-  mv repository "$RIKISHA_HOME"
+  mv repository "$ASAKUSA_DEVELOP_HOME"
 fi
 
-_EXPORT="${_EXPORT}"'export M2_HOME=${RIKISHA_HOME}/maven\n'
+_EXPORT="${_EXPORT}"'export M2_HOME=${ASAKUSA_DEVELOP_HOME}/maven\n'
 _PATH="${_PATH}":'$M2_HOME/bin'
 
 ########################################
@@ -253,8 +281,8 @@ echo "Hadoopをインストールしています。"
 cd archives
 tar xf hadoop-0.20.*.tar.gz
 mv hadoop-0.20.*/ hadoop
-mv hadoop "$RIKISHA_HOME"
-_EXPORT="${_EXPORT}"'export HADOOP_HOME=${RIKISHA_HOME}/hadoop\n'
+mv hadoop "$ASAKUSA_DEVELOP_HOME"
+_EXPORT="${_EXPORT}"'export HADOOP_HOME=${ASAKUSA_DEVELOP_HOME}/hadoop\n'
 _PATH="${_PATH}":'$HADOOP_HOME/bin'
 cd ..
 
@@ -265,17 +293,17 @@ echo "Eclipseをインストールしています。"
 
 cd archives
 tar xf eclipse-*.tar.gz
-mv eclipse "$RIKISHA_HOME"
-mkdir "$RIKISHA_HOME"/workspace
+mv eclipse "$ASAKUSA_DEVELOP_HOME"
+mkdir "$ASAKUSA_DEVELOP_HOME"/workspace
 cd ..
 
-cp -r _templates/eclipse "$RIKISHA_HOME"
-sed -i -e "s;/path/to/workspace;$RIKISHA_HOME/workspace;" "$RIKISHA_HOME"/eclipse/configuration/.settings/org.eclipse.ui.ide.prefs
+cp -r _templates/eclipse "$ASAKUSA_DEVELOP_HOME"
+sed -i -e "s;/path/to/workspace;$ASAKUSA_DEVELOP_HOME/workspace;" "$ASAKUSA_DEVELOP_HOME"/eclipse/configuration/.settings/org.eclipse.ui.ide.prefs
 
-cp -r _templates/workspace "$RIKISHA_HOME"
-sed -i -e "s;/path/to/settings.xml;$RIKISHA_HOME/maven/conf/settings.xml;" "$RIKISHA_HOME"/workspace/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.m2e.core.prefs
+cp -r _templates/workspace "$ASAKUSA_DEVELOP_HOME"
+sed -i -e "s;/path/to/settings.xml;$ASAKUSA_DEVELOP_HOME/maven/conf/settings.xml;" "$ASAKUSA_DEVELOP_HOME"/workspace/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.m2e.core.prefs
 
-_PATH="${_PATH}":'$RIKISHA_HOME/eclipse'
+_PATH="${_PATH}":'$ASAKUSA_DEVELOP_HOME/eclipse'
 
 ########################################
 # Setup Environment Variables
@@ -292,12 +320,14 @@ printf "${_EXPORT}${_PATH}" > "${_RIKISHA_PROFILE}"
 #######################################
 echo "Asakusa Frameworkをインストールしています。"
 
+chmod a+rx $HOME
+
 case "$_ASAKUSAFW_VERSION" in
   *-SNAPSHOT ) _REPO_SUFFIX="snapshots" ;;
   * ) _REPO_SUFFIX="releases" ;;
 esac
 
-cd "${RIKISHA_HOME}"/workspace
+cd "${ASAKUSA_DEVELOP_HOME}"/workspace
 mvn archetype:generate -DarchetypeRepository="${_REPO_URL}${_REPO_SUFFIX}" -DarchetypeCatalog="${_REPO_URL}"archetype-catalog.xml -DinteractiveMode=false -DarchetypeGroupId="com.asakusafw" -DarchetypeArtifactId="$_EXAMPLE_ARCHETYPE_ID" -DarchetypeVersion="$_ASAKUSAFW_VERSION" -DgroupId="$_EXAMPLE_GROUP_ID" -DartifactId="$_EXAMPLE_ARTIFACT_ID" -Dversion="1.0-SNAPSHOT" -Dpackage="$_EXAMPLE_GROUP_ID"
 if [ $? -ne 0 ]; then
   exit_abort
@@ -313,21 +343,21 @@ fi
 # Configuration to OS
 ########################################
 if [ "$_ADD_PROFILE" = "y" ]; then
-  echo "~/.profileに${_RIKISHA_PROFILE}を実行する定義を追加します。"
+  echo "$_TARGET_PROFILE に $_RIKISHA_PROFILE を実行する定義を追加します。"
 
   echo "# Configuration for Jinrikisha (Asakusa Framework Starter Package with Installer)
 if [ -f \"${_RIKISHA_PROFILE}\" ]; then
   . \"${_RIKISHA_PROFILE}\"
-fi" >> ~/.profile
+fi" >> $_TARGET_PROFILE
 fi
 
 if [ "$_CREATE_ECLIPSE_SHORTCUT" = "y" ]; then
   echo "デスクトップにEclipseのショートカットを追加します。"
 
   if [ -d ~/Desktop ]; then
-    ln -fs "$RIKISHA_HOME"/eclipse/eclipse ~/Desktop
+    ln -fs "$ASAKUSA_DEVELOP_HOME"/eclipse/eclipse ~/Desktop
   elif [ -d ~/デスクトップ ]; then
-    ln -fs "$RIKISHA_HOME"/eclipse/eclipse ~/デスクトップ
+    ln -fs "$ASAKUSA_DEVELOP_HOME"/eclipse/eclipse ~/デスクトップ
   fi
 fi
 
@@ -339,7 +369,7 @@ echo "
 "
 
 if [ "$_ADD_PROFILE" = "y" ]; then
-  echo "デスクトップ環境に対して ~/.profile の変更を反映するにはOSの再起動が必要です。"
+  echo "デスクトップ環境に対して $_TARGET_PROFILE の変更を反映するためOSを再起動します。"
   read -p "今すぐにOSを再起動しますか？: Y: " _YN
   if [ -z "$_YN" ]; then
     _YN="y"
@@ -353,19 +383,19 @@ else
   echo "
 ターミナルからJinkikishaによってインストールされた各ソフトウェアは
 ${_RIKISHA_PROFILE} をシェルに反映してから使用してください。
--------------------------------
+------------------------------------------------------------------
 ### Jinrikisha用プロファイルをカレントシェルに反映
 . ${_RIKISHA_PROFILE}
 
 ### Mavenコマンドの実行
-cd "$RIKISHA_HOME"/workspace/$_EXAMPLE_ARTIFACT_ID
+cd "$ASAKUSA_DEVELOP_HOME"/workspace/$_EXAMPLE_ARTIFACT_ID
 mvn clean generate-sources
 mvn clean package
 ...
 
 ### Eclipseの起動
 eclipse &
--------------------------------
+------------------------------------------------------------------
 "
 fi
 
