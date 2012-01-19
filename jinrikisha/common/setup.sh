@@ -12,6 +12,7 @@ fi
 _ASAKUSA_DEVELOP_HOME_DEFAULT="$HOME/asakusa-develop"
 _ADD_PROFILE_DEFAULT="y"
 _CREATE_ECLIPSE_SHORTCUT_DEFAULT="y"
+_ADD_LAUNCHD_CONF_DEFAULT="y"
 
 #---------------------------------------
 # Define Constants
@@ -69,91 +70,111 @@ cd $(dirname $0)
 ########################################
 # Check and Install JDK
 ########################################
-echo "Java(JDK)がインストールされているか確認します。"
-
-if [ -n "$JAVA_HOME" -a -r "$JAVA_HOME/bin/javac" ]; then
-  _JAVA_HOME="$JAVA_HOME"
-  echo "JAVA_HOMEにJava(JDK)のパスが指定されています。 $_JAVA_HOME をJinkirikisha用のJAVA_HOMEに使用します。"
-else
-  which javac
-  _RET=$?
-  if [ $_RET -ne 0 ]; then
-    echo '
-Java(JDK)がインストールされていないため、
-OpenJDKをインストールしてセットアップを続行します。
-
-** WARNING ******************************************************
-OracleJDKを使用する場合は一旦インストールを中断し、
-OracleJDKをインストール後、JAVA_HOMEにOracleJDKの
-インストールディレクトリを指定してから
-再度インストールを行なってください。
-
-OracleJDKのインストール方法は以下のサイトなどを参考にしてください
-http://java.sun.com/javase/ja/6/webnotes/install/index.html
-*****************************************************************
-
-  '
-    read -p "OpenJDKをインストールしてインストールを続行しますか？: Y: " _YN
-    if [ "$_YN" ]; then
-      _YN=`echo $_YN | tr "[:upper:]" "[:lower:]"`
+if [ `uname` = "Darwin" ]; then
+### for MacOSX ###
+  _JAVA_HOME_MACOSX="/System/Library/Frameworks/JavaVM.framework/Home"
+  while :
+  do
+    if [ -r $_JAVA_HOME_MACOSX ]; then
+      break
     else
-      _YN="y"
+      java > /dev/null 2>&1
+      echo "Javaがインストールされていません。"
+      read -p "Javaをインストールした後、[Enter]キーを押してインストールを続行してください。:: " _INSTR
+      continue
     fi
-    if [ "$_YN" = y ]; then
-      which apt-get > /dev/null 2>&1
-      _RET=$?
-      if [ $_RET -eq 0 ]; then
-        _JAVA_HOME="/usr/lib/jvm/java-6-openjdk"
-        sudo apt-get install -y openjdk-6-jdk
+  done
+  _JAVA_HOME="$_JAVA_HOME_MACOSX"
+  _EXPORT="export JAVA_HOME=$_JAVA_HOME"'\n'
+  _EXPORT="${_EXPORT}export _JAVA_OPTIONS=-Dfile.encoding=UTF-8"'\n'
+  _PATH='export PATH=$JAVA_HOME/bin'
+else
+### for Linux ###
+  echo "Java(JDK)がインストールされているか確認します。"
+
+  if [ -n "$JAVA_HOME" -a -r "$JAVA_HOME/bin/javac" ]; then
+    _JAVA_HOME="$JAVA_HOME"
+    echo "JAVA_HOMEにJava(JDK)のパスが指定されています。 $_JAVA_HOME をJinkirikisha用のJAVA_HOMEに使用します。"
+  else
+    which javac
+    _RET=$?
+    if [ $_RET -ne 0 ]; then
+      echo '
+  Java(JDK)がインストールされていないため、
+  OpenJDKをインストールしてセットアップを続行します。
+
+  ** WARNING ******************************************************
+  OracleJDKを使用する場合は一旦インストールを中断し、
+  OracleJDKをインストール後、JAVA_HOMEにOracleJDKの
+  インストールディレクトリを指定してから
+  再度インストールを行なってください。
+
+  OracleJDKのインストール方法は以下のサイトなどを参考にしてください
+  http://java.sun.com/javase/ja/6/webnotes/install/index.html
+  *****************************************************************
+
+    '
+      read -p "OpenJDKをインストールしてインストールを続行しますか？: Y: " _YN
+      if [ "$_YN" ]; then
+        _YN=`echo $_YN | tr "[:upper:]" "[:lower:]"`
       else
-        which yum > /dev/null 2>&1
+        _YN="y"
+      fi
+      if [ "$_YN" = y ]; then
+        which apt-get > /dev/null 2>&1
         _RET=$?
         if [ $_RET -eq 0 ]; then
-          _JAVA_HOME="/usr/lib/jvm/java-1.6.0-openjdk"
-          sudo yum install java-1.6.0-openjdk-devel
+          _JAVA_HOME="/usr/lib/jvm/java-6-openjdk"
+          sudo apt-get install -y openjdk-6-jdk
         else
-          echo "apt-get または yum が使用出来ないため、インストールを中断します。"
+          which yum > /dev/null 2>&1
+          _RET=$?
+          if [ $_RET -eq 0 ]; then
+            _JAVA_HOME="/usr/lib/jvm/java-1.6.0-openjdk"
+            sudo yum install java-1.6.0-openjdk-devel
+          else
+            echo "apt-get または yum が使用出来ないため、インストールを中断します。"
+            exit_abort
+          fi
+        fi
+        _RET=$?
+        if [ $_RET -ne 0 ]; then
           exit_abort
         fi
-      fi
-      _RET=$?
-      if [ $_RET -ne 0 ]; then
+        echo "OpenJDKのインストールが完了しました。"
+        echo "JAVA_HOMEに $_JAVA_HOME を指定しました。"
+      else
+        echo "インストールを中断します。"
         exit_abort
       fi
-      echo "OpenJDKのインストールが完了しました。"
-      echo "JAVA_HOMEに $_JAVA_HOME を指定しました。"
     else
-      echo "インストールを中断します。"
-      exit_abort
-    fi
-  else
-    if [ -z "$JAVA_HOME" ]; then
-      echo "PATHにJDKが存在しますが、JAVA_HOMEが指定されていません。"
-      echo ""
-      while :
-      do
-        read -p "JAVA_HOMEを指定してください:: " _INSTR
-        if [ "$_INSTR" ]; then
-          _JAVA_HOME_TEMP="$_INSTR"
-        else
-          continue
-        fi
-        if [ -f "${_JAVA_HOME_TEMP}/bin/javac" ]; then
-          _JAVA_HOME="$_JAVA_HOME_TEMP"
-          echo "JAVA_HOMEに $_JAVA_HOME を指定しました。"
-          break
-        else
-          echo "[ERROR] 指定したディレクトリ $_JAVA_HOME_TEMP にはJava(JDK)がインストールされていません。"
-        fi
-      done
-    else
-      _JAVA_HOME="$JAVA_HOME"
+      if [ -z "$JAVA_HOME" ]; then
+        echo "PATHにJDKが存在しますが、JAVA_HOMEが指定されていません。"
+        echo ""
+        while :
+        do
+          read -p "JAVA_HOMEを指定してください:: " _INSTR
+          if [ "$_INSTR" ]; then
+            _JAVA_HOME_TEMP="$_INSTR"
+          else
+            continue
+          fi
+          if [ -f "${_JAVA_HOME_TEMP}/bin/javac" ]; then
+            _JAVA_HOME="$_JAVA_HOME_TEMP"
+            echo "JAVA_HOMEに $_JAVA_HOME を指定しました。"
+            break
+          else
+            echo "[ERROR] 指定したディレクトリ $_JAVA_HOME_TEMP にはJava(JDK)がインストールされていません。"
+          fi
+        done
+      else
+        _JAVA_HOME="$JAVA_HOME"
+      fi
     fi
   fi
+  _EXPORT="export JAVA_HOME=$_JAVA_HOME"'\n'
+  _PATH='export PATH=$JAVA_HOME/bin'
 fi
-
-_EXPORT="export JAVA_HOME=$_JAVA_HOME"'\n'
-_PATH='export PATH=$JAVA_HOME/bin'
 
 ########################################
 # Input Install Parameters
@@ -162,7 +183,7 @@ echo "------------------------------------------------"
 
 while :
 do
-  read -p "Asakusa Framework開発環境のインストールディレクトリ(ASAKUSA_DEVELOP_HOME)を入力してください。: $_ASAKUSA_DEVELOP_HOME_DEFAULT: " _INSTR
+  read -p "1) Asakusa Framework開発環境のインストールディレクトリ(ASAKUSA_DEVELOP_HOME)を入力してください。: $_ASAKUSA_DEVELOP_HOME_DEFAULT: " _INSTR
   if [ "$_INSTR" ]; then
     eval _INSTR=$_INSTR
     _ASAKUSA_DEVELOP_HOME_TEMP=$(cd $(dirname $_INSTR) && pwd)/$(basename $_INSTR)
@@ -172,7 +193,6 @@ do
 
   if [ -w $(dirname "$_ASAKUSA_DEVELOP_HOME_TEMP") ]; then
     _ASAKUSA_DEVELOP_HOME="$_ASAKUSA_DEVELOP_HOME_TEMP"
-    echo "インストールディレクトリ(ASAKUSA_DEVELOP_HOME)に $_ASAKUSA_DEVELOP_HOME を指定しました。"
     break
   else
     echo "[ERROR] 指定したディレクトリ $_ASAKUSA_DEVELOP_HOME_TEMP を作成する権限がありません。"
@@ -185,7 +205,7 @@ _RIKISHA_PROFILE="$ASAKUSA_DEVELOP_HOME/.rikisha_profile"
 _EXPORT="${_EXPORT}export ASAKUSA_DEVELOP_HOME=${ASAKUSA_DEVELOP_HOME}"'\n'
 _EXPORT="${_EXPORT}"'export ASAKUSA_HOME=${ASAKUSA_DEVELOP_HOME}/asakusa\n'
 
-read -p "Asakusa Frameworkのバージョンを入力してください。: $_ASAKUSAFW_VERSION_DEFAULT: " _INSTR
+read -p "2) Asakusa Frameworkのバージョンを入力してください。: $_ASAKUSAFW_VERSION_DEFAULT: " _INSTR
 if [ "$_INSTR" ]; then
   _ASAKUSAFW_VERSION="$_INSTR"
 else
@@ -198,7 +218,24 @@ else
   _TARGET_PROFILE="$HOME/.profile"
 fi
 
-read -p "$_TARGET_PROFILE に $_RIKISHA_PROFILE を実行する定義を追加しますか？: Y: " _YN
+echo "
+3) $_TARGET_PROFILE にAsakusa Frameworkを使った開発にに必要な
+環境変数を設定する定義を追加しますか？
+** WARNING ********************************************************
+インストールする環境にすでに
+Java,Maven,Hadoop,Asakusa Frameworkがインストールされている場合、
+環境変数を追加することで既存の環境に影響を与える可能性があります。
+
+この設定を行わない場合、
+Jinrikishaでインストールした各ソフトウェアを使用する前に、
+カレントシェルに対して以下のように環境変数を適用する必要があります。
+
+\$ . $_RIKISHA_PROFILE
+
+*******************************************************************
+"
+
+read -p "$_TARGET_PROFILE に環境変数を設定する定義を追加しますか？: Y: " _YN
 if [ "$_YN" ]; then
   _YN=`echo $_YN | tr "[:upper:]" "[:lower:]"`
 else
@@ -207,7 +244,7 @@ fi
 if [ "$_YN" = "y" ]; then
   _ADD_PROFILE="y"
 
-  read -p "デスクトップ に Eclipseのショートカットを追加しますか？: Y: " _YN
+  read -p "4) デスクトップにEclipseのショートカットを追加しますか？: Y: " _YN
   if [ "$_YN" ]; then
     _YN=`echo $_YN | tr "[:upper:]" "[:lower:]"`
   else
@@ -218,16 +255,48 @@ if [ "$_YN" = "y" ]; then
   else
     _CREATE_ECLIPSE_SHORTCUT="n"
   fi
+
+  if [ `uname` = "Darwin" ]; then
+    echo "
+5) EclipseをGUI(Finder,Dock,Spotlightなど)から起動するために
+必要な環境変数を /etc/launchd.conf に追加しますか？
+** WARNING **********************************************
+この設定はOS全体に適用されるため、
+他のアプリケーションに影響を与える可能性があります。
+
+この設定を行わない場合、
+Eclipseはターミナルまたはデスクトップのショートカットから
+起動してください。
+
+(EclipseをGUIから起動してもAsakusa Frameworkを使った
+アプリケーションのテストが正常に動作しません)
+*********************************************************
+"
+    read -p "/etc/launchd.conf に環境変数を追加しますか？: Y: " _YN
+    if [ "$_YN" ]; then
+      _YN=`echo $_YN | tr "[:upper:]" "[:lower:]"`
+    else
+      _YN="$_ADD_LAUNCHD_CONF_DEFAULT"
+    fi
+    if [ "$_YN" = "y" ]; then
+      _ADD_LAUNCHD_CONF="y"
+    else
+      _ADD_LAUNCHD_CONF="n"
+    fi
+  else
+     _ADD_LAUNCHD_CONF="n"
+  fi
 else
   _ADD_PROFILE="n"
   _CREATE_ECLIPSE_SHORTCUT="n"
+  _ADD_LAUNCHD_CONF="n"
 fi
 
 ########################################
 # Start Install
 ########################################
 echo "
-***************************************************************
+**********************************************************************
 インストールの準備が完了しました。
 以下の注意事項を確認した上で、[Enter]キーを押してください。
 
@@ -237,9 +306,9 @@ echo "
 2) インストールを実行することにより、
    ホームディレクトリ[$HOME]のパーミッションに対して
    OTHERに対するread,execute権限が付与されます。
-   (Ubuntuなどではデフォルトでこれらの権限が付与されていますが、
+   (Ubuntu,MacOSXなどではデフォルトでこれらの権限が付与されていますが、
     CentOSなどではデフォルトに対して権限が追加になります)
-***************************************************************
+**********************************************************************
 "
 read -p "インストールを続行するには[Enter]キーを押してください。: " _DUMMY
 
@@ -349,15 +418,26 @@ if [ "$_ADD_PROFILE" = "y" ]; then
 if [ -f \"${_RIKISHA_PROFILE}\" ]; then
   . \"${_RIKISHA_PROFILE}\"
 fi" >> $_TARGET_PROFILE
-fi
 
-if [ "$_CREATE_ECLIPSE_SHORTCUT" = "y" ]; then
-  echo "デスクトップにEclipseのショートカットを追加します。"
+  if [ "$_CREATE_ECLIPSE_SHORTCUT" = "y" ]; then
+    echo "デスクトップにEclipseのショートカットを追加します。"
 
-  if [ -d ~/Desktop ]; then
-    ln -fs "$ASAKUSA_DEVELOP_HOME"/eclipse/eclipse ~/Desktop
-  elif [ -d ~/デスクトップ ]; then
-    ln -fs "$ASAKUSA_DEVELOP_HOME"/eclipse/eclipse ~/デスクトップ
+    if [ -d ~/Desktop ]; then
+      ln -fs "$ASAKUSA_DEVELOP_HOME"/eclipse/eclipse ~/Desktop
+    elif [ -d ~/デスクトップ ]; then
+      ln -fs "$ASAKUSA_DEVELOP_HOME"/eclipse/eclipse ~/デスクトップ
+    fi
+  fi
+
+  if [ "$_ADD_LAUNCHD_CONF" = "y" ]; then
+    echo "/etc/launchd.confに環境変数の設定を追加します。"
+    echo "(sudoのパスワード入力が必要となる場合があります)"
+
+    _SETENV="setenv JAVA_HOME $_JAVA_HOME"'\n'
+    _SETENV="${_SETENV}setenv _JAVA_OPTIONS=-Dfile.encoding=UTF-8"'\n'
+    _SETENV="${_SETENV}setenv ASAKUSA_HOME ${ASAKUSA_DEVELOP_HOME}/asakusa"'\n'
+    _SETENV="${_SETENV}setenv HADOOP_HOME ${ASAKUSA_DEVELOP_HOME}/hadoop"'\n'
+    printf "$_SETENV" | sudo tee /etc/launchd.conf
   fi
 fi
 
