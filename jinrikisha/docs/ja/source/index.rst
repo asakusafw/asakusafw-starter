@@ -12,19 +12,36 @@ Jinrikisha (人力車) は、Asakusa Frameworkの開発環境を手軽に構築�
 Linux版
 -------
 ..  list-table::
-    :widths: 4 6
+    :widths: 7 10 3
 
     * - リリース版
-      - `jinrikisha-linux-0.1.0-beta4.tar.gz`_
+      - `jinrikisha-linux-0.1.0-beta5.tar.gz`_
+      -
     * - スナップショット版
       - `jinrikisha-linux-0.1-snapshot.tar.gz`_
+      -
 
-..  _`jinrikisha-linux-0.1.0-beta4.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-0.1.0-beta4.tar.gz
+..  _`jinrikisha-linux-0.1.0-beta5.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-0.1.0-beta5.tar.gz
 ..  _`jinrikisha-linux-0.1-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-0.1-snapshot.tar.gz
 
+MacOSX版
+--------
+..  list-table::
+    :widths: 7 10 3
+
+    * - リリース版
+      - `jinrikisha-macosx-0.1.0-beta5.tar.gz`_
+      -
+    * - スナップショット版
+      - `jinrikisha-macosx-0.1-snapshot.tar.gz`_
+      -
+
+..  _`jinrikisha-macosx-0.1.0-beta5.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.1.0-beta5.tar.gz
+..  _`jinrikisha-macosx-0.1-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.1-snapshot.tar.gz
+
 対応プラットフォーム
-~~~~~~~~~~~~~~~~~~~~
-Linux版は以下のプラットフォームで動作を検証しています。
+--------------------
+Jinrikishaは以下のプラットフォームで動作を検証しています。
 
 ..  list-table::
     :widths: 5 5 10
@@ -35,10 +52,13 @@ Linux版は以下のプラットフォームで動作を検証しています。
       - 備考
     * - Ubuntu Desktop
       - 11.10
-      - 
+      - 日本語 Remix CD (x86用) で動作確認
     * - CentOS
       - 6.2
       - 要デスクトップ環境のインストール
+    * - MacOSX
+      - 10.7.2 (Lion)
+      -
 
 使い方
 ======
@@ -96,6 +116,10 @@ Eclipseからサンプルアプリケーションのプロジェクトをイン�
 ..  _`Asakusa Framework スタートガイド`: http://asakusafw.s3.amazonaws.com/documents/0.2/release/ja/html/introduction/start-guide.html
 ..  _`開発の流れ`: http://asakusafw.s3.amazonaws.com/documents/0.2/release/ja/html/introduction/next-step.html
 
+アンインストールする
+====================
+JirikishaによってインストールしたAsakusa Frameworkの開発環境をアンインストールする手順は、 :doc:`uninstall` を参照してください。
+
 リソース
 ========
 ..  toctree::
@@ -103,6 +127,7 @@ Eclipseからサンプルアプリケーションのプロジェクトをイン�
    
     release-notes
     feature 
+    uninstall
 
 * `ソースリポジトリ (GitHub)`_
 

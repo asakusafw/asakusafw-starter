@@ -43,7 +43,6 @@ for _PLATFORM in "$@"; do
   mkdir "target/jinrikisha-$_PLATFORM/docs"
   cp -r docs/ja/build/html/* "target/jinrikisha-$_PLATFORM/docs"
 
-  cp -r "$_PLATFORM"/* "target/jinrikisha-$_PLATFORM"
   cp -r "$RIKISHA_ARCHIVE_HOME/$_PLATFORM"/* "target/jinrikisha-$_PLATFORM"
 
   tar -C target -czvf "jinrikisha-${_PLATFORM}-${_RIKISHA_VERSION}.tar.gz" "jinrikisha-$_PLATFORM"
