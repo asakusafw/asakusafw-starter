@@ -116,6 +116,10 @@ Eclipseからサンプルアプリケーションのプロジェクトをイン�
 ..  _`Asakusa Framework スタートガイド`: http://asakusafw.s3.amazonaws.com/documents/0.2/release/ja/html/introduction/start-guide.html
 ..  _`開発の流れ`: http://asakusafw.s3.amazonaws.com/documents/0.2/release/ja/html/introduction/next-step.html
 
+アンインストールする
+====================
+JirikishaによってインストールしたAsakusa Frameworkの開発環境をアンインストールする手順は、 :doc:`uninstall` を参照してください。
+
 リソース
 ========
 ..  toctree::
@@ -123,6 +127,7 @@ Eclipseからサンプルアプリケーションのプロジェクトをイン�
    
     release-notes
     feature 
+    uninstall
 
 * `ソースリポジトリ (GitHub)`_
 
