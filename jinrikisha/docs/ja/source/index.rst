@@ -9,32 +9,44 @@ Jinrikisha (人力車) は、Asakusa Frameworkの開発環境を手軽に構築�
 ============
 各プラットフォームごとにリリース版（安定版）とスナップショット版を公開しています。
 
-Linux版
--------
+Linux-32bit版
+-------------
 ..  list-table::
-    :widths: 7 10 3
+    :widths: 5 5
+    :header-rows: 1
 
     * - リリース版
-      - `jinrikisha-linux-0.1.0-beta5.tar.gz`_
-      -
-    * - スナップショット版
-      - `jinrikisha-linux-0.1-snapshot.tar.gz`_
-      -
+      - スナップショット版
+    * - `jinrikisha-linux-32bit-0.1.0-beta5.tar.gz`_
+      - `jinrikisha-linux-32bit-0.1-snapshot.tar.gz`_
 
-..  _`jinrikisha-linux-0.1.0-beta5.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-0.1.0-beta5.tar.gz
-..  _`jinrikisha-linux-0.1-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-0.1-snapshot.tar.gz
+..  _`jinrikisha-linux-32bit-0.1.0-beta5.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.1.0-beta5.tar.gz
+..  _`jinrikisha-linux-32bit-0.1-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.1-snapshot.tar.gz
+
+Linux-64bit版
+-------------
+..  list-table::
+    :widths: 5 5
+    :header-rows: 1
+
+    * - リリース版
+      - スナップショット版
+    * - `jinrikisha-linux-64bit-0.1.0-beta5.tar.gz`_
+      - `jinrikisha-linux-64bit-0.1-snapshot.tar.gz`_
+
+..  _`jinrikisha-linux-64bit-0.1.0-beta5.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.1.0-beta5.tar.gz
+..  _`jinrikisha-linux-64bit-0.1-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.1-snapshot.tar.gz
 
 MacOSX版
 --------
 ..  list-table::
-    :widths: 7 10 3
+    :widths: 5 5
+    :header-rows: 1
 
     * - リリース版
-      - `jinrikisha-macosx-0.1.0-beta5.tar.gz`_
-      -
-    * - スナップショット版
+      - スナップショット版
+    * - `jinrikisha-macosx-0.1.0-beta5.tar.gz`_
       - `jinrikisha-macosx-0.1-snapshot.tar.gz`_
-      -
 
 ..  _`jinrikisha-macosx-0.1.0-beta5.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.1.0-beta5.tar.gz
 ..  _`jinrikisha-macosx-0.1-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.1-snapshot.tar.gz
@@ -52,7 +64,7 @@ Jinrikishaは以下のプラットフォームで動作を検証しています�
       - 備考
     * - Ubuntu Desktop
       - 11.10
-      - 日本語 Remix CD (x86用) で動作確認
+      - 推奨環境
     * - CentOS
       - 6.2
       - 要デスクトップ環境のインストール

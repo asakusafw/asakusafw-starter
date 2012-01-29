@@ -70,6 +70,18 @@ cd $(dirname $0)
 ########################################
 # Check and Install JDK
 ########################################
+echo "------------------------------------------------"
+echo "環境のチェックを行います..."
+echo "------------------------------------------------"
+
+echo "hostname[`hostname`]からIPアドレスが解決できるか確認します。"
+ping -c 1 `hostname` > /dev/null
+_RET=$?
+if [ $_RET -ne 0 ]; then
+  echo "hostname:`hostname` からIPアドレスが解決できません。"
+  exit_abort
+fi
+
 if [ `uname` = "Darwin" ]; then
 ### for MacOSX ###
   _JAVA_HOME_MACOSX="/System/Library/Frameworks/JavaVM.framework/Home"
@@ -130,7 +142,7 @@ else
           which yum > /dev/null 2>&1
           _RET=$?
           if [ $_RET -eq 0 ]; then
-            _JAVA_HOME="/usr/lib/jvm/java-1.6.0-openjdk"
+            _JAVA_HOME="/usr/lib/jvm/java-openjdk"
             sudo yum install java-1.6.0-openjdk-devel
           else
             echo "apt-get または yum が使用出来ないため、インストールを中断します。"
@@ -179,6 +191,8 @@ fi
 ########################################
 # Input Install Parameters
 ########################################
+echo "------------------------------------------------"
+echo "インストールパラメータを入力します..."
 echo "------------------------------------------------"
 
 while :
