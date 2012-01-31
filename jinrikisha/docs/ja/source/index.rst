@@ -145,5 +145,3 @@ JirikishaによってインストールしたAsakusa Frameworkの開発環境を
 
 ..   _`ソースリポジトリ (GitHub)`: https://github.com/asakusafw/asakusafw-starter
 
-    
-
