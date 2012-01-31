@@ -21,6 +21,7 @@ _REPO_URL="http://asakusafw.s3.amazonaws.com/maven/"
 _EXAMPLE_GROUP_ID="com.example"
 _EXAMPLE_ARTIFACT_ID="example-app"
 _EXAMPLE_ARCHETYPE_ID="asakusa-archetype-windgate"
+_EXAMPLE_BATCH_ID="example.summarizeSales"
 
 #---------------------------------------
 # Define Functions
@@ -421,6 +422,13 @@ mvn clean assembly:single antrun:run package eclipse:eclipse
 if [ $? -ne 0 ]; then
   exit_abort 
 fi
+
+rm -fr "$ASAKUSA_HOME"/batchapps/*
+jar -xf target/"$_EXAMPLE_ARTIFACT_ID"-batchapps-*.jar "$_EXAMPLE_BATCH_ID"
+mv "$_EXAMPLE_BATCH_ID" $ASAKUSA_HOME/batchapps
+rm -fr /tmp/windgate-"$USER"
+mkdir /tmp/windgate-"$USER"
+cp -pr src/test/example-dataset/* /tmp/windgate-"$USER"
 
 ########################################
 # Configuration to OS
