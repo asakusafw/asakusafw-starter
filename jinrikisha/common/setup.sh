@@ -40,9 +40,9 @@ echo "
 ****************************************************
               Jinrikisha (人力車)                 
                                                   
-- Asakusa Framework Starter Package with Installer -
+      - Asakusa Framework Starter Package -
                                                   
-  Version: $_RIKISHA_VERSION ($_BUILD_ID)
+        Version: $_RIKISHA_VERSION ($_BUILD_ID)
 ****************************************************
 "
 

@@ -1,9 +1,11 @@
-=============================================================
-Jinrikisha - Asakusa Framework Starter Package with Installer
-=============================================================
-Jinrikisha (人力車) は、Asakusa Frameworkの開発環境を手軽に構築するためのインストーラパッケージです。
+================================================
+Jinrikisha - Asakusa Framework Starter Package -
+================================================
+Jinrikisha (人力車) は、 `Asakusa Framework`_ の開発環境を手軽に構築するためのインストーラパッケージです。
 
 同梱のインストーラを利用し、Asakusa Framework本体、Hadoop、関連ツールなどをわずかな手順でセットアップすることで、すぐにAsakusa DSLによるバッチアプリケーションの開発を始めることができます。
+
+..  _`Asakusa Framework`: http://asakusafw.s3.amazonaws.com/documents/0.2/release/ja/html/index.html
 
 ダウンロード
 ============
@@ -51,6 +53,9 @@ MacOSX版
 ..  _`jinrikisha-macosx-0.1.0-beta5.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.1.0-beta5.tar.gz
 ..  _`jinrikisha-macosx-0.1-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.1-snapshot.tar.gz
 
+..  attention::
+    version ``0.1.0`` 時点では、MacOSX版は基本的な動作確認テストのみが行われています。
+
 対応プラットフォーム
 --------------------
 Jinrikishaは以下のプラットフォームで動作を検証しています。
@@ -74,32 +79,11 @@ Jinrikishaは以下のプラットフォームで動作を検証しています�
 
 使い方
 ======
-上記のダウンロードサイトからJinrikishaのアーカイブファイルをダウンロードし、任意のディレクトリでtarアーカイブを展開します。
+ダウンロードしたインストールアーカイブを任意のディレクトリで展開します。
 
 展開したファイルに含まれる ``setup.sh`` を実行するとインストールが開始されます。Jinrikishaのインストールディレクトリなどいくつかのインストールパラメータの入力が促されるので、インストーラの指示に従ってインストールを実行してください。
 
-前提条件
---------
-``setup.sh`` を実行するするOSユーザは ``sudo`` コマンドを実行できる必要があります。CentOSなど、デフォルトで一般ユーザがsudoコマンドを実行できない設定になっているプラットフォームを使用している場合は、必要に応じてsudoを実行できるよう設定してください。
-
-インストールオプション
-----------------------
-``setup.sh`` の オプションとして ``-r [Mavenリポジトリのtarアーカイブファイル名]`` を指定すると、指定したMavenローカルリポジトリの内容をJinrikishaのインストールディレクトリ配下に展開することができます。これにより、Mavenリポジトリからのダウンロード時間を短縮することができます。
-
-例えばJinrikishaを再インストールする場合は、以下のようにするとよいでしょう。
-
-..  code-block:: sh
-    
-    tar -cf /tmp/repository.tar.gz -C ~/jinrikisha repository
-    ./setup.sh -r /tmp/repository.tar.gz
-
-インストール前にMavenの設定を行う場合
--------------------------------------
-インターネットへの接続にプロキシサーバを経由する必要がある環境については、Mavenに対してプロキシの設定を行う必要があります。
-
-Mavenの設定を変更する場合は、 ``setup.sh`` を実行する前にJinrikishaのアーカイブファイルに含まれる ``_template/maven/conf/settings.xml`` を編集し、Mavenに対して適切な設定 [#]_ を行ってください。
-
-..  [#] Mavenのプロキシ設定については、Mavenの次のサイト等を確認してください。 http://maven.apache.org/guides/mini/guide-proxies.html
+インストール手順の詳細やインストール時の注意事項は、 :doc:`install` を参照して下さい。 
 
 インストールした開発環境を利用する
 ==================================
@@ -128,8 +112,8 @@ Eclipseからサンプルアプリケーションのプロジェクトをイン�
 ..  _`Asakusa Framework スタートガイド`: http://asakusafw.s3.amazonaws.com/documents/0.2/release/ja/html/introduction/start-guide.html
 ..  _`開発の流れ`: http://asakusafw.s3.amazonaws.com/documents/0.2/release/ja/html/introduction/next-step.html
 
-アンインストールする
-====================
+アンインストール
+================
 JirikishaによってインストールしたAsakusa Frameworkの開発環境をアンインストールする手順は、 :doc:`uninstall` を参照してください。
 
 リソース
@@ -138,8 +122,10 @@ JirikishaによってインストールしたAsakusa Frameworkの開発環境を
     :maxdepth: 1
    
     release-notes
-    feature 
+    install
+    feature
     uninstall
+
 
 * `ソースリポジトリ (GitHub)`_
 
