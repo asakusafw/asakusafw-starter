@@ -1,6 +1,5 @@
 #!/bin/bash
-set -e
-set -x
+set -ex
 
 ########################################
 # Check and Initialize
@@ -47,7 +46,7 @@ for _PLATFORM in "$@"; do
 
   tar -C target -czvf "jinrikisha-${_PLATFORM}-${_RIKISHA_VERSION}.tar.gz" "jinrikisha-$_PLATFORM"
   mv "jinrikisha-${_PLATFORM}-${_RIKISHA_VERSION}.tar.gz" target
-  echo "$_PLATFORM 版のアーカイブを作成しました: target/jinrikisha-${_PLATFORM}-${_RIKISHA_VERSION}.tar.gz"
+  echo "${_PLATFORM}版のアーカイブを作成しました: target/jinrikisha-${_PLATFORM}-${_RIKISHA_VERSION}.tar.gz"
 
 done
 
