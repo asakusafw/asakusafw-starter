@@ -22,7 +22,6 @@ _EXAMPLE_GROUP_ID="com.example"
 _EXAMPLE_ARTIFACT_ID="example-app"
 _EXAMPLE_ARCHETYPE_ID="asakusa-archetype-windgate"
 _EXAMPLE_BATCH_ID="example.summarizeSales"
-_RIKISHA_PROFILE="$ASAKUSA_DEVELOP_HOME/.rikisha_profile"
 
 #---------------------------------------
 # Define Functions
@@ -234,6 +233,7 @@ do
 done
 
 export ASAKUSA_DEVELOP_HOME="$_ASAKUSA_DEVELOP_HOME"
+_RIKISHA_PROFILE="$ASAKUSA_DEVELOP_HOME/.rikisha_profile"
 
 _EXPORT="${_EXPORT}export ASAKUSA_DEVELOP_HOME=${ASAKUSA_DEVELOP_HOME}"'\n'
 _EXPORT="${_EXPORT}"'export ASAKUSA_HOME=${ASAKUSA_DEVELOP_HOME}/asakusa\n'
@@ -464,9 +464,6 @@ fi
 rm -fr "$ASAKUSA_HOME"/batchapps/*
 jar -xf target/"$_EXAMPLE_ARTIFACT_ID"-batchapps-*.jar "$_EXAMPLE_BATCH_ID"
 mv "$_EXAMPLE_BATCH_ID" $ASAKUSA_HOME/batchapps
-rm -fr /tmp/windgate-"$USER"
-mkdir /tmp/windgate-"$USER"
-cp -pr src/test/example-dataset/* /tmp/windgate-"$USER"
 
 ########################################
 # Configuration to OS
@@ -530,25 +527,46 @@ fi
 
 echo "${ASAKUSA_DEVELOP_HOME}"/README の内容を表示します...
 echo "
-コマンド例
-------------------------------------------------------------------
-### シェルに対して環境変数を追加
+===============
+Getting Started
+===============
+
+# シェルに対して環境変数を追加 
+# ----------------------------
 . ${_RIKISHA_PROFILE}
 
-### サンプルアプリケーションの実行
+# サンプルアプリケーションの実行
+# ------------------------------
+
+# サンプルテストデータの配置
+mkdir -p /tmp/windgate-"$USER"
+rm -fr /tmp/windgate-"$USER"/*
+cd "$ASAKUSA_DEVELOP_HOME/workspace/$_EXAMPLE_ARTIFACT_ID"
+cp -a src/test/example-dataset/* /tmp/windgate-"$USER"
+
+# バッチの実行
 yaess-batch.sh example.summarizeSales -A date=2011-04-01
 
-### Mavenコマンドの実行
-cd $ASAKUSA_DEVELOP_HOME/workspace/$_EXAMPLE_ARTIFACT_ID
 
-###### モデルクラスの生成
+# アプリケーションの開発
+# ----------------------
+
+# Eclipseの起動
+eclipse &
+
+# サンプルアプリケーションをワークスペースへインポート
+1. Eclipseのメニューから [File] -> [Import] -> [General] -> [Existing Projects into Workspace]を選択
+2. Importダイアログで右上の [Browse]ボタンを押して、表示されたダイアログでそのまま[OK]ボタンを押す
+3. example-app というプロジェクトが選択されていることを確認したら、そのまま右下の [Finish]ボタンを押す
+
+# モデルクラスの生成
+cd $ASAKUSA_DEVELOP_HOME/workspace/$_EXAMPLE_ARTIFACT_ID
 mvn clean generate-sources
 
-###### バッチコンパイル
+# バッチコンパイル
+cd $ASAKUSA_DEVELOP_HOME/workspace/$_EXAMPLE_ARTIFACT_ID
 mvn clean package
 
-### Eclipseの起動
-eclipse &
 ------------------------------------------------------------------
 " > "$ASAKUSA_DEVELOP_HOME"/README
 
