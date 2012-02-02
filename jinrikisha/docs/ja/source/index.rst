@@ -1,42 +1,46 @@
-=============================================================
-Jinrikisha - Asakusa Framework Starter Package with Installer
-=============================================================
-Jinrikisha (人力車) は、Asakusa Frameworkの開発環境を手軽に構築するためのインストーラパッケージです。
+================================================
+Jinrikisha - Asakusa Framework Starter Package -
+================================================
+Jinrikisha (人力車) は、 `Asakusa Framework`_ の開発環境を手軽に構築するためのインストーラパッケージです。
 
 同梱のインストーラを利用し、Asakusa Framework本体、Hadoop、関連ツールなどをわずかな手順でセットアップすることで、すぐにAsakusa DSLによるバッチアプリケーションの開発を始めることができます。
 
+..  _`Asakusa Framework`: http://asakusafw.s3.amazonaws.com/documents/0.2/release/ja/html/index.html
+
+より詳しくは、 :doc:`feature` も参照してください。
+
 ダウンロード
 ============
-各プラットフォームごとにリリース版（安定版）とスナップショット版を公開しています。
 
-Linux版
--------
-..  list-table::
-    :widths: 7 10 3
+Linux-32bit版
+-------------
+* `jinrikisha-linux-32bit-0.1.0-beta6.tar.gz`_
 
-    * - リリース版
-      - `jinrikisha-linux-0.1.0-beta5.tar.gz`_
-      -
-    * - スナップショット版
-      - `jinrikisha-linux-0.1-snapshot.tar.gz`_
-      -
+..  _`jinrikisha-linux-32bit-0.1.0-beta6.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.1.0-beta6.tar.gz
 
-..  _`jinrikisha-linux-0.1.0-beta5.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-0.1.0-beta5.tar.gz
-..  _`jinrikisha-linux-0.1-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-0.1-snapshot.tar.gz
+Linux-64bit版
+-------------
+* `jinrikisha-linux-64bit-0.1.0-beta6.tar.gz`_
 
-MacOSX版
---------
-..  list-table::
-    :widths: 7 10 3
+..  _`jinrikisha-linux-64bit-0.1.0-beta6.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.1.0-beta6.tar.gz
 
-    * - リリース版
-      - `jinrikisha-macosx-0.1.0-beta5.tar.gz`_
-      -
-    * - スナップショット版
-      - `jinrikisha-macosx-0.1-snapshot.tar.gz`_
-      -
+MacOSX版 (Experimental)
+-----------------------
+* `jinrikisha-macosx-0.1.0-beta6.tar.gz`_
 
-..  _`jinrikisha-macosx-0.1.0-beta5.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.1.0-beta5.tar.gz
+..  _`jinrikisha-macosx-0.1.0-beta6.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.1.0-beta6.tar.gz
+
+..  attention::
+    version ``0.1.0`` 時点では、MacOSX版は基本的な動作確認テストのみが行われています。
+
+スナップショット版
+------------------
+* `jinrikisha-linux-32bit-0.1-snapshot.tar.gz`_
+* `jinrikisha-linux-64bit-0.1-snapshot.tar.gz`_
+* `jinrikisha-macosx-0.1-snapshot.tar.gz`_
+
+..  _`jinrikisha-linux-32bit-0.1-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.1-snapshot.tar.gz
+..  _`jinrikisha-linux-64bit-0.1-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.1-snapshot.tar.gz
 ..  _`jinrikisha-macosx-0.1-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.1-snapshot.tar.gz
 
 対応プラットフォーム
@@ -50,75 +54,106 @@ Jinrikishaは以下のプラットフォームで動作を検証しています�
     * - ディストリビューション
       - バージョン
       - 備考
-    * - Ubuntu Desktop
+    * - Ubuntu Desktop [#]_
       - 11.10
-      - 日本語 Remix CD (x86用) で動作確認
-    * - CentOS
+      - 推奨環境
+    * - CentOS [#]_
       - 6.2
       - 要デスクトップ環境のインストール
-    * - MacOSX
+    * - MacOSX [#]_
       - 10.7.2 (Lion)
       -
 
+..  [#] http://www.ubuntu.com/
+..  [#] http://www.centos.org/
+..  [#] http://www.apple.com/macosx/
+
 使い方
 ======
-上記のダウンロードサイトからJinrikishaのアーカイブファイルをダウンロードし、任意のディレクトリでtarアーカイブを展開します。
+ダウンロードしたインストールアーカイブを任意のディレクトリで展開します。
 
 展開したファイルに含まれる ``setup.sh`` を実行するとインストールが開始されます。Jinrikishaのインストールディレクトリなどいくつかのインストールパラメータの入力が促されるので、インストーラの指示に従ってインストールを実行してください。
 
-前提条件
---------
-``setup.sh`` を実行するするOSユーザは ``sudo`` コマンドを実行できる必要があります。CentOSなど、デフォルトで一般ユーザがsudoコマンドを実行できない設定になっているプラットフォームを使用している場合は、必要に応じてsudoを実行できるよう設定してください。
-
-インストールオプション
-----------------------
-``setup.sh`` の オプションとして ``-r [Mavenリポジトリのtarアーカイブファイル名]`` を指定すると、指定したMavenローカルリポジトリの内容をJinrikishaのインストールディレクトリ配下に展開することができます。これにより、Mavenリポジトリからのダウンロード時間を短縮することができます。
-
-例えばJinrikishaを再インストールする場合は、以下のようにするとよいでしょう。
-
-..  code-block:: sh
-    
-    tar -cf /tmp/repository.tar.gz -C ~/jinrikisha repository
-    ./setup.sh -r /tmp/repository.tar.gz
-
-インストール前にMavenの設定を行う場合
--------------------------------------
-インターネットへの接続にプロキシサーバを経由する必要がある環境については、Mavenに対してプロキシの設定を行う必要があります。
-
-Mavenの設定を変更する場合は、 ``setup.sh`` を実行する前にJinrikishaのアーカイブファイルに含まれる ``_template/maven/conf/settings.xml`` を編集し、Mavenに対して適切な設定 [#]_ を行ってください。
-
-..  [#] Mavenのプロキシ設定については、Mavenの次のサイト等を確認してください。 http://maven.apache.org/guides/mini/guide-proxies.html
+インストール手順の詳細やインストール時の注意事項は、 :doc:`install` を参照して下さい。 
 
 インストールした開発環境を利用する
-==================================
+----------------------------------
 Jinrikishaのインストールが完了したら、サンプルコードを確認したり、実際にアプリケーションを開発してみましょう。
 
-Eclipseでサンプルアプリケーションを見る
----------------------------------------
-Eclipseからサンプルアプリケーションのプロジェクトをインポートします。
+インストールディレクトリ配下の ``README`` には、インストールした後にAsakusa Frameworkの開発環境で使用するコマンドやEclipseの使い方などを簡単にまとめた Getting Started が記述されています。
 
-1. デスクトップのショートカットからEclipseを起動します。
-2. Eclipseのメニューから [File] -> [Import] -> [General] -> [Existing Projects into Workspace]を選択します。
-3. Importダイアログで右上の [Browse]ボタンを押して、表示されたダイアログでそのまま[OK]ボタンを押します。 
-4. ``example-app`` というプロジェクトが選択されていることを確認したら、そのまま右下の [Finish]ボタンを押します。
-
-これでサンプルアプリケーションのプロジェクトがEclipseにインポートされました。 この後は、 ``src`` ディレクトリ配下のソースコードをチェックしたり、 `Asakusa Framework入門`_ の `Asakusa Framework スタートガイド`_  を参考にして、バッチアプリケーションを実行してみてもよいでしょう。
+サンプルアプリケーションの内容や、アプリケーションの実行方法についてのより詳しい情報は、 `Asakusa Framework入門`_ の `Asakusa Framework スタートガイド`_ を参照してください。
 
 バッチアプリケーションを開発する
 --------------------------------
 `Asakusa Framework入門`_ の `開発の流れ`_ を参考にして、バッチアプリケーションを開発してみましょう。
 
-また、Asakusa Frameworkのコミュニティサイトには、Asakusa Frameworkのバッチアプリケーションを設計、実装するための各種ガイド [#]_ が公開されているので、これに沿ってバッチアプリケーションを開発してみるのもよいでしょう。
+また、Asakusa Frameworkのコミュニティサイトには以下に示すAsakusa Frameworkのバッチアプリケーションを設計、実装するための各種ガイドが公開されているので、これに沿ってバッチアプリケーションを開発してみるのもよいでしょう。
 
-..  [#] バッチ設計と実装ガイド: http://www.asakusafw.com/techinfo/methodology.html
+..  list-table:: Asakusa Frameworkによるバッチアプリケーション開発のための参考資料
+    :widths: 4 6
+    :header-rows: 1
+    
+    * - ドキュメント
+      - URL
+    * - バッチ設計と実装ガイド
+      - http://www.asakusafw.com/techinfo/methodology.html
 
 ..  _`Asakusa Framework入門`: http://asakusafw.s3.amazonaws.com/documents/0.2/release/ja/html/introduction/index.html
 ..  _`Asakusa Framework スタートガイド`: http://asakusafw.s3.amazonaws.com/documents/0.2/release/ja/html/introduction/start-guide.html
 ..  _`開発の流れ`: http://asakusafw.s3.amazonaws.com/documents/0.2/release/ja/html/introduction/next-step.html
 
-アンインストールする
-====================
+アンインストール
+----------------
 JirikishaによってインストールしたAsakusa Frameworkの開発環境をアンインストールする手順は、 :doc:`uninstall` を参照してください。
+
+同梱ソフトウェア
+================
+Jinrikishaには以下のソフトウェアが含まています。
+
+..  list-table:: 同梱ソフトウェア一覧
+    :widths: 6 2 2 
+    :header-rows: 1
+
+    * - プロダクト
+      - バージョン
+      - ライセンス
+    * - Maven [#]_
+      - 3.0.3
+      - ASL
+    * - Hadoop [#]_
+      - CDH3 Update 2
+      - ASL
+    * - Eclipse IDE for Java Developers [#]_ [#]_
+      - 3.7.1
+      - EPL
+
+..  [#] http://maven.apache.org/
+..  [#] http://www.cloudera.com/hadoop/
+..  [#] http://eclipse.org/
+..  [#] Linux-32bit版、Linux-64bit版、MacOSX版それぞれに対応したプラットフォーム版が同梱されています。
+
+各ソフトウェアのライセンスについては、以下の同梱ソフトウェアライセンス一覧を参照してください。
+
+..  list-table:: 同梱ソフトウェアライセンス一覧
+    :widths: 4 6 
+    :header-rows: 1
+
+    * - ライセンス
+      - ライセンス名称
+    * - ASL
+      - Apache License, Version 2.0 [#]_
+    * - EPL
+      - Eclipse Public License - Version 1.0 [#]_
+
+..  [#] http://www.apache.org/licenses/ 
+..  [#] http://www.eclipse.org/legal/epl-v10.html
+
+ライセンス
+==========
+Jinrikishaは `Apache License, Version 2.0`_ の元で公開しています。
+
+..  _`Apache License, Version 2.0`: http://www.apache.org/licenses/
 
 リソース
 ========
@@ -126,12 +161,12 @@ JirikishaによってインストールしたAsakusa Frameworkの開発環境を
     :maxdepth: 1
    
     release-notes
-    feature 
+    install
+    feature
     uninstall
+
 
 * `ソースリポジトリ (GitHub)`_
 
 ..   _`ソースリポジトリ (GitHub)`: https://github.com/asakusafw/asakusafw-starter
-
-    
 

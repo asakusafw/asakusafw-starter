@@ -21,6 +21,7 @@ _REPO_URL="http://asakusafw.s3.amazonaws.com/maven/"
 _EXAMPLE_GROUP_ID="com.example"
 _EXAMPLE_ARTIFACT_ID="example-app"
 _EXAMPLE_ARCHETYPE_ID="asakusa-archetype-windgate"
+_EXAMPLE_BATCH_ID="example.summarizeSales"
 
 #---------------------------------------
 # Define Functions
@@ -38,9 +39,9 @@ echo "
 ****************************************************
               Jinrikisha (人力車)                 
                                                   
-- Asakusa Framework Starter Package with Installer -
+      - Asakusa Framework Starter Package -
                                                   
-  Version: $_RIKISHA_VERSION ($_BUILD_ID)
+        Version: $_RIKISHA_VERSION ($_BUILD_ID)
 ****************************************************
 "
 
@@ -61,15 +62,31 @@ done
 if [ -n "${_OPT_M2REPO_ARCHIVE}" ]; then
   _VAL_M2REPO_ARCHIVE=$(cd $(dirname "${_VAL_M2REPO_ARCHIVE}") && pwd)/$(basename "$_VAL_M2REPO_ARCHIVE")
   if [ ! -r "${_VAL_M2REPO_ARCHIVE}" ]; then
-    echo "オプション m2repo-archive に指定したファイル ${_VAL_M2REPO_ARCHIVE} が読み込み可能ではありません。"
+    echo "オプション [-r] に指定したファイル ${_VAL_M2REPO_ARCHIVE} が読み込み可能ではありません。"
     exit_abort
   fi
 fi
 
-cd $(dirname $0) 
 ########################################
 # Check and Install JDK
 ########################################
+echo "
+------------------------------------------------------------
+インストール環境のチェックを行います...
+------------------------------------------------------------
+"
+
+echo "hostname[`hostname`]からIPアドレスが解決できるか確認します..."
+ping -c 1 `hostname` > /dev/null
+_RET=$?
+if [ $_RET -ne 0 ]; then
+  echo "hostname:`hostname` からIPアドレスが解決できません。"
+  exit_abort
+else
+  echo "OK."
+  echo ""
+fi
+
 if [ `uname` = "Darwin" ]; then
 ### for MacOSX ###
   _JAVA_HOME_MACOSX="/System/Library/Frameworks/JavaVM.framework/Home"
@@ -90,11 +107,13 @@ if [ `uname` = "Darwin" ]; then
   _PATH='export PATH=$JAVA_HOME/bin'
 else
 ### for Linux ###
-  echo "Java(JDK)がインストールされているか確認します。"
+  echo "Java(JDK)がインストールされているか確認します..."
 
   if [ -n "$JAVA_HOME" -a -r "$JAVA_HOME/bin/javac" ]; then
     _JAVA_HOME="$JAVA_HOME"
-    echo "JAVA_HOMEにJava(JDK)のパスが指定されています。 $_JAVA_HOME をJinkirikisha用のJAVA_HOMEに使用します。"
+    echo "環境変数JAVA_HOMEに設定されている以下のJDKを使用します。"
+    echo $_JAVA_HOME
+    echo "OK."
   else
     which javac
     _RET=$?
@@ -103,18 +122,20 @@ else
   Java(JDK)がインストールされていないため、
   OpenJDKをインストールしてセットアップを続行します。
 
-  ** WARNING ******************************************************
-  OracleJDKを使用する場合は一旦インストールを中断し、
-  OracleJDKをインストール後、JAVA_HOMEにOracleJDKの
-  インストールディレクトリを指定してから
-  再度インストールを行なってください。
+  ** WARNING ********************************************************
+  OpenJDKを使用せず、OracleJDKを使用する場合は
+  インストールを中断してください。
+  
+  (OracleJDKを使用するには、OracleJDKを手動でインストールしてから
+  環境変数JAVA_HOMEにOracleJDKのインストールディレクトリを設定し、
+  再度 setup.sh を実行してインストールを行います)
 
-  OracleJDKのインストール方法は以下のサイトなどを参考にしてください
+  OracleJDKのインストール方法は以下のサイトなどを参考にしてください。
   http://java.sun.com/javase/ja/6/webnotes/install/index.html
-  *****************************************************************
+  *******************************************************************
 
     '
-      read -p "OpenJDKをインストールしてインストールを続行しますか？: Y: " _YN
+      read -p "OpenJDKをインストールしてインストールを続行しますか？:[Y/n]: " _YN
       if [ "$_YN" ]; then
         _YN=`echo $_YN | tr "[:upper:]" "[:lower:]"`
       else
@@ -130,7 +151,7 @@ else
           which yum > /dev/null 2>&1
           _RET=$?
           if [ $_RET -eq 0 ]; then
-            _JAVA_HOME="/usr/lib/jvm/java-1.6.0-openjdk"
+            _JAVA_HOME="/usr/lib/jvm/java-openjdk"
             sudo yum install java-1.6.0-openjdk-devel
           else
             echo "apt-get または yum が使用出来ないため、インストールを中断します。"
@@ -179,20 +200,32 @@ fi
 ########################################
 # Input Install Parameters
 ########################################
-echo "------------------------------------------------"
+echo "
+------------------------------------------------------------
+インストールパラメータを入力します...
+------------------------------------------------------------
+"
 
 while :
 do
   read -p "1) Asakusa Framework開発環境のインストールディレクトリ(ASAKUSA_DEVELOP_HOME)を入力してください。: $_ASAKUSA_DEVELOP_HOME_DEFAULT: " _INSTR
   if [ "$_INSTR" ]; then
     eval _INSTR=$_INSTR
-    _ASAKUSA_DEVELOP_HOME_TEMP=$(cd $(dirname $_INSTR) && pwd)/$(basename $_INSTR)
+    _ABS=$(cd $(dirname "$_INSTR") && pwd)
+    _RET=$?
+    if [ $_RET -ne 0 ]; then
+      continue
+    fi
+    _ASAKUSA_DEVELOP_HOME_TEMP="$_ABS"/$(basename "$_INSTR")
   else
     _ASAKUSA_DEVELOP_HOME_TEMP="$_ASAKUSA_DEVELOP_HOME_DEFAULT"
   fi
 
   if [ -w $(dirname "$_ASAKUSA_DEVELOP_HOME_TEMP") ]; then
     _ASAKUSA_DEVELOP_HOME="$_ASAKUSA_DEVELOP_HOME_TEMP"
+    echo "OK. インストールディレクトリに以下のディレクトリを使用します"
+    echo "$_ASAKUSA_DEVELOP_HOME"
+    echo ""
     break
   else
     echo "[ERROR] 指定したディレクトリ $_ASAKUSA_DEVELOP_HOME_TEMP を作成する権限がありません。"
@@ -219,23 +252,34 @@ else
 fi
 
 echo "
-3) $_TARGET_PROFILE にAsakusa Frameworkを使った開発にに必要な
-環境変数を設定する定義を追加しますか？
+3) $_TARGET_PROFILE に環境変数の設定を追加しますか？
+
 ** WARNING ********************************************************
-インストールする環境にすでに
-Java,Maven,Hadoop,Asakusa Frameworkがインストールされている場合、
-環境変数を追加することで既存の環境に影響を与える可能性があります。
+* この設定を行う場合、以下の環境変数が設定されます。
+  - JAVA_HOME="$_JAVA_HOME"
+  - ASAKUSA_DEVELOP_HOME="$_ASAKUSA_DEVELOP_HOME"
+  - ASAKUSA_HOME=\${ASAKUSA_DEVELOP_HOME}/asakusa
+  - M2_HOME=\${ASAKUSA_DEVELOP_HOME}/maven
+  - HADOOP_HOME=\${ASAKUSA_DEVELOP_HOME}/hadoop
+  - PATH: \$JAVA_HOME/bin:\$M2_HOME/bin:\$HADOOP_HOME/bin: \\
+          \$ASAKUSA_DEVELOP_HOME/eclipse:\$ASAKUSA_HOME/yaess/bin: \\
+          \$PATH
 
-この設定を行わない場合、
-Jinrikishaでインストールした各ソフトウェアを使用する前に、
-カレントシェルに対して以下のように環境変数を適用する必要があります。
+* インストールする環境にすでに
+  Java,Maven,Hadoop,Asakusa Frameworkがインストールされている場合、
+  これらの環境変数による影響に注意してください。
 
+* この設定を行わない場合、
+  Jinrikishaでインストールした各ソフトウェアを使用する前に、
+  シェルに対して以下のように環境変数を適用する必要があります。
+
+### シェルに対して環境変数を追加
 \$ . $_RIKISHA_PROFILE
 
 *******************************************************************
 "
 
-read -p "$_TARGET_PROFILE に環境変数を設定する定義を追加しますか？: Y: " _YN
+read -p "$_TARGET_PROFILE に環境変数の設定を追加しますか？:[Y/n]: " _YN
 if [ "$_YN" ]; then
   _YN=`echo $_YN | tr "[:upper:]" "[:lower:]"`
 else
@@ -243,8 +287,8 @@ else
 fi
 if [ "$_YN" = "y" ]; then
   _ADD_PROFILE="y"
-
-  read -p "4) デスクトップにEclipseのショートカットを追加しますか？: Y: " _YN
+  echo ""
+  read -p "4) デスクトップにEclipseのショートカットを追加しますか？:[Y/n]: " _YN
   if [ "$_YN" ]; then
     _YN=`echo $_YN | tr "[:upper:]" "[:lower:]"`
   else
@@ -259,7 +303,8 @@ if [ "$_YN" = "y" ]; then
   if [ `uname` = "Darwin" ]; then
     echo "
 5) EclipseをGUI(Finder,Dock,Spotlightなど)から起動するために
-必要な環境変数を /etc/launchd.conf に追加しますか？
+   必要な環境変数を /etc/launchd.conf に追加しますか？
+
 ** WARNING **********************************************
 この設定はOS全体に適用されるため、
 他のアプリケーションに影響を与える可能性があります。
@@ -272,7 +317,7 @@ Eclipseはターミナルまたはデスクトップのショートカットか�
 アプリケーションのテストが正常に動作しません)
 *********************************************************
 "
-    read -p "/etc/launchd.conf に環境変数を追加しますか？: Y: " _YN
+    read -p "/etc/launchd.conf に環境変数を追加しますか？:[Y/n]: " _YN
     if [ "$_YN" ]; then
       _YN=`echo $_YN | tr "[:upper:]" "[:lower:]"`
     else
@@ -296,10 +341,12 @@ fi
 # Start Install
 ########################################
 echo "
-**********************************************************************
+------------------------------------------------------------
 インストールの準備が完了しました。
 以下の注意事項を確認した上で、[Enter]キーを押してください。
+------------------------------------------------------------
 
+** WARNING ***********************************************************
 1) Mavenリモートリポジトリからライブラリをダウンロードするため、
    インストールには10分以上かかる可能性があります。
 
@@ -316,9 +363,14 @@ if [ -d "$ASAKUSA_DEVELOP_HOME" ]; then
   _ASAKUSA_DEVELOP_BACKUP="${ASAKUSA_DEVELOP_HOME}_`date +%Y%m%d%H%M%S`"
   echo "インストールディレクトリ $ASAKUSA_DEVELOP_HOME に既にディレクトリが存在するため、$_ASAKUSA_DEVELOP_BACKUP に退避します。"
   mv "$ASAKUSA_DEVELOP_HOME" "$_ASAKUSA_DEVELOP_BACKUP"
+  _RET=$?
+  if [ $_RET -ne 0 ]; then
+    exit_abort
+  fi
 fi
 mkdir "$ASAKUSA_DEVELOP_HOME"
 
+cd $(dirname $0) 
 ########################################
 # Install Maven
 ########################################
@@ -379,6 +431,7 @@ _PATH="${_PATH}":'$ASAKUSA_DEVELOP_HOME/eclipse'
 ########################################
 echo "環境変数を設定しています。"
 
+_PATH="${_PATH}":'$ASAKUSA_HOME/yaess/bin'
 _PATH="${_PATH}":'$PATH'
 printf "${_EXPORT}${_PATH}" > "${_RIKISHA_PROFILE}"
 
@@ -407,6 +460,10 @@ mvn clean assembly:single antrun:run package eclipse:eclipse
 if [ $? -ne 0 ]; then
   exit_abort 
 fi
+
+rm -fr "$ASAKUSA_HOME"/batchapps/*
+jar -xf target/"$_EXAMPLE_ARTIFACT_ID"-batchapps-*.jar "$_EXAMPLE_BATCH_ID"
+mv "$_EXAMPLE_BATCH_ID" $ASAKUSA_HOME/batchapps
 
 ########################################
 # Configuration to OS
@@ -445,12 +502,14 @@ fi
 # Finish
 ########################################
 echo "
-*** Jinrikishaのインストールが成功しました。***
+------------------------------------------------------------
+インストールが成功しました。
+------------------------------------------------------------
 "
 
 if [ "$_ADD_PROFILE" = "y" ]; then
-  echo "デスクトップ環境に対して $_TARGET_PROFILE の変更を反映するためOSを再起動します。"
-  read -p "今すぐにOSを再起動しますか？: Y: " _YN
+  echo "デスクトップ環境に対して $_TARGET_PROFILE の変更を反映するためOSを再起動してください。"
+  read -p "今すぐにOSを再起動しますか？:[Y/n]: " _YN
   if [ -z "$_YN" ]; then
     _YN="y"
   else
@@ -461,21 +520,55 @@ if [ "$_ADD_PROFILE" = "y" ]; then
   fi
 else
   echo "
-ターミナルからJinkikishaによってインストールされた各ソフトウェアは
-${_RIKISHA_PROFILE} をシェルに反映してから使用してください。
-------------------------------------------------------------------
-### Jinrikisha用プロファイルをカレントシェルに反映
-. ${_RIKISHA_PROFILE}
-
-### Mavenコマンドの実行
-cd "$ASAKUSA_DEVELOP_HOME"/workspace/$_EXAMPLE_ARTIFACT_ID
-mvn clean generate-sources
-mvn clean package
-...
-
-### Eclipseの起動
-eclipse &
-------------------------------------------------------------------
+ターミナルからインストールした各ソフトウェアを使用するには、
+${_RIKISHA_PROFILE} をシェルに反映し、環境変数を追加してください。
 "
 fi
+
+echo "${ASAKUSA_DEVELOP_HOME}"/README の内容を表示します...
+echo "
+===============
+Getting Started
+===============
+
+# シェルに対して環境変数を追加 
+# ----------------------------
+. ${_RIKISHA_PROFILE}
+
+# サンプルアプリケーションの実行
+# ------------------------------
+
+# サンプルテストデータの配置
+mkdir -p /tmp/windgate-"$USER"
+rm -fr /tmp/windgate-"$USER"/*
+cd "$ASAKUSA_DEVELOP_HOME/workspace/$_EXAMPLE_ARTIFACT_ID"
+cp -a src/test/example-dataset/* /tmp/windgate-"$USER"
+
+# バッチの実行
+yaess-batch.sh example.summarizeSales -A date=2011-04-01
+
+
+# アプリケーションの開発
+# ----------------------
+
+# Eclipseの起動
+eclipse &
+
+# サンプルアプリケーションをワークスペースへインポート
+1. Eclipseのメニューから [File] -> [Import] -> [General] -> [Existing Projects into Workspace]を選択
+2. Importダイアログで右上の [Browse]ボタンを押して、表示されたダイアログでそのまま[OK]ボタンを押す
+3. example-app というプロジェクトが選択されていることを確認したら、そのまま右下の [Finish]ボタンを押す
+
+# モデルクラスの生成
+cd $ASAKUSA_DEVELOP_HOME/workspace/$_EXAMPLE_ARTIFACT_ID
+mvn clean generate-sources
+
+# バッチコンパイル
+cd $ASAKUSA_DEVELOP_HOME/workspace/$_EXAMPLE_ARTIFACT_ID
+mvn clean package
+
+------------------------------------------------------------------
+" > "$ASAKUSA_DEVELOP_HOME"/README
+
+cat "$ASAKUSA_DEVELOP_HOME"/README
 
