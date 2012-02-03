@@ -1,5 +1,19 @@
 #!/bin/bash
-
+#
+# Copyright 2011-2012 Asakusa Framework Team.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 . "$(dirname $0)/VERSION"
 
 if [ -r "$(dirname $0)/.buildinfo" ]; then
@@ -115,9 +129,25 @@ else
     echo $_JAVA_HOME
     echo "OK."
   else
-    which javac
-    _RET=$?
-    if [ $_RET -ne 0 ]; then
+    echo "環境変数JAVA_HOMEにJDKのインストールディレクトリが設定されていません。"
+    echo "JDKを検出しています..."
+  # attempt to find java
+    for candidate in \
+      /usr/lib/jvm/java-6-sun \
+      /usr/lib/jvm/java-1.6.0-sun-1.6.0.* \
+      /usr/lib/j2sdk1.6-sun \
+      /usr/java/jdk1.6* \
+      /usr/lib/jvm/java-6-openjdk \
+      /usr/lib/jvm/java-openjdk \
+      /usr/java/default \
+      /usr/lib/jvm/default-java ; do
+      if [ -e $candidate/bin/javac ]; then
+        _JAVA_HOME_CANDIDATE=$candidate
+        break
+      fi  
+    done
+    if [ -z "$_JAVA_HOME_CANDIDATE" ]; then
+      echo "JDKは検出されませんでした。"
       echo '
   Java(JDK)がインストールされていないため、
   OpenJDKをインストールしてセットアップを続行します。
@@ -163,33 +193,29 @@ else
           exit_abort
         fi
         echo "OpenJDKのインストールが完了しました。"
-        echo "JAVA_HOMEに $_JAVA_HOME を指定しました。"
+        echo "JAVA_HOMEに[$_JAVA_HOME]を指定します。"
       else
         echo "インストールを中断します。"
         exit_abort
       fi
     else
-      if [ -z "$JAVA_HOME" ]; then
-        echo "PATHにJDKが存在しますが、JAVA_HOMEが指定されていません。"
-        echo ""
-        while :
-        do
-          read -p "JAVA_HOMEを指定してください:: " _INSTR
-          if [ "$_INSTR" ]; then
-            _JAVA_HOME_TEMP="$_INSTR"
-          else
-            continue
-          fi
-          if [ -f "${_JAVA_HOME_TEMP}/bin/javac" ]; then
-            _JAVA_HOME="$_JAVA_HOME_TEMP"
-            echo "JAVA_HOMEに $_JAVA_HOME を指定しました。"
-            break
-          else
-            echo "[ERROR] 指定したディレクトリ $_JAVA_HOME_TEMP にはJava(JDK)がインストールされていません。"
-          fi
-        done
+      echo ""
+      echo "JDKを検出しました:[$_JAVA_HOME_CANDIDATE]"
+      read -p "このJDKを使用してインストールを続行しますか？:[Y/n]: " _YN
+      if [ "$_YN" ]; then
+        _USE_JDK=`echo $_YN | tr "[:upper:]" "[:lower:]"`
       else
-        _JAVA_HOME="$JAVA_HOME"
+        _USE_JDK="y"
+      fi
+      if [ "$_USE_JDK" = "y" ]; then
+        _JAVA_HOME="$_JAVA_HOME_CANDIDATE"
+        echo "JAVA_HOMEに[$_JAVA_HOME]を指定します。"
+      else
+        echo ""
+        echo "インストールを中断します。"
+        echo "JDKのインストールディレクトリを環境変数JAVA_HOMEに設定した後"
+        echo "再度インストールを行なってください。"
+        exit_abort
       fi
     fi
   fi
@@ -224,7 +250,7 @@ do
   if [ -w $(dirname "$_ASAKUSA_DEVELOP_HOME_TEMP") ]; then
     _ASAKUSA_DEVELOP_HOME="$_ASAKUSA_DEVELOP_HOME_TEMP"
     echo "OK. インストールディレクトリに以下のディレクトリを使用します"
-    echo "$_ASAKUSA_DEVELOP_HOME"
+    echo "[$_ASAKUSA_DEVELOP_HOME]"
     echo ""
     break
   else
@@ -509,12 +535,16 @@ echo "
 
 if [ "$_ADD_PROFILE" = "y" ]; then
   echo "デスクトップ環境に対して $_TARGET_PROFILE の変更を反映するためOSを再起動してください。"
-  read -p "今すぐにOSを再起動しますか？:[Y/n]: " _YN
-  if [ -z "$_YN" ]; then
-    _YN="y"
-  else
-    _YN=`echo $_YN | tr "[:upper:]" "[:lower:]"`
-  fi
+  while :
+  do
+    read -p "今すぐにOSを再起動しますか？:[y/n]: " _YN
+    if [ -z "$_YN" ]; then
+      continue
+    else
+      _YN=`echo ${_YN: -1} | tr "[:upper:]" "[:lower:]"`
+      break
+    fi
+  done
   if [ "$_YN" = "y" ]; then
     sudo reboot
   fi
