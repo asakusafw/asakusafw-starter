@@ -164,6 +164,7 @@ Jinrikishaは `Apache License, Version 2.0`_ の元で公開しています。
     install
     feature
     uninstall
+    offline
 
 
 * `ソースリポジトリ (GitHub)`_
