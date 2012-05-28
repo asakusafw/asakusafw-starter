@@ -182,7 +182,7 @@ else
           which yum > /dev/null 2>&1
           _RET=$?
           if [ $_RET -eq 0 ]; then
-            sudo yum install java-1.6.0-openjdk-devel
+            sudo yum install -y java-1.6.0-openjdk-devel
           else
             echo "apt-get または yum が使用出来ないため、インストールを中断します。"
             exit_abort
