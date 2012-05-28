@@ -388,12 +388,6 @@ echo "
 ** WARNING ***********************************************************
 1) Mavenリモートリポジトリからライブラリをダウンロードするため、
    インストールには10分以上かかる可能性があります。
-
-2) インストールを実行することにより、
-   ホームディレクトリ[$HOME]のパーミッションに対して
-   OTHERに対するread,execute権限が付与されます。
-   (Ubuntu,MacOSXなどではデフォルトでこれらの権限が付与されていますが、
-    CentOSなどではデフォルトに対して権限が追加になります)
 **********************************************************************
 "
 read -p "インストールを続行するには[Enter]キーを押してください。: " _DUMMY
@@ -480,8 +474,6 @@ printf "${_EXPORT}${_PATH}" > "${_RIKISHA_PROFILE}"
 # Install Asakusa Framework
 #######################################
 echo "Asakusa Frameworkをインストールしています。"
-
-chmod a+rx $HOME
 
 case "$_ASAKUSAFW_VERSION" in
   *-SNAPSHOT ) _REPO_SUFFIX="snapshots" ;;
