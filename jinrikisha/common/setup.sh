@@ -176,6 +176,7 @@ else
         which apt-get > /dev/null 2>&1
         _RET=$?
         if [ $_RET -eq 0 ]; then
+          sudo apt-get update
           sudo apt-get install -y openjdk-6-jdk
         else
           which yum > /dev/null 2>&1
