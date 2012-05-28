@@ -14,24 +14,24 @@ Jinrikisha (人力車) は、 `Asakusa Framework`_ の開発環境を手軽に�
 
 Linux-32bit版
 -------------
-* `jinrikisha-linux-32bit-0.1.0.tar.gz`_
+* `jinrikisha-linux-32bit-0.1.1.tar.gz`_
 
-..  _`jinrikisha-linux-32bit-0.1.0.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.1.0.tar.gz
+..  _`jinrikisha-linux-32bit-0.1.1.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.1.1.tar.gz
 
 Linux-64bit版
 -------------
-* `jinrikisha-linux-64bit-0.1.0.tar.gz`_
+* `jinrikisha-linux-64bit-0.1.1.tar.gz`_
 
-..  _`jinrikisha-linux-64bit-0.1.0.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.1.0.tar.gz
+..  _`jinrikisha-linux-64bit-0.1.1.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.1.1.tar.gz
 
 MacOSX版 (Experimental)
 -----------------------
-* `jinrikisha-macosx-0.1.0.tar.gz`_
+* `jinrikisha-macosx-0.1.1.tar.gz`_
 
-..  _`jinrikisha-macosx-0.1.0.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.1.0.tar.gz
+..  _`jinrikisha-macosx-0.1.1.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.1.1.tar.gz
 
 ..  attention::
-    version ``0.1.0`` 時点では、MacOSX版は基本的な動作確認テストのみが行われています。
+    version |version| 時点では、MacOSX版は基本的な動作確認テストのみが行われています。
 
 スナップショット版
 ------------------
@@ -55,7 +55,7 @@ Jinrikishaは以下のプラットフォームで動作を検証しています�
       - バージョン
       - 備考
     * - Ubuntu Desktop [#]_
-      - 11.10
+      - 12.04, 11.10
       - 推奨環境
     * - CentOS [#]_
       - 6.2
@@ -112,41 +112,27 @@ JirikishaによってインストールしたAsakusa Frameworkの開発環境を
 Jinrikishaには以下のソフトウェアが含まています。
 
 ..  list-table:: 同梱ソフトウェア一覧
-    :widths: 6 2 2 
+    :widths: 4 2 4 
     :header-rows: 1
 
     * - プロダクト
       - バージョン
       - ライセンス
     * - Maven [#]_
-      - 3.0.3
-      - ASL
+      - 3.0.4
+      - Apache License, Version 2.0 [#]_
     * - Hadoop [#]_
-      - CDH3 Update 2
-      - ASL
+      - CDH3 Update 4
+      - Apache License, Version 2.0
     * - Eclipse IDE for Java Developers [#]_ [#]_
-      - 3.7.1
-      - EPL
+      - 3.7.2
+      - Eclipse Public License - Version 1.0 [#]_
 
 ..  [#] http://maven.apache.org/
+..  [#] http://www.apache.org/licenses/ 
 ..  [#] http://www.cloudera.com/hadoop/
 ..  [#] http://eclipse.org/
 ..  [#] Linux-32bit版、Linux-64bit版、MacOSX版それぞれに対応したプラットフォーム版が同梱されています。
-
-各ソフトウェアのライセンスについては、以下の同梱ソフトウェアライセンス一覧を参照してください。
-
-..  list-table:: 同梱ソフトウェアライセンス一覧
-    :widths: 4 6 
-    :header-rows: 1
-
-    * - ライセンス
-      - ライセンス名称
-    * - ASL
-      - Apache License, Version 2.0 [#]_
-    * - EPL
-      - Eclipse Public License - Version 1.0 [#]_
-
-..  [#] http://www.apache.org/licenses/ 
 ..  [#] http://www.eclipse.org/legal/epl-v10.html
 
 ライセンス
@@ -165,6 +151,7 @@ Jinrikishaは `Apache License, Version 2.0`_ の元で公開しています。
     feature
     uninstall
     offline
+    download-archive
 
 
 * `ソースリポジトリ (GitHub)`_

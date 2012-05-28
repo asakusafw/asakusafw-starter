@@ -36,7 +36,7 @@ setup.shの実行
 
 ..  code-block:: sh
 
-    tar -xf jinrikisha-linux-32bit-0.1-snapshot.tar.gz
+    tar -xf jinrikisha-linux-32bit-0.1.1.tar.gz
     jinrikisha-linux-32bit/setup.sh
 
 ``setup.sh`` を実行すると、Jinrikishaのインストーラ画面が表示され、インストールが開始されます。
@@ -48,7 +48,7 @@ setup.shの実行
                                                   
           - Asakusa Framework Starter Package -
                                                   
-            Version: 0.1.0 (xxx)
+            Version: x.x.x (xxx)
     ************************************************
     ...
 
@@ -124,7 +124,7 @@ Asakusa Frameworkの開発環境をインストールするディレクトリパ
 
 ..  code-block:: sh
 
-    2) Asakusa Frameworkのバージョンを入力してください。: 0.2.5: 
+    2) Asakusa Frameworkのバージョンを入力してください。: 0.2.6: 
 
 ..  attention::
     指定可能なバージョンは ``0.2.4`` 以降です。 指定可能なバージョン文字列の一覧は、以下のURLで公開されているAsakusa Frameworkのアーキタイプカタログを参照して下さい。アーキタイプカタログのうち、 archetypeIdが ``asakusa-archetype-windgate`` を持つ archetypeに含まれる ``version`` の文字列を指定することが可能です。
@@ -145,7 +145,7 @@ OSユーザのログイン時に読み込まれるプロファイルにAsakusa F
 
     ** WARNING ********************************************************
     * この設定を行う場合、以下の環境変数が設定されます。
-      - JAVA_HOME=/usr/lib/jvm/java-6-openjdk
+      - JAVA_HOME=/usr/lib/jvm/java-6-openjdk-i386
       - ASAKUSA_DEVELOP_HOME=/home/asakusa/asakusa-develop
       - ASAKUSA_HOME=${ASAKUSA_DEVELOP_HOME}/asakusa
       - M2_HOME=${ASAKUSA_DEVELOP_HOME}/maven
@@ -219,12 +219,6 @@ MacOSX版では、:ref:`configure-profile` で環境変数設定の追加を行�
     ** WARNING ***********************************************************
     1) Mavenリモートリポジトリからライブラリをダウンロードするため、
        インストールには10分以上かかる可能性があります。
-
-    2) インストールを実行することにより、
-       ホームディレクトリ[/home/asakusa]のパーミッションに対して
-       OTHERに対するread,execute権限が付与されます。
-       (Ubuntu,MacOSXなどではデフォルトでこれらの権限が付与されていますが、
-        CentOSなどではデフォルトに対して権限が追加になります)
     **********************************************************************
 
     インストールを続行するには[Enter]キーを押してください。: 
