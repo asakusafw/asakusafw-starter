@@ -131,13 +131,14 @@ else
   else
     echo "環境変数JAVA_HOMEにJDKのインストールディレクトリが設定されていません。"
     echo "JDKを検出しています..."
-  # attempt to find java
+    # attempt to find java
     for candidate in \
       /usr/lib/jvm/java-6-sun \
       /usr/lib/jvm/java-1.6.0-sun-1.6.0.* \
       /usr/lib/j2sdk1.6-sun \
       /usr/java/jdk1.6* \
       /usr/lib/jvm/java-6-openjdk \
+      /usr/lib/jvm/java-6-openjdk-* \
       /usr/lib/jvm/java-openjdk \
       /usr/java/default \
       /usr/lib/jvm/default-java ; do
@@ -175,14 +176,13 @@ else
         which apt-get > /dev/null 2>&1
         _RET=$?
         if [ $_RET -eq 0 ]; then
-          _JAVA_HOME="/usr/lib/jvm/java-6-openjdk"
+          sudo apt-get update
           sudo apt-get install -y openjdk-6-jdk
         else
           which yum > /dev/null 2>&1
           _RET=$?
           if [ $_RET -eq 0 ]; then
-            _JAVA_HOME="/usr/lib/jvm/java-openjdk"
-            sudo yum install java-1.6.0-openjdk-devel
+            sudo yum install -y java-1.6.0-openjdk-devel
           else
             echo "apt-get または yum が使用出来ないため、インストールを中断します。"
             exit_abort
@@ -193,6 +193,20 @@ else
           exit_abort
         fi
         echo "OpenJDKのインストールが完了しました。"
+        # attempt to find java
+        for javahome in \
+          /usr/lib/jvm/java-6-openjdk \
+          /usr/lib/jvm/java-6-openjdk-* \
+          /usr/lib/jvm/java-openjdk ; do
+          if [ -e $javahome/bin/javac ]; then
+            _JAVA_HOME=$javahome
+            break
+          fi  
+        done
+        if [ -z "$_JAVA_HOME" ]; then
+          echo "OpenJDKのインストールディレクトリが検出出来ませんでした。インストールを中断します。"
+          exit_abort
+        fi     
         echo "JAVA_HOMEに[$_JAVA_HOME]を指定します。"
       else
         echo "インストールを中断します。"
@@ -375,12 +389,6 @@ echo "
 ** WARNING ***********************************************************
 1) Mavenリモートリポジトリからライブラリをダウンロードするため、
    インストールには10分以上かかる可能性があります。
-
-2) インストールを実行することにより、
-   ホームディレクトリ[$HOME]のパーミッションに対して
-   OTHERに対するread,execute権限が付与されます。
-   (Ubuntu,MacOSXなどではデフォルトでこれらの権限が付与されていますが、
-    CentOSなどではデフォルトに対して権限が追加になります)
 **********************************************************************
 "
 read -p "インストールを続行するには[Enter]キーを押してください。: " _DUMMY
@@ -467,8 +475,6 @@ printf "${_EXPORT}${_PATH}" > "${_RIKISHA_PROFILE}"
 # Install Asakusa Framework
 #######################################
 echo "Asakusa Frameworkをインストールしています。"
-
-chmod a+rx $HOME
 
 case "$_ASAKUSAFW_VERSION" in
   *-SNAPSHOT ) _REPO_SUFFIX="snapshots" ;;
