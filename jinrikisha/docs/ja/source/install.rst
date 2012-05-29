@@ -28,7 +28,7 @@ UbuntuやMacOSXではインストール時にデフォルトで自ホスト名�
 ================
 Jinrikishaを使ったAsakusa Framework開発環境のインストール手順を説明します。
 
-ここでは主にUbuntu DesktopへLinux-32bit版を使ったインストールを例としてインストール手順を説明しますが、他のプラットフォームにおいても手順は同様です。
+ここでは主にUbuntu DesktopへLinux-32bit版を使ってインストールする手順を説明しますが、他のプラットフォームにおいてもインストール手順は同様です。
 
 setup.shの実行
 --------------
@@ -36,7 +36,7 @@ setup.shの実行
 
 ..  code-block:: sh
 
-    tar -xf jinrikisha-linux-32bit-0.1.1.tar.gz
+    tar -xf jinrikisha-linux-32bit-*.tar.gz
     jinrikisha-linux-32bit/setup.sh
 
 ``setup.sh`` を実行すると、Jinrikishaのインストーラ画面が表示され、インストールが開始されます。
