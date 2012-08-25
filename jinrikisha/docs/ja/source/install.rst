@@ -124,7 +124,7 @@ Asakusa Frameworkの開発環境をインストールするディレクトリパ
 
 ..  code-block:: sh
 
-    2) Asakusa Frameworkのバージョンを入力してください。: 0.2.6: 
+    2) Asakusa Frameworkのバージョンを入力してください。: 0.4.0: 
 
 ..  attention::
     指定可能なバージョンは ``0.2.4`` 以降です。 指定可能なバージョン文字列の一覧は、以下のURLで公開されているAsakusa Frameworkのアーキタイプカタログを参照して下さい。アーキタイプカタログのうち、 archetypeIdが ``asakusa-archetype-windgate`` を持つ archetypeに含まれる ``version`` の文字列を指定することが可能です。
