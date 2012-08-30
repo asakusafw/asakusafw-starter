@@ -5,7 +5,7 @@ Jinrikisha (人力車) は、 `Asakusa Framework`_ の開発環境を手軽に�
 
 同梱のインストーラを利用し、Asakusa Framework本体、Hadoop、関連ツールなどをわずかな手順でセットアップすることで、すぐにAsakusa DSLによるバッチアプリケーションの開発を始めることができます。
 
-..  _`Asakusa Framework`: http://asakusafw.s3.amazonaws.com/documents/0.2/release/ja/html/index.html
+..  _`Asakusa Framework`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/index.html
 
 より詳しくは、 :doc:`feature` も参照してください。
 
@@ -14,21 +14,21 @@ Jinrikisha (人力車) は、 `Asakusa Framework`_ の開発環境を手軽に�
 
 Linux-32bit版
 -------------
-* `jinrikisha-linux-32bit-0.2.0.tar.gz`_
+* `jinrikisha-linux-32bit-0.2.1.tar.gz`_
 
-..  _`jinrikisha-linux-32bit-0.2.0.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.2.0.tar.gz
+..  _`jinrikisha-linux-32bit-0.2.1.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.2.1.tar.gz
 
 Linux-64bit版
 -------------
-* `jinrikisha-linux-64bit-0.2.0.tar.gz`_
+* `jinrikisha-linux-64bit-0.2.1.tar.gz`_
 
-..  _`jinrikisha-linux-64bit-0.2.0.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.2.0.tar.gz
+..  _`jinrikisha-linux-64bit-0.2.1.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.2.1.tar.gz
 
 MacOSX版 (Experimental)
 -----------------------
-* `jinrikisha-macosx-0.2.0.tar.gz`_
+* `jinrikisha-macosx-0.2.1.tar.gz`_
 
-..  _`jinrikisha-macosx-0.2.0.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.2.0.tar.gz
+..  _`jinrikisha-macosx-0.2.1.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.2.1.tar.gz
 
 ..  attention::
     version |version| 時点では、MacOSX版は基本的な動作確認テストのみが行われています。
@@ -99,9 +99,9 @@ Jinrikishaのインストールが完了したら、サンプルコードを確�
     * - バッチ設計と実装ガイド
       - http://www.asakusafw.com/techinfo/methodology.html
 
-..  _`Asakusa Framework入門`: http://asakusafw.s3.amazonaws.com/documents/0.2/release/ja/html/introduction/index.html
-..  _`Asakusa Framework スタートガイド`: http://asakusafw.s3.amazonaws.com/documents/0.2/release/ja/html/introduction/start-guide.html
-..  _`開発の流れ`: http://asakusafw.s3.amazonaws.com/documents/0.2/release/ja/html/introduction/next-step.html
+..  _`Asakusa Framework入門`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/introduction/index.html
+..  _`Asakusa Framework スタートガイド`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/introduction/start-guide.html
+..  _`開発の流れ`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/introduction/next-step.html
 
 アンインストール
 ----------------
@@ -122,7 +122,7 @@ Jinrikishaには以下のソフトウェアが含まています。
       - 3.0.4
       - Apache License, Version 2.0 [#]_
     * - Hadoop [#]_
-      - CDH3 Update 4
+      - CDH3 Update 5
       - Apache License, Version 2.0
     * - Eclipse IDE for Java Developers [#]_ [#]_
       - 3.7.2

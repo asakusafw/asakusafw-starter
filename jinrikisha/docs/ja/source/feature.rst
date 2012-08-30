@@ -47,9 +47,9 @@ Jinrikisha のインストール時に指定した単一のディレクトリ配
 
 ..  [#] Java本体についてはOSのパッケージ管理システムの仕様に依存します。また、OSユーザのプロファイル設定ファイル( ``$HOME/.profile`` または ``$HOME/.bash_profile`` )に対する設定の追加や、デスクトップに対するショートカットを加えるような処理については、インストール時にこれらの設定を行うかどうかを選択します。
 
-..  _`Asakusa Framework入門`: http://asakusafw.s3.amazonaws.com/documents/0.2/release/ja/html/introduction/index.html
-..  _`Asakusa Framework スタートガイド`: http://asakusafw.s3.amazonaws.com/documents/0.2/release/ja/html/introduction/start-guide.html
-..  _`開発の流れ`: http://asakusafw.s3.amazonaws.com/documents/0.2/release/ja/html/introduction/next-step.html
+..  _`Asakusa Framework入門`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/introduction/index.html
+..  _`Asakusa Framework スタートガイド`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/introduction/start-guide.html
+..  _`開発の流れ`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/introduction/next-step.html
 ..  _`OpenJDK`: http://openjdk.java.net/
 ..  _`Cloudera's Distribution including Apache Hadoop Version 3 (CDH3)`: https://ccp.cloudera.com/display/CDHDOC/CDH3+Documentation
 

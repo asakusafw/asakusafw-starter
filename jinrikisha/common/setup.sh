@@ -420,6 +420,9 @@ cp -p "$ASAKUSA_DEVELOP_HOME"/maven/conf/settings.xml "$ASAKUSA_DEVELOP_HOME"/ma
 cp _templates/maven/conf/settings.xml "$ASAKUSA_DEVELOP_HOME"/maven/conf
 sed -i -e "s;/path/to/local/repo;$ASAKUSA_DEVELOP_HOME/repository;" "$ASAKUSA_DEVELOP_HOME"/maven/conf/settings.xml
 
+cp _templates/maven/conf/archetype-catalog.xml "$ASAKUSA_DEVELOP_HOME"/maven/conf
+sed -i -e "s;/version/to/asakusafw;$_ASAKUSAFW_VERSION;" "$ASAKUSA_DEVELOP_HOME"/maven/conf/archetype-catalog.xml
+
 if [ "${_OPT_M2REPO_ARCHIVE}" ]; then
   tar -xf "${_VAL_M2REPO_ARCHIVE}"
   mv repository "$ASAKUSA_DEVELOP_HOME"
@@ -482,7 +485,7 @@ case "$_ASAKUSAFW_VERSION" in
 esac
 
 cd "${ASAKUSA_DEVELOP_HOME}"/workspace
-mvn archetype:generate -DarchetypeRepository="${_REPO_URL}${_REPO_SUFFIX}" -DarchetypeCatalog="${_REPO_URL}"archetype-catalog.xml -DinteractiveMode=false -DarchetypeGroupId="com.asakusafw" -DarchetypeArtifactId="$_EXAMPLE_ARCHETYPE_ID" -DarchetypeVersion="$_ASAKUSAFW_VERSION" -DgroupId="$_EXAMPLE_GROUP_ID" -DartifactId="$_EXAMPLE_ARTIFACT_ID" -Dversion="1.0-SNAPSHOT" -Dpackage="$_EXAMPLE_GROUP_ID"
+mvn archetype:generate -DarchetypeRepository="${_REPO_URL}${_REPO_SUFFIX}" -DinteractiveMode=false -DarchetypeGroupId="com.asakusafw" -DarchetypeArtifactId="$_EXAMPLE_ARCHETYPE_ID" -DarchetypeVersion="$_ASAKUSAFW_VERSION" -DgroupId="$_EXAMPLE_GROUP_ID" -DartifactId="$_EXAMPLE_ARTIFACT_ID" -Dversion="1.0-SNAPSHOT" -Dpackage="$_EXAMPLE_GROUP_ID"
 if [ $? -ne 0 ]; then
   exit_abort
 fi
