@@ -1,5 +1,22 @@
 @import url('sphinxdoc.css');
 
+body {
+  background-color: #ead5ff;
+}
+
+div.admonition p.admonition-title,
+div.warning p.admonition-title {
+  background-color: #bc89ee;
+}
+
+div.sphinxsidebar h3, div.sphinxsidebar h4 {
+  background-color: #bc89ee;
+}
+
+div.footer {
+  background-color: #f0e7fa;
+}
+
 .section h1 {
   font-size: 1.7em;
 }
