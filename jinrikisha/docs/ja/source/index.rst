@@ -14,34 +14,34 @@ Jinrikisha (人力車) は、 `Asakusa Framework`_ の開発環境を手軽に�
 
 Linux-32bit版
 -------------
-* `jinrikisha-linux-32bit-0.2.1.tar.gz`_
+* `jinrikisha-linux-32bit-0.5.0.tar.gz`_
 
-..  _`jinrikisha-linux-32bit-0.2.1.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.2.1.tar.gz
+..  _`jinrikisha-linux-32bit-0.5.0.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.5.0.tar.gz
 
 Linux-64bit版
 -------------
-* `jinrikisha-linux-64bit-0.2.1.tar.gz`_
+* `jinrikisha-linux-64bit-0.5.0.tar.gz`_
 
-..  _`jinrikisha-linux-64bit-0.2.1.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.2.1.tar.gz
+..  _`jinrikisha-linux-64bit-0.5.0.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.5.0.tar.gz
 
 MacOSX版 (Experimental)
 -----------------------
-* `jinrikisha-macosx-0.2.1.tar.gz`_
+* `jinrikisha-macosx-0.5.0.tar.gz`_
 
-..  _`jinrikisha-macosx-0.2.1.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.2.1.tar.gz
+..  _`jinrikisha-macosx-0.5.0.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.5.0.tar.gz
 
 ..  attention::
     version |version| 時点では、MacOSX版は基本的な動作確認テストのみが行われています。
 
 スナップショット版
 ------------------
-* `jinrikisha-linux-32bit-0.2-snapshot.tar.gz`_
-* `jinrikisha-linux-64bit-0.2-snapshot.tar.gz`_
-* `jinrikisha-macosx-0.2-snapshot.tar.gz`_
+* `jinrikisha-linux-32bit-0.5-snapshot.tar.gz`_
+* `jinrikisha-linux-64bit-0.5-snapshot.tar.gz`_
+* `jinrikisha-macosx-0.5-snapshot.tar.gz`_
 
-..  _`jinrikisha-linux-32bit-0.2-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.2-snapshot.tar.gz
-..  _`jinrikisha-linux-64bit-0.2-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.2-snapshot.tar.gz
-..  _`jinrikisha-macosx-0.2-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.2-snapshot.tar.gz
+..  _`jinrikisha-linux-32bit-0.5-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.5-snapshot.tar.gz
+..  _`jinrikisha-linux-64bit-0.5-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.5-snapshot.tar.gz
+..  _`jinrikisha-macosx-0.5-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.5-snapshot.tar.gz
 
 対応プラットフォーム
 --------------------
