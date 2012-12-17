@@ -23,7 +23,7 @@ MavenはJinrikishaによって自動的にインストールされます。
 
 Hadoopのインストールとセットアップ
 ----------------------------------
-Jinrikishaはインストールパッケージに Hadoop( `Cloudera's Distribution including Apache Hadoop Version 3 (CDH3)`_ )を同梱しています。 
+Jinrikishaはインストールパッケージに `Apache Hadoop`_ を同梱しています。
 
 HadoopはJinrikishaによって自動的にインストールされ、スタンドアロンモードで動作するよう設定されます。
 
@@ -51,5 +51,5 @@ Jinrikisha のインストール時に指定した単一のディレクトリ配
 ..  _`Asakusa Framework スタートガイド`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/introduction/start-guide.html
 ..  _`開発の流れ`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/introduction/next-step.html
 ..  _`OpenJDK`: http://openjdk.java.net/
-..  _`Cloudera's Distribution including Apache Hadoop Version 3 (CDH3)`: https://ccp.cloudera.com/display/CDHDOC/CDH3+Documentation
+..  _`Apache Hadoop`: http://hadoop.apache.org/
 

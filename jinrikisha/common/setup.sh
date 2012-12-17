@@ -300,8 +300,9 @@ echo "
   - ASAKUSA_DEVELOP_HOME="$_ASAKUSA_DEVELOP_HOME"
   - ASAKUSA_HOME=\${ASAKUSA_DEVELOP_HOME}/asakusa
   - M2_HOME=\${ASAKUSA_DEVELOP_HOME}/maven
-  - HADOOP_HOME=\${ASAKUSA_DEVELOP_HOME}/hadoop
-  - PATH: \$JAVA_HOME/bin:\$M2_HOME/bin:\$HADOOP_HOME/bin: \\
+  - HADOOP_CMD=\${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop
+  - HADOOP_CLIENT_OPTS=-Xmx512m
+  - PATH: \$JAVA_HOME/bin:\$M2_HOME/bin:\${ASAKUSA_DEVELOP_HOME}/hadoop/bin: \\
           \$ASAKUSA_DEVELOP_HOME/eclipse:\$ASAKUSA_HOME/yaess/bin: \\
           \$PATH
 
@@ -437,11 +438,12 @@ _PATH="${_PATH}":'$M2_HOME/bin'
 echo "Hadoopをインストールしています。"
 
 cd archives
-tar xf hadoop-0.20.*.tar.gz
-mv hadoop-0.20.*/ hadoop
+tar xf hadoop-*.tar.gz
+mv hadoop-*/ hadoop
 mv hadoop "$ASAKUSA_DEVELOP_HOME"
-_EXPORT="${_EXPORT}"'export HADOOP_HOME=${ASAKUSA_DEVELOP_HOME}/hadoop\n'
-_PATH="${_PATH}":'$HADOOP_HOME/bin'
+_EXPORT="${_EXPORT}"'export HADOOP_CMD=${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop\n'
+_EXPORT="${_EXPORT}"'export HADOOP_CLIENT_OPTS=-Xmx512m\n'
+_PATH="${_PATH}":'${ASAKUSA_DEVELOP_HOME}/hadoop/bin'
 cd ..
 
 ########################################
@@ -528,7 +530,7 @@ fi" >> $_TARGET_PROFILE
     _SETENV="setenv JAVA_HOME $_JAVA_HOME"'\n'
     _SETENV="${_SETENV}setenv _JAVA_OPTIONS=-Dfile.encoding=UTF-8"'\n'
     _SETENV="${_SETENV}setenv ASAKUSA_HOME ${ASAKUSA_DEVELOP_HOME}/asakusa"'\n'
-    _SETENV="${_SETENV}setenv HADOOP_HOME ${ASAKUSA_DEVELOP_HOME}/hadoop"'\n'
+    _SETENV="${_SETENV}setenv HADOOP_CMD ${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop"'\n'
     printf "$_SETENV" | sudo tee /etc/launchd.conf
   fi
 fi

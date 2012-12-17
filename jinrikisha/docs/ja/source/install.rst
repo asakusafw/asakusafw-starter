@@ -149,8 +149,8 @@ OSユーザのログイン時に読み込まれるプロファイルにAsakusa F
       - ASAKUSA_DEVELOP_HOME=/home/asakusa/asakusa-develop
       - ASAKUSA_HOME=${ASAKUSA_DEVELOP_HOME}/asakusa
       - M2_HOME=${ASAKUSA_DEVELOP_HOME}/maven
-      - HADOOP_HOME=${ASAKUSA_DEVELOP_HOME}/hadoop
-      - PATH: $JAVA_HOME/bin:$M2_HOME/bin:$HADOOP_HOME/bin: \
+      - HADOOP_CMD=${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop
+      - PATH: $JAVA_HOME/bin:$M2_HOME/bin:${ASAKUSA_DEVELOP_HOME}/hadoop/bin: \
               $ASAKUSA_DEVELOP_HOME/eclipse:$ASAKUSA_HOME/yaess/bin: \
               $PATH
 
