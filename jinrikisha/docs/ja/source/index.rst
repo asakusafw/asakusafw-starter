@@ -152,6 +152,8 @@ Jinrikishaは `Apache License, Version 2.0`_ の元で公開しています。
     uninstall
     offline
     download-archive
+    introduction/localize
+    introduction/dmdl-editor
 
 
 * `ソースリポジトリ (GitHub)`_
