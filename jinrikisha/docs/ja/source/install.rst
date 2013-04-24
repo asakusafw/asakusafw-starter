@@ -305,3 +305,10 @@ Mavenの設定を変更する場合は、 ``setup.sh`` を実行する前にJinr
 
 ..  [#] Mavenのプロキシ設定については、Mavenの次のサイト等を確認してください。 http://maven.apache.org/guides/mini/guide-proxies.html
 
+Eclipseの日本語化
+==================
+Eclipseはメニュー等を日本語化して使用することが出来ます。
+
+日本語化する手順については :doc:`localize` を参照してください。
+
+
