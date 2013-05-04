@@ -164,9 +164,6 @@ else
   (OracleJDKを使用するには、OracleJDKを手動でインストールしてから
   環境変数JAVA_HOMEにOracleJDKのインストールディレクトリを設定し、
   再度 setup.sh を実行してインストールを行います)
-
-  OracleJDKのインストール方法は以下のサイトなどを参考にしてください。
-  http://java.sun.com/javase/ja/6/webnotes/install/index.html
   *******************************************************************
 
     '
