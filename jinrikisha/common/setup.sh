@@ -32,6 +32,10 @@ _ADD_LAUNCHD_CONF_DEFAULT="y"
 # Define Constants
 #---------------------------------------
 _REPO_URL="http://asakusafw.s3.amazonaws.com/maven/"
+_FW_GROUP_ID="com.asakusafw"
+_FW_ORGANIZER_ARTIFACT_ID="organizer"
+_FW_ORGANIZER_ARCHETYPE_ID="asakusa-archetype-framework-organizer"
+
 _EXAMPLE_GROUP_ID="com.example"
 _EXAMPLE_ARTIFACT_ID="example-app"
 _EXAMPLE_ARCHETYPE_ID="asakusa-archetype-windgate"
@@ -486,14 +490,19 @@ case "$_ASAKUSAFW_VERSION" in
   * ) _REPO_SUFFIX="releases" ;;
 esac
 
+cd "${ASAKUSA_DEVELOP_HOME}"
+mvn archetype:generate -DarchetypeRepository="${_REPO_URL}${_REPO_SUFFIX}" -DinteractiveMode=false -DarchetypeGroupId="$_FW_GROUP_ID" -DarchetypeArtifactId="$_FW_ORGANIZER_ARCHETYPE_ID" -DarchetypeVersion="$_ASAKUSAFW_VERSION" -DgroupId="$_FW_GROUP_ID" -DartifactId="$_FW_ORGANIZER_ARTIFACT_ID" -Dversion="$_ASAKUSAFW_VERSION" -Dpackage="$_FW_GROUP_ID"
+
+mvn -f "$_FW_ORGANIZER_ARTIFACT_ID/pom.xml" clean package antrun:run
+
 cd "${ASAKUSA_DEVELOP_HOME}"/workspace
-mvn archetype:generate -DarchetypeRepository="${_REPO_URL}${_REPO_SUFFIX}" -DinteractiveMode=false -DarchetypeGroupId="com.asakusafw" -DarchetypeArtifactId="$_EXAMPLE_ARCHETYPE_ID" -DarchetypeVersion="$_ASAKUSAFW_VERSION" -DgroupId="$_EXAMPLE_GROUP_ID" -DartifactId="$_EXAMPLE_ARTIFACT_ID" -Dversion="1.0-SNAPSHOT" -Dpackage="$_EXAMPLE_GROUP_ID"
+mvn archetype:generate -DarchetypeRepository="${_REPO_URL}${_REPO_SUFFIX}" -DinteractiveMode=false -DarchetypeGroupId="$_FW_GROUP_ID" -DarchetypeArtifactId="$_EXAMPLE_ARCHETYPE_ID" -DarchetypeVersion="$_ASAKUSAFW_VERSION" -DgroupId="$_EXAMPLE_GROUP_ID" -DartifactId="$_EXAMPLE_ARTIFACT_ID" -Dversion="1.0-SNAPSHOT" -Dpackage="$_EXAMPLE_GROUP_ID"
 if [ $? -ne 0 ]; then
   exit_abort
 fi
 
 cd "$_EXAMPLE_ARTIFACT_ID"
-mvn clean assembly:single antrun:run package eclipse:eclipse
+mvn clean package eclipse:eclipse
 if [ $? -ne 0 ]; then
   exit_abort 
 fi
