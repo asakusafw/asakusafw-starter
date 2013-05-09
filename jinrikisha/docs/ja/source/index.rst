@@ -155,7 +155,6 @@ Jinrikishaは `Apache License, Version 2.0`_ の元で公開しています。
     introduction/localize
     introduction/dmdl-editor
 
-
 * `ソースリポジトリ (GitHub)`_
 
 ..   _`ソースリポジトリ (GitHub)`: https://github.com/asakusafw/asakusafw-starter
