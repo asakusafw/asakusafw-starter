@@ -4,6 +4,17 @@
 Jinrikisha リリースノート
 =========================
 
+Release 0.5.2
+=============
+Nov 20, 2013
+
+* Asakusa Framework 0.5.2 を推奨バージョンに変更
+* 同梱するHadoopのバージョンを Apache Hadoop 1.1.2 から Apache Hadoop 1.2.1 に変更
+* :doc:`introduction/dmdl-editor` のエンハンスに伴うドキュメント修正
+
+..  attention::
+    同梱のソフトウェアに対する動作検証などの理由により、 本バージョン以降では **インストールするAsakusa Frameworkのバージョンは 0.5.2 以降に指定することを強く推奨します。**
+
 Release 0.5.0
 =============
 May 9, 2013
