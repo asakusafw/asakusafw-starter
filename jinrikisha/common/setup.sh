@@ -138,14 +138,14 @@ else
     # attempt to find java
 
     for candidate_regex in \
+      /usr/lib/jvm/j2sdk1.7-oracle \
+      /usr/lib/jvm/java-7-oracle* \
+      /usr/java/jdk1.7* \
       /usr/lib/j2sdk1.6-sun \
       /usr/lib/jvm/java-6-sun \
       /usr/lib/jvm/java-1.6.0-sun-1.6.0.* \
       /usr/lib/jvm/j2sdk1.6-oracle \
       /usr/java/jdk1.6* \
-      /usr/lib/jvm/j2sdk1.7-oracle \
-      /usr/lib/jvm/java-7-oracle* \
-      /usr/java/jdk1.7* \
       /Library/Java/Home \
       /usr/java/default \
       /usr/lib/jvm/default-java \
@@ -188,12 +188,12 @@ else
         _RET=$?
         if [ $_RET -eq 0 ]; then
           sudo apt-get update
-          sudo apt-get install -y openjdk-6-jdk
+          sudo apt-get install -y openjdk-7-jdk
         else
           which yum > /dev/null 2>&1
           _RET=$?
           if [ $_RET -eq 0 ]; then
-            sudo yum install -y java-1.6.0-openjdk-devel
+            sudo yum install -y java-1.7.0-openjdk-devel
           else
             echo "apt-get または yum が使用出来ないため、インストールを中断します。"
             exit_abort
@@ -206,8 +206,8 @@ else
         echo "OpenJDKのインストールが完了しました。"
         # attempt to find java
         for javahome in \
-          /usr/lib/jvm/java-6-openjdk \
-          /usr/lib/jvm/java-6-openjdk-* \
+          /usr/lib/jvm/java-1.7.0-openjdk* \
+          /usr/lib/jvm/java-7-openjdk* \
           /usr/lib/jvm/java-openjdk ; do
           if [ -e $javahome/bin/javac ]; then
             _JAVA_HOME=$javahome
