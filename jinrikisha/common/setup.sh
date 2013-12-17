@@ -136,20 +136,30 @@ else
     echo "環境変数JAVA_HOMEにJDKのインストールディレクトリが設定されていません。"
     echo "JDKを検出しています..."
     # attempt to find java
-    for candidate in \
+
+    for candidate_regex in \
+      /usr/lib/j2sdk1.6-sun \
       /usr/lib/jvm/java-6-sun \
       /usr/lib/jvm/java-1.6.0-sun-1.6.0.* \
-      /usr/lib/j2sdk1.6-sun \
+      /usr/lib/jvm/j2sdk1.6-oracle \
       /usr/java/jdk1.6* \
-      /usr/lib/jvm/java-6-openjdk \
-      /usr/lib/jvm/java-6-openjdk-* \
-      /usr/lib/jvm/java-openjdk \
+      /usr/lib/jvm/j2sdk1.7-oracle \
+      /usr/lib/jvm/java-7-oracle* \
+      /usr/java/jdk1.7* \
+      /Library/Java/Home \
       /usr/java/default \
-      /usr/lib/jvm/default-java ; do
-      if [ -e $candidate/bin/javac ]; then
-        _JAVA_HOME_CANDIDATE=$candidate
-        break
-      fi  
+      /usr/lib/jvm/default-java \
+      /usr/lib/jvm/java-openjdk \
+      /usr/lib/jvm/java-1.7.0-openjdk* \
+      /usr/lib/jvm/java-7-openjdk* \
+      /usr/lib/jvm/java-1.6.0-openjdk \
+      /usr/lib/jvm/java-1.6.0-openjdk-* ; do
+        for candidate in `ls -rd $candidate_regex 2>/dev/null`; do
+          if [ -e $candidate/bin/javac ]; then
+            _JAVA_HOME_CANDIDATE=$candidate
+            break
+          fi
+        done
     done
     if [ -z "$_JAVA_HOME_CANDIDATE" ]; then
       echo "JDKは検出されませんでした。"
