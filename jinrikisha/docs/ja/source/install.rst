@@ -77,9 +77,6 @@ Javaがインストールされていない環境でインストールを行っ�
       (OracleJDKを使用するには、OracleJDKを手動でインストールしてから
       環境変数JAVA_HOMEにOracleJDKのインストールディレクトリを設定し、
       再度 setup.sh を実行してインストールを行います)
-
-      OracleJDKのインストール方法は以下のサイトなどを参考にしてください。
-      http://java.sun.com/javase/ja/6/webnotes/install/index.html
       *******************************************************************
 
     
@@ -124,10 +121,13 @@ Asakusa Frameworkの開発環境をインストールするディレクトリパ
 
 ..  code-block:: sh
 
-    2) Asakusa Frameworkのバージョンを入力してください。: 0.4.0: 
+    2) Asakusa Frameworkのバージョンを入力してください。: 0.5.3:
 
 ..  attention::
-    指定可能なバージョンは ``0.2.4`` 以降です。 指定可能なバージョン文字列の一覧は、以下のURLで公開されているAsakusa Frameworkのアーキタイプカタログを参照して下さい。アーキタイプカタログのうち、 archetypeIdが ``asakusa-archetype-windgate`` を持つ archetypeに含まれる ``version`` の文字列を指定することが可能です。
+    基本的にはデフォルトの推奨バージョンをそのまま利用することを推奨します。その他のバージョンとの組み合わせは動作検証が行われていない可能性があります。
+   
+..  note::
+    指定可能なバージョン文字列の一覧は、以下のURLで公開されているAsakusa Frameworkのアーキタイプカタログを参照して下さい。アーキタイプカタログのうち、 archetypeIdが ``asakusa-archetype-windgate`` を持つ archetypeに含まれる ``version`` の文字列を指定することが可能です。
 
     http://asakusafw.s3.amazonaws.com/maven/archetype-catalog.xml
 
@@ -145,11 +145,12 @@ OSユーザのログイン時に読み込まれるプロファイルにAsakusa F
 
     ** WARNING ********************************************************
     * この設定を行う場合、以下の環境変数が設定されます。
-      - JAVA_HOME=/usr/lib/jvm/java-6-openjdk-i386
+      - JAVA_HOME=/usr/lib/jvm/java-7-openjdk-i386
       - ASAKUSA_DEVELOP_HOME=/home/asakusa/asakusa-develop
       - ASAKUSA_HOME=${ASAKUSA_DEVELOP_HOME}/asakusa
       - M2_HOME=${ASAKUSA_DEVELOP_HOME}/maven
       - HADOOP_CMD=${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop
+      - HADOOP_CLIENT_OPTS=-Xmx512m
       - PATH: $JAVA_HOME/bin:$M2_HOME/bin:${ASAKUSA_DEVELOP_HOME}/hadoop/bin: \
               $ASAKUSA_DEVELOP_HOME/eclipse:$ASAKUSA_HOME/yaess/bin: \
               $PATH
