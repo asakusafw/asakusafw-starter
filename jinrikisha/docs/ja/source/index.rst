@@ -118,19 +118,15 @@ Jinrikishaには以下のソフトウェアが含まています。
     * - プロダクト
       - バージョン
       - ライセンス
-    * - Apache Maven [#]_
-      - 3.0.5
-      - Apache License, Version 2.0 [#]_
     * - Apache Hadoop [#]_
       - 1.2.1
-      - Apache License, Version 2.0
-    * - Eclipse IDE for Java Developers [#]_ [#]_
-      - 3.7.2
+      - Apache License, Version 2.0 [#]_
+    * - Eclipse IDE for Java Developers [#]_
+      - 4.3.1 [#]_
       - Eclipse Public License - Version 1.0 [#]_
 
-..  [#] http://maven.apache.org/
-..  [#] http://www.apache.org/licenses/ 
 ..  [#] http://hadoop.apache.org/
+..  [#] http://www.apache.org/licenses/
 ..  [#] http://eclipse.org/
 ..  [#] Linux-32bit版、Linux-64bit版、MacOSX版それぞれに対応したプラットフォーム版が同梱されています。
 ..  [#] http://www.eclipse.org/legal/epl-v10.html
