@@ -29,19 +29,6 @@ _CREATE_ECLIPSE_SHORTCUT_DEFAULT="y"
 _ADD_LAUNCHD_CONF_DEFAULT="y"
 
 #---------------------------------------
-# Define Constants
-#---------------------------------------
-_REPO_URL="http://asakusafw.s3.amazonaws.com/maven/"
-_FW_GROUP_ID="com.asakusafw"
-_FW_ORGANIZER_ARTIFACT_ID="organizer"
-_FW_ORGANIZER_ARCHETYPE_ID="asakusa-archetype-framework-organizer"
-
-_EXAMPLE_GROUP_ID="com.example"
-_EXAMPLE_ARTIFACT_ID="example-app"
-_EXAMPLE_ARCHETYPE_ID="asakusa-archetype-windgate"
-_EXAMPLE_BATCH_ID="example.summarizeSales"
-
-#---------------------------------------
 # Define Functions
 #---------------------------------------
 exit_abort()
@@ -64,33 +51,11 @@ echo "
 "
 
 ########################################
-# Parse Command Parameter
-########################################
-_CMDNAME=`basename $0`
-
-while getopts r: _OPTWORK
-do
-  case "$_OPTWORK" in
-    "r" ) _OPT_M2REPO_ARCHIVE="true" ; _VAL_M2REPO_ARCHIVE="$OPTARG" ;;
-                   * ) echo Usage: "${_CMDNAME}" [-r path_of_m2repo_tar_archive] 1>&2
-                       exit 1 ;;
-  esac
-done
-
-if [ -n "${_OPT_M2REPO_ARCHIVE}" ]; then
-  _VAL_M2REPO_ARCHIVE=$(cd $(dirname "${_VAL_M2REPO_ARCHIVE}") && pwd)/$(basename "$_VAL_M2REPO_ARCHIVE")
-  if [ ! -r "${_VAL_M2REPO_ARCHIVE}" ]; then
-    echo "オプション [-r] に指定したファイル ${_VAL_M2REPO_ARCHIVE} が読み込み可能ではありません。"
-    exit_abort
-  fi
-fi
-
-########################################
 # Check and Install JDK
 ########################################
 echo "
 ------------------------------------------------------------
-インストール環境のチェックを行います...
+$ASAKUSA_DEVELOP_HOME/workspace/asakusa-example-projectインストール環境のチェックを行います...
 ------------------------------------------------------------
 "
 
@@ -310,15 +275,14 @@ echo "
   - JAVA_HOME="$_JAVA_HOME"
   - ASAKUSA_DEVELOP_HOME="$_ASAKUSA_DEVELOP_HOME"
   - ASAKUSA_HOME=\${ASAKUSA_DEVELOP_HOME}/asakusa
-  - M2_HOME=\${ASAKUSA_DEVELOP_HOME}/maven
   - HADOOP_CMD=\${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop
   - HADOOP_CLIENT_OPTS=-Xmx512m
-  - PATH: \$JAVA_HOME/bin:\$M2_HOME/bin:\${ASAKUSA_DEVELOP_HOME}/hadoop/bin: \\
+  - PATH: \$JAVA_HOME/bin:\${ASAKUSA_DEVELOP_HOME}/hadoop/bin: \\
           \$ASAKUSA_DEVELOP_HOME/eclipse:\$ASAKUSA_HOME/yaess/bin: \\
           \$PATH
 
 * インストールする環境にすでに
-  Java,Maven,Hadoop,Asakusa Frameworkがインストールされている場合、
+  Java,Hadoop,Asakusa Frameworkがインストールされている場合、
   これらの環境変数による影響に注意してください。
 
 * この設定を行わない場合、
@@ -399,7 +363,7 @@ echo "
 ------------------------------------------------------------
 
 ** WARNING ***********************************************************
-1) Mavenリモートリポジトリからライブラリをダウンロードするため、
+1) リモートリポジトリからライブラリをダウンロードするため、
    インストールには10分以上かかる可能性があります。
 **********************************************************************
 "
@@ -415,33 +379,7 @@ if [ -d "$ASAKUSA_DEVELOP_HOME" ]; then
   fi
 fi
 mkdir "$ASAKUSA_DEVELOP_HOME"
-
-cd $(dirname $0) 
-########################################
-# Install Maven
-########################################
-echo "Mavenをインストールしています。"
-
-cd archives
-tar xf apache-maven-*-bin.tar.gz
-mv apache-maven-*/ maven
-mv maven "$ASAKUSA_DEVELOP_HOME"
-cd ..
-
-cp -p "$ASAKUSA_DEVELOP_HOME"/maven/conf/settings.xml "$ASAKUSA_DEVELOP_HOME"/maven/conf/settings.xml.ORG
-cp _templates/maven/conf/settings.xml "$ASAKUSA_DEVELOP_HOME"/maven/conf
-sed -i -e "s;/path/to/local/repo;$ASAKUSA_DEVELOP_HOME/repository;" "$ASAKUSA_DEVELOP_HOME"/maven/conf/settings.xml
-
-cp _templates/maven/conf/archetype-catalog.xml "$ASAKUSA_DEVELOP_HOME"/maven/conf
-sed -i -e "s;/version/to/asakusafw;$_ASAKUSAFW_VERSION;" "$ASAKUSA_DEVELOP_HOME"/maven/conf/archetype-catalog.xml
-
-if [ "${_OPT_M2REPO_ARCHIVE}" ]; then
-  tar -xf "${_VAL_M2REPO_ARCHIVE}"
-  mv repository "$ASAKUSA_DEVELOP_HOME"
-fi
-
-_EXPORT="${_EXPORT}"'export M2_HOME=${ASAKUSA_DEVELOP_HOME}/maven\n'
-_PATH="${_PATH}":'$M2_HOME/bin'
+cd $(dirname $0)
 
 ########################################
 # Install Hadoop
@@ -455,7 +393,7 @@ mv hadoop "$ASAKUSA_DEVELOP_HOME"
 _EXPORT="${_EXPORT}"'export HADOOP_CMD=${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop\n'
 _EXPORT="${_EXPORT}"'export HADOOP_CLIENT_OPTS=-Xmx512m\n'
 _PATH="${_PATH}":'${ASAKUSA_DEVELOP_HOME}/hadoop/bin'
-cd ..
+cd -
 
 ########################################
 # Install Eclipse
@@ -466,13 +404,10 @@ cd archives
 tar xf eclipse-*.tar.gz
 mv eclipse "$ASAKUSA_DEVELOP_HOME"
 mkdir "$ASAKUSA_DEVELOP_HOME"/workspace
-cd ..
+cd -
 
 cp -r _templates/eclipse "$ASAKUSA_DEVELOP_HOME"
 sed -i -e "s;/path/to/workspace;$ASAKUSA_DEVELOP_HOME/workspace;" "$ASAKUSA_DEVELOP_HOME"/eclipse/configuration/.settings/org.eclipse.ui.ide.prefs
-
-cp -r _templates/workspace "$ASAKUSA_DEVELOP_HOME"
-sed -i -e "s;/path/to/settings.xml;$ASAKUSA_DEVELOP_HOME/maven/conf/settings.xml;" "$ASAKUSA_DEVELOP_HOME"/workspace/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.m2e.core.prefs
 
 _PATH="${_PATH}":'$ASAKUSA_DEVELOP_HOME/eclipse'
 
@@ -492,31 +427,20 @@ printf "${_EXPORT}${_PATH}" > "${_RIKISHA_PROFILE}"
 #######################################
 echo "Asakusa Frameworkをインストールしています。"
 
-case "$_ASAKUSAFW_VERSION" in
-  *-SNAPSHOT ) _REPO_SUFFIX="snapshots" ;;
-  * ) _REPO_SUFFIX="releases" ;;
-esac
-
-cd "${ASAKUSA_DEVELOP_HOME}"
-mvn archetype:generate -DarchetypeRepository="${_REPO_URL}${_REPO_SUFFIX}" -DinteractiveMode=false -DarchetypeGroupId="$_FW_GROUP_ID" -DarchetypeArtifactId="$_FW_ORGANIZER_ARCHETYPE_ID" -DarchetypeVersion="$_ASAKUSAFW_VERSION" -DgroupId="$_FW_GROUP_ID" -DartifactId="$_FW_ORGANIZER_ARTIFACT_ID" -Dversion="$_ASAKUSAFW_VERSION" -Dpackage="$_FW_GROUP_ID"
-
-mvn -f "$_FW_ORGANIZER_ARTIFACT_ID/pom.xml" clean package antrun:run
-
 cd "${ASAKUSA_DEVELOP_HOME}"/workspace
-mvn archetype:generate -DarchetypeRepository="${_REPO_URL}${_REPO_SUFFIX}" -DinteractiveMode=false -DarchetypeGroupId="$_FW_GROUP_ID" -DarchetypeArtifactId="$_EXAMPLE_ARCHETYPE_ID" -DarchetypeVersion="$_ASAKUSAFW_VERSION" -DgroupId="$_EXAMPLE_GROUP_ID" -DartifactId="$_EXAMPLE_ARTIFACT_ID" -Dversion="1.0-SNAPSHOT" -Dpackage="$_EXAMPLE_GROUP_ID"
-if [ $? -ne 0 ]; then
-  exit_abort
-fi
+wget "http://www.asakusafw.com/download/gradle-plugin/asakusa-example-project-${_ASAKUSAFW_VERSION}.tar.gz"
+tar xf "asakusa-example-project-${_ASAKUSAFW_VERSION}.tar.gz"
+cd -
 
-cd "$_EXAMPLE_ARTIFACT_ID"
-mvn clean package eclipse:eclipse
+cd "${ASAKUSA_DEVELOP_HOME}"/workspace/asakusa-example-project
+./gradlew installAsakusafw build eclipse
 if [ $? -ne 0 ]; then
   exit_abort 
 fi
 
 rm -fr "$ASAKUSA_HOME"/batchapps/*
-jar -xf target/"$_EXAMPLE_ARTIFACT_ID"-batchapps-*.jar "$_EXAMPLE_BATCH_ID"
-mv "$_EXAMPLE_BATCH_ID" $ASAKUSA_HOME/batchapps
+cp -pr build/batchc/* $ASAKUSA_HOME/batchapps
+cd -
 
 ########################################
 # Configuration to OS
@@ -596,10 +520,10 @@ Getting Started
 # ------------------------------
 
 # サンプルテストデータの配置
-mkdir -p /tmp/windgate-"$USER"
-rm -fr /tmp/windgate-"$USER"/*
-cd "$ASAKUSA_DEVELOP_HOME/workspace/$_EXAMPLE_ARTIFACT_ID"
-cp -a src/test/example-dataset/* /tmp/windgate-"$USER"
+cd ~
+hadoop fs -rmr target/testing/directio
+hadoop fs -put $ASAKUSA_DEVELOP_HOME/workspace/asakusa-example-project/src/test/example-dataset/master target/testing/directio/master
+hadoop fs -put $ASAKUSA_DEVELOP_HOME/workspace/asakusa-example-project/src/test/example-dataset/sales target/testing/directio/sales
 
 # バッチの実行
 yaess-batch.sh example.summarizeSales -A date=2011-04-01
@@ -617,12 +541,12 @@ eclipse &
 3. example-app というプロジェクトが選択されていることを確認したら、そのまま右下の [Finish]ボタンを押す
 
 # モデルクラスの生成
-cd $ASAKUSA_DEVELOP_HOME/workspace/$_EXAMPLE_ARTIFACT_ID
-mvn clean generate-sources
+cd $ASAKUSA_DEVELOP_HOME/workspace/asakusa-example-project
+./gradlew compileDMDL
 
 # バッチコンパイル
-cd $ASAKUSA_DEVELOP_HOME/workspace/$_EXAMPLE_ARTIFACT_ID
-mvn clean package
+cd $ASAKUSA_DEVELOP_HOME/workspace/asakusa-example-project
+./gradlew compileBatchapp
 
 ------------------------------------------------------------------
 " > "$ASAKUSA_DEVELOP_HOME"/README
