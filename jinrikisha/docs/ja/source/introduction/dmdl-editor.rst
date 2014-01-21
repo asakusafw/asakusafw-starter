@@ -12,7 +12,7 @@ DMDLスクリプトファイルに関する編集機能を追加します。 [#]
 
 * DMDLスクリプトのキーワードに色が付きます。
 * 別のデータモデルを参照しているデータモデルにおいて、参照元データモデルへジャンプすることが出来ます。
-* Mavenを使わずにEclipse上でDMDLスクリプトのコンパイルを行い、Javaのデータモデルクラスを生成することが出来ます。
+* GradleやMavenを使わずにEclipse上でDMDLスクリプトのコンパイルを行い、Javaのデータモデルクラスを生成することが出来ます。
 * Javaソース上のデータモデルのクラス名あるいはメソッド名からDMDLスクリプトファイルへジャンプすることが出来ます。
 
 ..  [#] 機能やインストール手順の詳細については、DMDL EditorXのサイトを確認してください。 https://github.com/hishidama/xtext-dmdl-editor
@@ -107,8 +107,8 @@ DMDLのコンパイルを行う機能です。
 
 ..  note::
 
-    通常は `MavenのコマンドでDMDLのコンパイル <http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/dmdl/start-guide.html#java>`_ を行ってJavaのデータモデルクラスを生成しますが、
-    DMDL EditorXではMavenを使わずにコンパイルすることが出来ます。
+    通常は `GradleやMavenのコマンドでDMDLのコンパイル <http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/dmdl/start-guide.html#java>`_ を行ってJavaのデータモデルクラスを生成しますが、
+    DMDL EditorXではGradleやMavenを使わずにコンパイルすることが出来ます。
 
 ツールバーの「DMDL compile」のアイコンをクリックすると、コンパイルが実行されます。（コンソール上にコンパイルメッセージが表示されます）
 

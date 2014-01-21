@@ -10,13 +10,13 @@ Jinrikisha インストール手順
 ----------------------
 インストール環境がインターネットに接続できる必要があります。
 
-インターネットへの接続にプロキシの設定を行う必要がある場合は、 :ref:`pre-configure-maven` を参照してください。
+インターネットへの接続にプロキシの設定を行う必要がある場合は、 :ref:`pre-configure-gradle` を参照してください。
 
 sudoの実行
 ----------
 ``setup.sh`` を実行するするOSユーザは ``sudo`` コマンドを実行できる必要があります。
 
-UbuntuやMacOSXではインストール時にデフォルトで ``sudo`` が実行されるよう設定されますが、CentOSではデフォルトで一般ユーザが ``sudo`` コマンドを実行できな>いよう制限されているため、必要に応じてsudoを実行できるよう設定してください。
+UbuntuやMacOSXではインストール時にデフォルトで ``sudo`` が実行されるよう設定されますが、CentOSではデフォルトで一般ユーザが ``sudo`` コマンドを実行できないよう制限されているため、必要に応じてsudoを実行できるよう設定してください。
 
 ホスト名からIPアドレスの解決
 ----------------------------
@@ -127,7 +127,7 @@ Asakusa Frameworkの開発環境をインストールするディレクトリパ
     基本的にはデフォルトの推奨バージョンをそのまま利用することを推奨します。その他のバージョンとの組み合わせは動作検証が行われていない可能性があります。
    
 ..  note::
-    指定可能なバージョン文字列の一覧は、以下のURLで公開されているAsakusa Frameworkのアーキタイプカタログを参照して下さい。アーキタイプカタログのうち、 archetypeIdが ``asakusa-archetype-windgate`` を持つ archetypeに含まれる ``version`` の文字列を指定することが可能です。
+    指定可能なバージョン文字列の一覧は、以下のURLで公開されているAsakusa Frameworkのアーキタイプカタログを参照して下さい。アーキタイプカタログのうち、 archetypeIdが ``asakusa-archetype-directio`` を持つ archetypeに含まれる ``version`` の文字列を指定することが可能です。
 
     http://asakusafw.s3.amazonaws.com/maven/archetype-catalog.xml
 
@@ -148,15 +148,14 @@ OSユーザのログイン時に読み込まれるプロファイルにAsakusa F
       - JAVA_HOME=/usr/lib/jvm/java-7-openjdk-i386
       - ASAKUSA_DEVELOP_HOME=/home/asakusa/asakusa-develop
       - ASAKUSA_HOME=${ASAKUSA_DEVELOP_HOME}/asakusa
-      - M2_HOME=${ASAKUSA_DEVELOP_HOME}/maven
       - HADOOP_CMD=${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop
       - HADOOP_CLIENT_OPTS=-Xmx512m
-      - PATH: $JAVA_HOME/bin:$M2_HOME/bin:${ASAKUSA_DEVELOP_HOME}/hadoop/bin: \
+      - PATH: $JAVA_HOME/bin:${ASAKUSA_DEVELOP_HOME}/hadoop/bin: \
               $ASAKUSA_DEVELOP_HOME/eclipse:$ASAKUSA_HOME/yaess/bin: \
               $PATH
 
     * インストールする環境にすでに
-      Java,Maven,Hadoop,Asakusa Frameworkがインストールされている場合、
+      Java,Hadoop,Asakusa Frameworkがインストールされている場合、
       これらの環境変数による影響に注意してください。
 
     * この設定を行わない場合、
@@ -218,7 +217,7 @@ MacOSX版では、 :ref:`configure-profile` で環境変数設定の追加を行
     ------------------------------------------------------------
 
     ** WARNING ***********************************************************
-    1) Mavenリモートリポジトリからライブラリをダウンロードするため、
+    1) リモートリポジトリからライブラリをダウンロードするため、
        インストールには10分以上かかる可能性があります。
     **********************************************************************
 
@@ -269,10 +268,6 @@ JinrikishaによってインストールされたAsakusa Framework開発環境�
       - Eclipseのインストールディレクトリ
     * - ``hadoop``
       - Hadoopのインストールディレクトリ
-    * - ``maven``
-      - Mavenのインストールディレクトリ
-    * - ``repository``
-      - Mavenのローカルリポジトリ用ディレクトリ
     * - ``workspace``
       - Eclipseのワークスペース用ディレクトリ
     * - ``README``
@@ -280,31 +275,18 @@ JinrikishaによってインストールされたAsakusa Framework開発環境�
     * - ``.rikisha_profile``
       - Jinrikshaでセットアップした各ソフトウェアの動作に必要な環境変数の設定ファイル
 
-インストールオプション
-======================
-``setup.sh`` のインストールオプションを以下に示します。
+.. _pre-configure-gradle:
 
-  ``-r`` [Mavenリポジトリのtarアーカイブファイル名]
+インストール前にGradleの設定を行う
+==================================
+インターネットへの接続にプロキシサーバを経由する必要がある環境については、Gradleに対してプロキシの設定を行う必要があります。
 
-    指定したMavenローカルリポジトリの内容をJinrikishaのインストールディレクトリ配下に展開します。これにより、Mavenリポジトリからのダウンロード時間を短縮することができます。
+Gradleの設定を変更する場合は、 ``setup.sh`` を実行する前に ``gradle.properties`` を作成し、
+Gradleに対して適切な設定を行ってください。
 
-    例えばJinrikishaを再インストールする場合は、以下のようにするとよいでしょう。
+Gradleのプロキシ設定については、Gradleの次のサイト等を確認してください。
 
-..  code-block:: sh
-    
-    tar -cf /tmp/repository.tar.gz -C ~/jinrikisha repository
-    ./setup.sh -r /tmp/repository.tar.gz
-
-.. _pre-configure-maven:
-
-インストール前にMavenの設定を行う
-=================================
-インターネットへの接続にプロキシサーバを経由する必要がある環境については、Mavenに対してプロキシの設定を行う必要があります。
-
-Mavenの設定を変更する場合は、 ``setup.sh`` を実行する前にJinrikishaのアーカイブファイルに含まれる ``_template/maven/conf/settings.xml`` を編集し
-、Mavenに対して適切な設定 [#]_ を行ってください。
-
-..  [#] Mavenのプロキシ設定については、Mavenの次のサイト等を確認してください。 http://maven.apache.org/guides/mini/guide-proxies.html
+* http://gradle.monochromeroad.com/docs/userguide/build_environment.html
 
 Eclipseのカスタマイズ
 =====================
