@@ -419,7 +419,7 @@ echo "環境変数を設定しています。"
 
 _PATH="${_PATH}":'$ASAKUSA_HOME/yaess/bin'
 _PATH="${_PATH}":'$PATH'
-printf "${_EXPORT}${_PATH}" > "${_RIKISHA_PROFILE}"
+printf "${_EXPORT}${_PATH}\n" > "${_RIKISHA_PROFILE}"
 
 . "${_RIKISHA_PROFILE}"
 
@@ -472,7 +472,7 @@ fi" >> $_TARGET_PROFILE
     _SETENV="${_SETENV}setenv _JAVA_OPTIONS=-Dfile.encoding=UTF-8"'\n'
     _SETENV="${_SETENV}setenv ASAKUSA_HOME ${ASAKUSA_DEVELOP_HOME}/asakusa"'\n'
     _SETENV="${_SETENV}setenv HADOOP_CMD ${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop"'\n'
-    printf "$_SETENV" | sudo tee /etc/launchd.conf
+    printf "${_SETENV}\n" | sudo tee /etc/launchd.conf
   fi
 fi
 
