@@ -47,10 +47,10 @@ Shafuは以下のプラットフォームで動作を検証しています。
       - 
     * - OS
       - MacOSX
-      - 10.7 (Lion)
+      - 10.7 / 10.9
       - 基本的な動作確認のみ [#]_
 
-..  [#] MacOSXで利用する場合、Eclipse実行時の文字エンコーディングをUTF-8などの日本語を利用できる環境にする必要があります。 `Eclipseの公式サイト`_ などを参考に、 ``eclipse.ini`` ファイルの ``-vmargs`` 以降の行に ``-Dfile.encoding=UTF-8`` の記述を追加してください。
+..  [#] MacOSXでJDK6を利用する場合、Eclipse実行時の文字エンコーディングをUTF-8などの日本語を利用できる環境にする必要があります。 `Eclipseの公式サイト`_ などを参考に、 ``eclipse.ini`` ファイルの ``-vmargs`` 以降の行に ``-Dfile.encoding=UTF-8`` の記述を追加してください。なおJinrikishaで構築した環境では環境変数 ``_JAVA_OPTIONS`` 経由で ``file.encoding`` が設定されるためこの設定は不要です。
 
 ..  _`Eclipseの公式サイト`: http://wiki.eclipse.org/Eclipse.ini
 

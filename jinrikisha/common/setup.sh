@@ -101,22 +101,91 @@ fi
 
 if [ `uname` = "Darwin" ]; then
 ### for MacOSX ###
-  _JAVA_HOME_MACOSX="/System/Library/Frameworks/JavaVM.framework/Home"
-  while :
-  do
-    if [ -r $_JAVA_HOME_MACOSX ]; then
-      break
+  echo "Java(JDK)がインストールされているか確認します..."
+  if [ -n "$JAVA_HOME" -a -r "$JAVA_HOME/bin/javac" ]; then
+    _JAVA_HOME="$JAVA_HOME"
+    echo "環境変数JAVA_HOMEに設定されている以下のJDKを使用します。"
+    echo $_JAVA_HOME
+    echo "OK."
+  else
+    echo "環境変数JAVA_HOMEにJDKのインストールディレクトリが設定されていません。"
+    echo "JDKを検出しています..."
+    # attempt to find java
+
+    for candidate_regex in \
+      /Library/Java/JavaVirtualMachines/jdk1.7*/Contents/Home \
+      /System/Library/Java/JavaVirtualMachines/1.6*/Contents/Home ; do
+        for candidate in `ls -rd $candidate_regex 2>/dev/null`; do
+          if [ -e $candidate/bin/javac ]; then
+            _JAVA_HOME_CANDIDATE=$candidate
+            break
+          fi
+        done
+    done
+    if [ -z "$_JAVA_HOME_CANDIDATE" ]; then
+      echo "JDKは検出されませんでした。"
+      echo '
+  Java(JDK)がインストールされていないため、
+  Appleが提供するJDK6(AppleJDK)をインストールしてセットアップを続行します。
+
+  ** WARNING ********************************************************
+  AppleJDKを使用せず、OracleJDKを使用する場合は
+  インストールを中断してください。
+  
+  (OracleJDKを使用するには、OracleJDKを手動でインストールしてから
+  環境変数JAVA_HOMEにOracleJDKのインストールディレクトリを設定し、
+  再度 setup.sh を実行してインストールを行います)
+  *******************************************************************
+
+    '
+      read -p "AppleJDKをインストールしてインストールを続行しますか？:[Y/n]: " _YN
+      if [ "$_YN" ]; then
+        _YN=`echo $_YN | tr "[:upper:]" "[:lower:]"`
+      else
+        _YN="y"
+      fi
+      if [ "$_YN" = y ]; then
+        _JAVA_HOME="/System/Library/Frameworks/JavaVM.framework/Home"
+        while :
+        do
+          if [ -r $_JAVA_HOME ]; then
+            break
+          else
+            java > /dev/null 2>&1
+            read -p "Javaをインストールした後、[Enter]キーを押してインストールを続行してください。:: " _INSTR
+            continue
+          fi
+        done
+      else
+        echo "インストールを中断します。"
+        exit_abort
+      fi
     else
-      java > /dev/null 2>&1
-      echo "Javaがインストールされていません。"
-      read -p "Javaをインストールした後、[Enter]キーを押してインストールを続行してください。:: " _INSTR
-      continue
+      echo ""
+      echo "JDKを検出しました:[$_JAVA_HOME_CANDIDATE]"
+      read -p "このJDKを使用してインストールを続行しますか？:[Y/n]: " _YN
+      if [ "$_YN" ]; then
+        _USE_JDK=`echo $_YN | tr "[:upper:]" "[:lower:]"`
+      else
+        _USE_JDK="y"
+      fi
+      if [ "$_USE_JDK" = "y" ]; then
+        _JAVA_HOME="$_JAVA_HOME_CANDIDATE"
+        echo "JAVA_HOMEに[$_JAVA_HOME]を指定します。"
+      else
+        echo ""
+        echo "インストールを中断します。"
+        echo "JDKのインストールディレクトリを環境変数JAVA_HOMEに設定した後"
+        echo "再度インストールを行なってください。"
+        exit_abort
+      fi
     fi
-  done
-  _JAVA_HOME="$_JAVA_HOME_MACOSX"
+  fi
   _EXPORT="export JAVA_HOME=$_JAVA_HOME"'\n'
-  _EXPORT="${_EXPORT}export _JAVA_OPTIONS=-Dfile.encoding=UTF-8"'\n'
-  _PATH='export PATH=$JAVA_HOME/bin'
+  _PATH='export PATH=$JAVA_HOME/bin:$PATH'
+  if javac -version 2>&1 | grep -q 1.6.0; then
+    _EXPORT="${_EXPORT}export _JAVA_OPTIONS=-Dfile.encoding=UTF-8"'\n'
+  fi
 else
 ### for Linux ###
   echo "Java(JDK)がインストールされているか確認します..."
@@ -497,10 +566,12 @@ fi" >> $_TARGET_PROFILE
     echo "(sudoのパスワード入力が必要となる場合があります)"
 
     _SETENV="setenv JAVA_HOME $_JAVA_HOME"'\n'
-    _SETENV="${_SETENV}setenv _JAVA_OPTIONS=-Dfile.encoding=UTF-8"'\n'
+    if javac -version 2>&1 | grep -q 1.6.0; then
+      _SETENV="${_SETENV}setenv _JAVA_OPTIONS=-Dfile.encoding=UTF-8"'\n'
+    fi
     _SETENV="${_SETENV}setenv ASAKUSA_HOME ${ASAKUSA_DEVELOP_HOME}/asakusa"'\n'
     _SETENV="${_SETENV}setenv HADOOP_CMD ${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop"'\n'
-    printf "${_SETENV}\n" | sudo tee /etc/launchd.conf
+    printf "\n${_SETENV}\n" | sudo tee -a /etc/launchd.conf
   fi
 fi
 
