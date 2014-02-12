@@ -38,6 +38,15 @@ exit_abort()
   exit 1
 }
 
+aptable()
+{
+  which apt-get > /dev/null 2>&1
+}
+
+yumable()
+{
+  which yum > /dev/null 2>&1
+}
 ########################################
 # Start Message
 ########################################
@@ -50,6 +59,25 @@ echo "
         Version: $_RIKISHA_VERSION ($_BUILD_ID)
 ****************************************************
 "
+
+########################################
+# Initialize and install command
+########################################
+which curl > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+  aptable
+  if [ $? -eq 0 ]; then
+    sudo apt-get install -y curl
+  else
+    yumable
+    if [ $? -eq 0 ]; then
+      sudo yum install -y curl
+    else
+      echo "apt-get または yum が使用出来ないため、インストールを中断します。"
+      exit_abort
+    fi
+  fi
+fi
 
 ########################################
 # Check and Install JDK
@@ -150,13 +178,13 @@ else
         _YN="y"
       fi
       if [ "$_YN" = y ]; then
-        which apt-get > /dev/null 2>&1
+        aptable
         _RET=$?
         if [ $_RET -eq 0 ]; then
           sudo apt-get update
           sudo apt-get install -y openjdk-7-jdk
         else
-          which yum > /dev/null 2>&1
+          yumable
           _RET=$?
           if [ $_RET -eq 0 ]; then
             sudo yum install -y java-1.7.0-openjdk-devel
@@ -429,7 +457,7 @@ printf "${_EXPORT}${_PATH}\n" > "${_RIKISHA_PROFILE}"
 echo "Asakusa Frameworkをインストールしています。"
 
 cd "${ASAKUSA_DEVELOP_HOME}"/workspace
-wget "http://www.asakusafw.com/download/gradle-plugin/asakusa-example-project-${_ASAKUSAFW_VERSION}.tar.gz"
+curl -O "http://www.asakusafw.com/download/gradle-plugin/asakusa-example-project-${_ASAKUSAFW_VERSION}.tar.gz"
 tar xf "asakusa-example-project-${_ASAKUSAFW_VERSION}.tar.gz"
 cd -
 
