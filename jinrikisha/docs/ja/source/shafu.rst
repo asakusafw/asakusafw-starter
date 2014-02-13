@@ -2,9 +2,6 @@
 Shafu - Asakusa Gradle Plug-in Helper for Eclipse -
 ===================================================
 
-..  todo::
-    この文書は作成中です。
-
 Shafu (車夫) は、 `Asakusa Framework`_ のバッチアプリケーション開発をサポートするEclipseプラグインです。
 
 Shafu は バッチアプリケーション開発にGradle (Asakusa Framework バージョン ``0.6.0`` から標準として採用されたビルドツール) を利用する際に、Eclipseから透過的にビルドツール上の操作を行えます。Shafuを使うことで、ターミナル上でのビルドツールの操作が不要となり、Eclipse上でアプリケーション開発に必要なほとんどの作業を行うことができるようになります。
@@ -12,6 +9,11 @@ Shafu は バッチアプリケーション開発にGradle (Asakusa Framework �
 Shafu は Jinrikisha でセットアップしたEclipse環境ではもちろんのこと、単体でセットアップしたEclipse上での利用も可能です。
 
 ..  _`Asakusa Framework`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/index.html
+  
+..  note::
+    Asakusa Frameworkが提供するGradle上のビルド機能についての詳細は、Asakusa Frameworkのドキュメント `Asakusa Gradle Plugin利用ガイド`_ を参照してください。
+
+..  _`Asakusa Gradle Plugin利用ガイド`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/application/gradle-plugin.html
 
 対応プラットフォーム
 ====================
@@ -102,7 +104,7 @@ Gradleプロジェクトのインポート
 
 プロジェクトのビルド
 --------------------
-プロジェクトのデータモデルクラスの生成やバッチコンパイルなど、Asakusa FrameworkがGradleを利用する各ビルド機能 [#]_ を実行することができます。
+プロジェクトのデータモデルクラスの生成やバッチコンパイルなど、Asakusa FrameworkがGradleを利用する各ビルド機能を実行することができます。
 
 ..  figure:: images/shafu-build-project.png
     :width: 100%
@@ -124,10 +126,6 @@ Gradleプロジェクトのインポート
 
 ``Eclipseプロジェクト情報を再構成``
   Eclipseのプロジェクト定義ファイルを再作成します。プロジェクトにライブラリを追加した場合などに使用します。Asakusa Gradle Pluginが提供する ``eclipse`` タスクを実行します。
-
-..  [#] Asakusa Frameworkが提供するGradle上のビルド機能についての詳細は、Asakusa Frameworkのドキュメント `Asakusa Gradle Plugin利用ガイド`_ を参照してください。
-
-..  _`Asakusa Gradle Plugin利用ガイド`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/application/gradle-plugin.html
 
 設定
 ====
@@ -170,4 +168,10 @@ Asakusa Framework ページ
 #. プリファレンス画面のサイドメニューから ``[General]`` - ``[Network Connections]`` を選択します。
 #. プロキシ設定画面で、Active Provider: を ``Manual`` に変更し、 Proxy entries や Proxy bypass の内容を編集して ``[OK]`` ボタンを押します。
 
+リソース
+========
+
+* `ソースリポジトリ (GitHub)`_
+
+..   _`ソースリポジトリ (GitHub)`: https://github.com/asakusafw/asakusafw-shafu
 

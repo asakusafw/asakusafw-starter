@@ -62,7 +62,7 @@ Jinrikishaは以下のプラットフォームで動作を検証しています�
       - 要デスクトップ環境のインストール
     * - MacOSX [#]_
       - 10.7 / 10.9
-      -
+      - 基本的な動作確認のみ
 
 ..  [#] http://www.ubuntu.com/
 ..  [#] http://www.centos.org/
@@ -84,6 +84,22 @@ Jinrikishaのインストールが完了したら、サンプルコードを確�
 
 サンプルアプリケーションの内容や、アプリケーションの実行方法についてのより詳しい情報は、 `Asakusa Framework入門`_ の `Asakusa Framework スタートガイド`_ を参照してください。
 
+Eclipseのカスタマイズ
+---------------------
+Jinrikishaに同梱されているEclipseを
+Asakusa Frameworkを使った開発用により使いやすくカスタマイズしてみましょう。
+
+:doc:`Shafu (車夫) - Asakusa Gradle Plug-in Helper for Eclipse - <shafu>` を導入すると
+Asakusa Frameworkのアプリケーション開発準備や
+Gradleを使ったビルド作業のほぼすべてをEclipseから行うことができるようになり、
+アプリケーション開発時のターミナル上でのコマンド操作がほぼ不要になります。
+
+:doc:`DMDL Editor プラグイン <introduction/dmdl-editor>` を導入すると
+DMDLに対する構文ハイライトや入力補完機能やソース間のジャンプ機能など
+強力な編集サポート機能が利用できるようになります。
+
+:doc:`introduction/localize` ではEclipseを日本語化する手順を紹介しています。
+
 バッチアプリケーションを開発する
 --------------------------------
 `Asakusa Framework入門`_ の `開発の流れ`_ を参考にして、バッチアプリケーションを開発してみましょう。
@@ -102,10 +118,6 @@ Jinrikishaのインストールが完了したら、サンプルコードを確�
 ..  _`Asakusa Framework入門`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/introduction/index.html
 ..  _`Asakusa Framework スタートガイド`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/introduction/start-guide.html
 ..  _`開発の流れ`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/introduction/next-step.html
-
-アンインストール
-----------------
-JirikishaによってインストールしたAsakusa Frameworkの開発環境をアンインストールする手順は、 :doc:`uninstall` を参照してください。
 
 同梱ソフトウェア
 ================

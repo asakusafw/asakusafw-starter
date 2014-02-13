@@ -288,21 +288,3 @@ Gradleのプロキシ設定については、Gradleの次のサイト等を確�
 
 * http://gradle.monochromeroad.com/docs/userguide/build_environment.html
 
-Eclipseのカスタマイズ
-=====================
-以下では、Asakusa Frameworkの開発を支援する、
-OSSとして公開されているEclipseプラグインをいくつか紹介します。
-
-Eclipseの日本語化
------------------
-Eclipseはメニュー等を日本語化して使用することが出来ます。
-
-日本語化する手順については :doc:`introduction/localize` を参照してください。
-
-DMDLエディタ
-------------
-DMDLスクリプトの記述を支援するEclipseエディタの拡張プラグインです。
-
-DMDLエディタのインストール手順や機能概要については、 :doc:`introduction/dmdl-editor` を参照してください。
-
-
