@@ -14,21 +14,21 @@ Jinrikisha (人力車) は、 `Asakusa Framework`_ の開発環境を手軽に�
 
 Linux-32bit版
 -------------
-* `jinrikisha-linux-32bit-0.6.1.tar.gz`_
+* `jinrikisha-linux-32bit-0.6.2.tar.gz`_
 
-..  _`jinrikisha-linux-32bit-0.6.1.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.6.1.tar.gz
+..  _`jinrikisha-linux-32bit-0.6.2.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.6.2.tar.gz
 
 Linux-64bit版
 -------------
-* `jinrikisha-linux-64bit-0.6.1.tar.gz`_
+* `jinrikisha-linux-64bit-0.6.2.tar.gz`_
 
-..  _`jinrikisha-linux-64bit-0.6.1.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.6.1.tar.gz
+..  _`jinrikisha-linux-64bit-0.6.2.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.6.2.tar.gz
 
 MacOSX版 (Experimental)
 -----------------------
-* `jinrikisha-macosx-0.6.1.tar.gz`_
+* `jinrikisha-macosx-0.6.2.tar.gz`_
 
-..  _`jinrikisha-macosx-0.6.1.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.6.1.tar.gz
+..  _`jinrikisha-macosx-0.6.2.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.6.2.tar.gz
 
 ..  attention::
     version |version| 時点では、MacOSX版は基本的な動作確認テストのみが行われています。
@@ -55,7 +55,7 @@ Jinrikishaは以下のプラットフォームで動作を検証しています�
       - バージョン
       - 備考
     * - Ubuntu Desktop [#]_
-      - 12.04
+      - 12.04 / 14.04
       - 推奨環境
     * - CentOS [#]_
       - 6.2
