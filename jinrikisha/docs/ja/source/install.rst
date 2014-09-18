@@ -126,11 +126,6 @@ Asakusa Frameworkの開発環境をインストールするディレクトリパ
 ..  attention::
     基本的にはデフォルトの推奨バージョンをそのまま利用することを推奨します。その他のバージョンとの組み合わせは動作検証が行われていない可能性があります。
    
-..  note::
-    指定可能なバージョン文字列の一覧は、以下のURLで公開されているAsakusa Frameworkのアーキタイプカタログを参照して下さい。アーキタイプカタログのうち、 archetypeIdが ``asakusa-archetype-directio`` を持つ archetypeに含まれる ``version`` の文字列を指定することが可能です。
-
-    http://asakusafw.s3.amazonaws.com/maven/archetype-catalog.xml
-
 .. _configure-profile:
 
 3. ログインプロファイルに対する環境変数追加の設定
@@ -150,12 +145,13 @@ OSユーザのログイン時に読み込まれるプロファイルにAsakusa F
       - ASAKUSA_HOME=${ASAKUSA_DEVELOP_HOME}/asakusa
       - HADOOP_CMD=${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop
       - HADOOP_CLIENT_OPTS=-Xmx512m
+      - HIVE_HOME=${ASAKUSA_DEVELOP_HOME}/hive
       - PATH: $JAVA_HOME/bin:${ASAKUSA_DEVELOP_HOME}/hadoop/bin: \
               $ASAKUSA_DEVELOP_HOME/eclipse:$ASAKUSA_HOME/yaess/bin: \
-              $PATH
+              $HIVE_HOME/bin:$PATH
 
     * インストールする環境にすでに
-      Java,Hadoop,Asakusa Frameworkがインストールされている場合、
+      Java,Hadoop,Hive,Asakusa Frameworkがインストールされている場合、
       これらの環境変数による影響に注意してください。
 
     * この設定を行わない場合、

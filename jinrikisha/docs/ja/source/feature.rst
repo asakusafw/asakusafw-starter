@@ -35,6 +35,20 @@ Asakusa Frameowrkのインストール
 -------------------------------
 Asakusa Frameworkのインストールとサンプルアプリケーションの作成、ビルド、デプロイがJinrikishaによって自動的に行われます。
 
+Hiveのインストール
+------------------
+Jinrikishaはインストールパッケージに `Apache Hive`_ を同梱しています。
+
+HiveはJinrikishaによって自動的にインストールされます。
+
+標準の設定ではHiveのメタストアには組み込みのデータベースを使用する「エンベデッドモード」が使用され、
+メタストアのデータストアにはローカルファイル( ``hive`` コマンドを起動したパス上の ``metastore_db`` ディレクトリ)
+が使用されます。
+
+Akakusa FrameworkとHiveの連携については、Asakusa Frameworkのドキュメント `Asakusa FrameworkとHiveを連携して利用する`_ を参考にしてください。
+
+Hiveをはじめて利用する場合、Hiveのドキュメント `GettingStarted`_ も参考になります。
+
 1つのディレクトリ配下にすべてのコンポーネントをインストール
 ===========================================================
 Jinrikisha のインストール時に指定した単一のディレクトリ配下に、HadoopやEclipseなど、Asakusa Frameworkの開発に必要なすべてのコンポーネントをインストールします [#]_ 。既にHadoopやEclipseが入っている環境と共存することなども容易になっています。
@@ -46,4 +60,7 @@ Jinrikisha のインストール時に指定した単一のディレクトリ配
 ..  _`開発の流れ`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/introduction/next-step.html
 ..  _`OpenJDK`: http://openjdk.java.net/
 ..  _`Apache Hadoop`: http://hadoop.apache.org/
+..  _`Apache Hive`: https://hive.apache.org/
+..  _`Asakusa FrameworkとHiveを連携して利用する`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/sandbox/asakusa-with-hive.html
+..  _`GettingStarted`: https://cwiki.apache.org/confluence/display/Hive/GettingStarted
 
