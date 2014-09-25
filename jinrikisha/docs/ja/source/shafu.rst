@@ -29,7 +29,7 @@ Shafuは以下のプラットフォームで動作を検証しています。
       - 備考
     * - IDE
       - Eclipse
-      - 3.7.2 / 4.3.2
+      - 4.3.2 / 4.4.0
       - 
     * - Java
       - Oracle JDK
@@ -37,7 +37,7 @@ Shafuは以下のプラットフォームで動作を検証しています。
       - 推奨環境
     * - Java
       - Open JDK
-      - JDK6 / JDK7
+      - JDK7
       - 基本的な動作確認のみ
     * - OS
       - Ubuntu Desktop (32bit/64bit)

@@ -14,34 +14,34 @@ Jinrikisha (人力車) は、 `Asakusa Framework`_ の開発環境を手軽に�
 
 Linux-32bit版
 -------------
-* `jinrikisha-linux-32bit-0.6.2.tar.gz`_
+* `jinrikisha-linux-32bit-0.7.0.tar.gz`_
 
-..  _`jinrikisha-linux-32bit-0.6.2.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.6.2.tar.gz
+..  _`jinrikisha-linux-32bit-0.7.0.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.7.0.tar.gz
 
 Linux-64bit版
 -------------
-* `jinrikisha-linux-64bit-0.6.2.tar.gz`_
+* `jinrikisha-linux-64bit-0.7.0.tar.gz`_
 
-..  _`jinrikisha-linux-64bit-0.6.2.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.6.2.tar.gz
+..  _`jinrikisha-linux-64bit-0.7.0.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.7.0.tar.gz
 
 MacOSX版 (Experimental)
 -----------------------
-* `jinrikisha-macosx-0.6.2.tar.gz`_
+* `jinrikisha-macosx-0.7.0.tar.gz`_
 
-..  _`jinrikisha-macosx-0.6.2.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.6.2.tar.gz
+..  _`jinrikisha-macosx-0.7.0.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.7.0.tar.gz
 
 ..  attention::
     version |version| 時点では、MacOSX版は基本的な動作確認テストのみが行われています。
 
 スナップショット版
 ------------------
-* `jinrikisha-linux-32bit-0.6-snapshot.tar.gz`_
-* `jinrikisha-linux-64bit-0.6-snapshot.tar.gz`_
-* `jinrikisha-macosx-0.6-snapshot.tar.gz`_
+* `jinrikisha-linux-32bit-0.7-snapshot.tar.gz`_
+* `jinrikisha-linux-64bit-0.7-snapshot.tar.gz`_
+* `jinrikisha-macosx-0.7-snapshot.tar.gz`_
 
-..  _`jinrikisha-linux-32bit-0.6-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.6-snapshot.tar.gz
-..  _`jinrikisha-linux-64bit-0.6-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.6-snapshot.tar.gz
-..  _`jinrikisha-macosx-0.6-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.6-snapshot.tar.gz
+..  _`jinrikisha-linux-32bit-0.7-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.7-snapshot.tar.gz
+..  _`jinrikisha-linux-64bit-0.7-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.7-snapshot.tar.gz
+..  _`jinrikisha-macosx-0.7-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.7-snapshot.tar.gz
 
 対応プラットフォーム
 --------------------
@@ -133,12 +133,16 @@ Jinrikishaには以下のソフトウェアが含まています。
     * - Apache Hadoop [#]_
       - 1.2.1
       - Apache License, Version 2.0 [#]_
+    * - Apache Hive [#]_
+      - 0.13.1
+      - Apache License, Version 2.0
     * - Eclipse IDE for Java Developers [#]_
-      - 4.3.2 [#]_
+      - 4.4.0 [#]_
       - Eclipse Public License - Version 1.0 [#]_
 
 ..  [#] http://hadoop.apache.org/
 ..  [#] http://www.apache.org/licenses/
+..  [#] http://hive.apache.org/
 ..  [#] http://eclipse.org/
 ..  [#] Linux-32bit版、Linux-64bit版、MacOSX版それぞれに対応したプラットフォーム版が同梱されています。
 ..  [#] http://www.eclipse.org/legal/epl-v10.html

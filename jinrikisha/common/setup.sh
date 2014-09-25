@@ -375,12 +375,13 @@ echo "
   - ASAKUSA_HOME=\${ASAKUSA_DEVELOP_HOME}/asakusa
   - HADOOP_CMD=\${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop
   - HADOOP_CLIENT_OPTS=-Xmx512m
+  - HIVE_HOME=\${ASAKUSA_DEVELOP_HOME}/hive
   - PATH: \$JAVA_HOME/bin:\${ASAKUSA_DEVELOP_HOME}/hadoop/bin: \\
           \$ASAKUSA_DEVELOP_HOME/eclipse:\$ASAKUSA_HOME/yaess/bin: \\
-          \$PATH
+          \$HIVE_HOME/bin:\$PATH
 
 * インストールする環境にすでに
-  Java,Hadoop,Asakusa Frameworkがインストールされている場合、
+  Java,Hadoop,Hive,Asakusa Frameworkがインストールされている場合、
   これらの環境変数による影響に注意してください。
 
 * この設定を行わない場合、
@@ -491,6 +492,19 @@ mv hadoop "$ASAKUSA_DEVELOP_HOME"
 _EXPORT="${_EXPORT}"'export HADOOP_CMD=${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop\n'
 _EXPORT="${_EXPORT}"'export HADOOP_CLIENT_OPTS=-Xmx512m\n'
 _PATH="${_PATH}":'${ASAKUSA_DEVELOP_HOME}/hadoop/bin'
+cd -
+
+########################################
+# Install Hive
+########################################
+echo "Hiveをインストールしています。"
+
+cd archives
+tar xf apache-hive-*.tar.gz
+mv apache-hive-*/ hive
+mv hive "$ASAKUSA_DEVELOP_HOME"
+_EXPORT="${_EXPORT}"'export HIVE_HOME=${ASAKUSA_DEVELOP_HOME}/hive\n'
+_PATH="${_PATH}":'${HIVE_HOME}/bin'
 cd -
 
 ########################################
