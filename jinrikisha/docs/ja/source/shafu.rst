@@ -29,7 +29,7 @@ Shafuは以下のプラットフォームで動作を検証しています。
       - 備考
     * - IDE
       - Eclipse
-      - 4.3.2 / 4.4.0
+      - 4.3.2 / 4.4.1
       - 
     * - Java
       - Oracle JDK
@@ -50,7 +50,11 @@ Shafuは以下のプラットフォームで動作を検証しています。
     * - OS
       - MacOSX
       - 10.7 / 10.9
-      - 基本的な動作確認のみ [#]_
+      - [#]_
+    * - OS
+      - Windows
+      - 7 SP1 / 8.1
+      -
 
 ..  [#] MacOSXでJDK6を利用する場合、Eclipse実行時の文字エンコーディングをUTF-8などの日本語を利用できる環境にする必要があります。 `Eclipseの公式サイト`_ などを参考に、 ``eclipse.ini`` ファイルの ``-vmargs`` 以降の行に ``-Dfile.encoding=UTF-8`` の記述を追加してください。なおJinrikishaで構築した環境では環境変数 ``_JAVA_OPTIONS`` 経由で ``file.encoding`` が設定されるためこの設定は不要です。
 
@@ -93,55 +97,79 @@ Gradleプロジェクトのインポート
 ------------------------------
 ローカルに配置したGradleベースのプロジェクトをEclipseワークスペース上にインポートすることができます。単体のプロジェクトをインポートするほか、複数のプロジェクトから構成されるマルチプロジェクト構成のプロジェクトを一括してインポートすることもできます。
 
-..  figure:: images/shafu-import-project.png
-    :width: 100%
-
 #. Javaパースペクティブ上のメインメニューなどから ``[File]`` - ``[Import]`` を選択します。
 #. インポート選択画面で ``[Jinrikisha (人力車)]`` - ``[Gradle プロジェクト]`` を選択して ``[Next >]`` ボタンを押します。
 #. プロジェクトディレクトリーの選択ダイアログで、ローカルに配置されているGradleプロジェクトのディレクトリーパスを選択して ``[Next >]`` ボタンを押します。
 #. インポート対象のプロジェクト選択で、インポート対象のプロジェクトを選択して ``[Finish]`` ボタンを押します。
 
-
 プロジェクトのビルド
 --------------------
-プロジェクトのデータモデルクラスの生成やバッチコンパイルなど、Asakusa FrameworkがGradleを利用する各ビルド機能を実行することができます。
+プロジェクトのデータモデルクラスの生成やAsakusa DSLのコンパイルなど、Asakusa FrameworkがGradleを利用する各ビルド機能を実行することができます。
 
 ..  figure:: images/shafu-build-project.png
     :width: 100%
 
 #. プロジェクトを選択してコンテキストメニュー(右クリックなどで表示されるメニュー)を表示します。
-#. コンテキストメニューの ``[Jinrikisha (人力車)]`` を選択し、サブメニューとして表示される各ビルド機能を選択します。
+#. コンテキストメニューの ``[Jinrikisha (人力車)]`` を選択し、サブメニューとして表示される以下の各ビルド機能を選択します。
 
-``タスク名を指定してビルド``
-  プロジェクトに対して任意のGradleタスクを実行することができます。以降で説明するShafuの標準メニュー以外のタスクはここから実行することができます。
+..  list-table:: ``[Jinrikisha (人力車)]`` メニュー
+    :widths: 3 5 2
+    :header-rows: 1
 
-``DMDLからデータモデルクラスを生成``
-  DMDLスクリプトからデータモデルクラスを生成します。 Asakusa Gradle Pluginが提供する ``compileDMDL`` タスクを実行します。
+    * - メニュー名
+      - 説明
+      - Gradleタスク [#]_
+    * - ``タスク名を指定してビルド``
+      - 任意のGradleタスクを入力して実行する
+      - ``-``
+    * - ``DMDLからデータモデルクラスを生成``
+      - DMDLスクリプトからデータモデルクラスを生成
+      - ``compileDMDL``
+    * - ``テストデータ・テンプレートを生成``
+      - DMDLスクリプトからTestDriverのテストデータを定義するExcelブックを生成する
+      - ``generateTestbook``
+    * - ``Asakusaバッチアプリケーションを生成``
+      - Asakusa DSLをバッチコンパイルして、バッチアプリケーションアーカイブファイルを生成する
+      - ``jarBatchapp``
+    * - ``Asakusaデプロイメントアーカイブを生成``
+      - Asakusa Frameworkの実行環境一式を含むデプロイメントアーカイブファイルを生成する
+      - ``assemble``
+    * - ``Asakusa開発環境の構成``
+      - Asakusa Frameworkの開発環境をセットアップするためのサブメニューを表示する
+      - ``-``
+    * - ``Eclipseプロジェクト情報を再構成``
+      - Eclipseのプロジェクト定義ファイルを再作成する [#]_
+      - ``eclipse``
 
-``テストデータ・テンプレートを生成``
-  DMDLスクリプトからTestDriverのテストデータを定義するExcelブックを生成します。 Asakusa Gradle Pluginが提供する ``generateTestbook`` タスクを実行します。
+..  list-table:: ``[Asakusa開発環境の構成]`` サブメニュー
+    :widths: 3 5 2
+    :header-rows: 1
 
-``Asakusaバッチアプリケーションを生成``
-  Asakusa DSLをバッチコンパイルして、実行環境にデプロイするバッチアプリケーションアーカイブを生成します。Asakusa Gradle Pluginが提供する ``jarBatchapp`` タスクを実行します。
+    * - メニュー名
+      - 説明
+      - Gradleタスク
+    * - ``Asakusa Frameworkのインストール``
+      - 開発用のAsakusa Frameworkをインストールする
+      - ``installAsakusafw``
 
-``Eclipseプロジェクト情報を再構成``
-  Eclipseのプロジェクト定義ファイルを再作成します。プロジェクトにライブラリを追加した場合などに使用します。Asakusa Gradle Pluginが提供する ``eclipse`` タスクを実行します。
+..  [#] 各メニューの選択時に実行されるAsakusa Gradle PluginのGradleタスクです。詳しくはAsakusa Frameworkのドキュメント `Asakusa Gradle Plugin利用ガイド`_ を参照してください。
+..  [#] Asakusa Frameworkのバージョンアップやアプリケーションライブラリの追加などで、Eclipseプロジェクトのクラスパス情報を更新する場合に使用します。
 
 設定
 ====
-Shafu の設定画面からShafuの設定を変更することができます。
+Eclipseの設定画面からShafuの設定を変更することができます。
 
 ..  figure:: images/shafu-preferences.png
     :width: 100%
 
-#. メインメニューから ``[Window]`` - ``[Preferences]`` を選択します。
-#. プリファレンス画面のサイドメニューから ``[Jinrikisha  (人力車)]`` を選択します。
+#. メニューバーから ``[Window]`` - ``[Preferences]`` を選択します。
+#. Eclipse設定画面のサイドメニューから ``[Jinrikisha  (人力車)]`` を選択します。
 
 Jinrikisha (人力車) ページ
 --------------------------
 
 ``基本``
-  Gradleのログレベルやオフラインモードの設定など、Gradleの動作に関する設定を行います。
+  Gradleのログレベルやバージョン、オフラインモードの設定など、Gradleの動作に関する設定を行います。
 
 ``プロジェクト``
   Gradleのプロジェクトビルド時に使用するプロジェクトプロパティーを設定することができます。
@@ -159,6 +187,27 @@ Asakusa Framework ページ
     Asakusa Frameworkが公開しているテスト用のバージョン (スナップショットビルドやRC版）を使用したい場合は、テンプレートカタログURLを以下のURLに変更します。
 
     http://www.asakusafw.com/download/gradle-plugin/template-catalog-develop.txt
+
+拡張機能
+^^^^^^^^
+
+``テスト時にエミュレーションモードを有効にする``
+  `Gradleプロジェクトをテンプレートから生成`_  を使った新規プロジェクトの作成時やプロジェクトに対して ``Eclipseプロジェクト情報を再構成`` を実行した場合に、プロジェクトに対してエミュレーションモード [#]_ を利用する設定を追加します。
+
+..  [#] エミュレーションモードについては、Asakusa Frameworkのドキュメント `エミュレーションモードによるアプリケーションテスト`_ を参照してください。
+
+
+..  _`エミュレーションモードによるアプリケーションテスト`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/testing/emulation-mode.html
+
+現在の設定
+^^^^^^^^^^
+現在の環境の設定に関する情報を表示します。この画面から各項目の値を編集することはできません。
+
+``フレームワークのインストール先 (ASAKUSA_HOME)``
+  現在の環境で設定されている環境変数 ``ASAKUSA_HOME`` の値を表示します。
+
+``Hadoopコマンドの場所``
+  現在の環境で使用するHadoopコマンドのパスを表示します。
 
 ネットワークプロキシの設定
 ==========================
