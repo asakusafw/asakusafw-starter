@@ -5,8 +5,8 @@ DMDL Editorプラグイン
 
 DMDL Editorプラグインとは
 ==========================
-`DMDL EditorX <https://github.com/hishidama/xtext-dmdl-editor>`_ は ひしだま氏が開発しているOSSのEclipseプラグインで、
-DMDLスクリプトファイルに関する編集機能を追加します。 [#]_
+`DMDL EditorX`_ は ひしだま氏が開発しているOSSのEclipseプラグインで、
+DMDLスクリプトファイルに関する編集機能 [#]_ を追加します。
 
 まだ開発途上ですが、DMDLの編集が便利になります。
 
@@ -15,69 +15,50 @@ DMDLスクリプトファイルに関する編集機能を追加します。 [#]
 * GradleやMavenを使わずにEclipse上でDMDLスクリプトのコンパイルを行い、Javaのデータモデルクラスを生成することが出来ます。
 * Javaソース上のデータモデルのクラス名あるいはメソッド名からDMDLスクリプトファイルへジャンプすることが出来ます。
 
-..  [#] 機能やインストール手順の詳細については、DMDL EditorXのサイトを確認してください。 https://github.com/hishidama/xtext-dmdl-editor
+..  [#] 機能やインストール手順の詳細については、 `DMDL EditorX`_ のサイトを確認してください。 
 
-..  note::
+..  _`DMDL EditorX`: https://github.com/hishidama/xtext-dmdl-editor
 
-    以前は `DMDL Editor <https://github.com/hishidama/dmdl-editor-plugin>`_ を紹介していましたが、
-    新たに `Xtext <http://www.eclipse.org/Xtext/>`_ を使ったXtext版DMDL Editor（DMDL EditorX）が開発され、古い方はメンテナンスされなくなりました。
-    インストール方法に少し違いがありますが、基本的な機能に変わりはありません。
+DMDL Editorプラグインのインストール
+===================================
 
-DMDL Editorプラグインのインストール手順
-=======================================
-ここでは主にUbuntu DesktopへLinux-32bit版を使ってインストールする手順を説明しますが、他のプラットフォームにおいてもインストール手順は同様です。
+前提条件
+--------
+DMDL Editorプラグインを利用するには、Eclipse環境に `Xtext <http://www.eclipse.org/Xtext/>`_ がインストールされている必要があります。
+
+Jinrikisha バージョン |version| に同梱されているEclipseにはXtextが含まれていますが、異なるEclipse環境を利用する場合、必要に応じてXtextをインストール [#]_ してください。
+
+..  [#] Xtextのインストールについては、 `Xtextのダウンロードサイト <https://eclipse.org/Xtext/download.html>`_ などを確認してください。
+
+インストール手順
+----------------
 
 1. Eclipseを起動します。
 
-2. Eclipseのメニューバーの「ヘルプ（Help）」から「新規ソフトウェアのインストール（Install New Software）」を選択し、インストールダイアログを開きます。
+2. Eclipseのメニューバーの ``ヘルプ（Help）`` から ``新規ソフトウェアのインストール（Install New Software）`` を選択し、インストールダイアログを開きます。
 
-3. 「作業対象（Work with）」の右側にある「追加（Add）」ボタンを押して以下のリポジトリの情報を入力し、「OK」ボタンを押します。
+3. ``作業対象（Work with）`` の右側にある ``追加（Add）`` ボタンを押して以下のリポジトリの情報を入力し、 ``OK`` ボタンを押します。
 
 ..  list-table::
-    :widths: 2 8
+    :widths: 4 6
     :header-rows: 1
 
     * - 項目
       - 説明
-    * - 名前（Name）
-      - サイトの名前を入力します。（例：「Xtext」）
-    * - ロケーション（Location）
-      - XtextのダウンロードサイトのURL（ http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/ ）を入力します。
+    * - ``名前（Name）``
+      - サイトの名前（例： ``dmdl-editor`` ）
+    * - ``ロケーション（Location）``
+      - http://hishidama.github.io/xtext-dmdl-editor/site/
 
-4. 「名前（Name）」に表示されているXtext2.4系の最新バージョン（例：「Xtext-2.4.3」）にチェックを入れます。
+4. ``名前（Name）`` に表示されている ``DMDL EditorX`` にチェックを入れます。
 
-..  attention::
-   似た名前で「Xtend」という選択肢がありますので、間違えないようにしてください。
+5. ``次へ（Next）`` ボタンを押していき、最後に ``完了（Finish）`` ボタンを押すと DMDL Editorプラグインがダウンロード・インストールされます。
 
-5. 「次へ（Next）」ボタンを押していき、最後に「完了（Finish）」ボタンを押すと Xtextプラグインがダウンロード・インストールされます。
-
-6. 再びEclipseのメニューバーの「ヘルプ（Help）」から「新規ソフトウェアのインストール（Install New Software）」を選択し、インストールダイアログを開きます。
-
-7. 「作業対象（Work with）」の右側にある「追加（Add）」ボタンを押して以下のリポジトリの情報を入力し、「OK」ボタンを押します。
-
-..  list-table::
-    :widths: 2 8
-    :header-rows: 1
-
-    * - 項目
-      - 説明
-    * - 名前（Name）
-      - サイトの名前を入力します。（例：「dmdl-editor」）
-    * - ロケーション（Location）
-      - DMDL EditorXのダウンロードサイトのURL（ http://hishidama.github.io/xtext-dmdl-editor/site/ ）を入力します。
-
-8. 「名前（Name）」に表示されている「DMDL EditorX」にチェックを入れます。
-
-9. 「次へ（Next）」ボタンを押していき、最後に「完了（Finish）」ボタンを押すと DMDL Editorプラグインがダウンロード・インストールされます。
-
-10. Eclipseを再起動します。
-
-11. DMDLスクリプトファイルを開きます。
+6. Eclipseを再起動します。
 
 ..  attention::
-   もし「Do you want to add the Xtext nature to the project 'プロジェクト名'?」というメッセージのダイアログが表示されたら、「Yes」ボタンを押してください。
+   もし「 ``Do you want to add the Xtext nature to the project 'プロジェクト名'?`` 」というメッセージのダイアログが表示されたら、「Yes」ボタンを押してください。
    これは、プロジェクトにXtextネイチャーを追加するもので、追加しないとXtextの機能を使うことが出来ません。
-
 
 DMDL Editorプラグインの機能の紹介
 =================================
