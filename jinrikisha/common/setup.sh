@@ -652,7 +652,7 @@ eclipse &
 # サンプルアプリケーションをワークスペースへインポート
 1. Eclipseのメニューから [File] -> [Import] -> [General] -> [Existing Projects into Workspace]を選択
 2. Importダイアログで右上の [Browse]ボタンを押して、表示されたダイアログでそのまま[OK]ボタンを押す
-3. example-app というプロジェクトが選択されていることを確認したら、そのまま右下の [Finish]ボタンを押す
+3. asakusa-example-project というプロジェクトが選択されていることを確認したら、そのまま右下の [Finish]ボタンを押す
 
 # モデルクラスの生成
 cd $ASAKUSA_DEVELOP_HOME/workspace/asakusa-example-project
