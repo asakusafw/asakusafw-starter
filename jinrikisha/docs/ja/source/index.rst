@@ -134,7 +134,7 @@ Jinrikishaには以下のソフトウェアが含まています。
       - 1.2.1
       - Apache License, Version 2.0 [#]_
     * - Apache Hive [#]_
-      - 1.0.0
+      - 1.1.0
       - Apache License, Version 2.0
     * - Eclipse IDE for Java Developers [#]_
       - 4.4.1 [#]_
