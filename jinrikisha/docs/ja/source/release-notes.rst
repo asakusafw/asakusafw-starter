@@ -6,6 +6,7 @@ Jinrikisha リリースノート
 
 Release 0.7.2
 =============
+
 Jan 05, 2015
 
 * Asakusa Framework 0.7.2 を推奨バージョンに変更
@@ -19,12 +20,14 @@ Jan 05, 2015
 
 Release 0.7.1
 =============
+
 Nov 20, 2014
 
 * Asakusa Framework 0.7.1 を推奨バージョンに変更
 
 Release 0.7.0
 =============
+
 Sep 25, 2014
 
 * Asakusa Framework 0.7.0 を推奨バージョンに変更
@@ -38,6 +41,7 @@ Sep 25, 2014
 
 Release 0.6.2
 =============
+
 May 22, 2014
 
 * 対応プラットフォームのOSにUbuntu Desktop 14.04を追加
@@ -47,6 +51,7 @@ May 22, 2014
 
 Release 0.6.1
 =============
+
 Mar 19, 2014
 
 * 同梱するEclipseのバージョンを 4.3.2 にアップデート
@@ -56,6 +61,7 @@ Mar 19, 2014
 
 Release 0.6.0
 =============
+
 Feb 17, 2014
 
 * Asakusa Framework 0.6.0 を推奨バージョンに変更
@@ -73,6 +79,7 @@ Feb 17, 2014
 
 Release 0.5.3
 =============
+
 Dec 24, 2013
 
 * Asakusa Framework 0.5.3 を推奨バージョンに変更
@@ -85,6 +92,7 @@ Dec 24, 2013
 
 Release 0.5.2
 =============
+
 Nov 20, 2013
 
 * Asakusa Framework 0.5.2 を推奨バージョンに変更
@@ -96,6 +104,7 @@ Nov 20, 2013
 
 Release 0.5.0
 =============
+
 May 9, 2013
 
 * Asakusa Framework 0.5.0 を推奨バージョンに変更
@@ -108,6 +117,7 @@ May 9, 2013
 
 Release 0.2.1
 =============
+
 Aug 30, 2012
 
 * Asakusa Framework 0.4.0 を推奨バージョンに変更
@@ -123,6 +133,7 @@ Aug 30, 2012
 
 Release 0.2.0
 =============
+
 May 31, 2012
 
 * Ubuntu Desktop 12.04 上での動作確認
@@ -145,6 +156,7 @@ May 31, 2012
 
 Release 0.1.0
 =============
+
 Feb 3, 2012
 
 * 初版リリース
