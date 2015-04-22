@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright 2012-2014 Asakusa Framework Team.
+# Copyright 2012-2015 Asakusa Framework Team.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -652,7 +652,7 @@ eclipse &
 # サンプルアプリケーションをワークスペースへインポート
 1. Eclipseのメニューから [File] -> [Import] -> [General] -> [Existing Projects into Workspace]を選択
 2. Importダイアログで右上の [Browse]ボタンを押して、表示されたダイアログでそのまま[OK]ボタンを押す
-3. example-app というプロジェクトが選択されていることを確認したら、そのまま右下の [Finish]ボタンを押す
+3. asakusa-example-project というプロジェクトが選択されていることを確認したら、そのまま右下の [Finish]ボタンを押す
 
 # モデルクラスの生成
 cd $ASAKUSA_DEVELOP_HOME/workspace/asakusa-example-project

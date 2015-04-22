@@ -1,6 +1,7 @@
 ================================================
 Jinrikisha - Asakusa Framework Starter Package -
 ================================================
+
 Jinrikisha (人力車) は、 `Asakusa Framework`_ の開発環境を手軽に構築するためのインストーラパッケージです。
 
 同梱のインストーラを利用し、Asakusa Framework本体、Hadoop、関連ツールなどをわずかな手順でセットアップすることで、すぐにAsakusa DSLによるバッチアプリケーションの開発を始めることができます。
@@ -14,27 +15,31 @@ Jinrikisha (人力車) は、 `Asakusa Framework`_ の開発環境を手軽に�
 
 Linux-32bit版
 -------------
-* `jinrikisha-linux-32bit-0.7.2.tar.gz`_
 
-..  _`jinrikisha-linux-32bit-0.7.2.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.7.2.tar.gz
+* `jinrikisha-linux-32bit-0.7.3.tar.gz`_
+
+..  _`jinrikisha-linux-32bit-0.7.3.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.7.3.tar.gz
 
 Linux-64bit版
 -------------
-* `jinrikisha-linux-64bit-0.7.2.tar.gz`_
 
-..  _`jinrikisha-linux-64bit-0.7.2.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.7.2.tar.gz
+* `jinrikisha-linux-64bit-0.7.3.tar.gz`_
+
+..  _`jinrikisha-linux-64bit-0.7.3.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.7.3.tar.gz
 
 MacOSX版 (Experimental)
 -----------------------
-* `jinrikisha-macosx-0.7.2.tar.gz`_
 
-..  _`jinrikisha-macosx-0.7.2.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.7.2.tar.gz
+* `jinrikisha-macosx-0.7.3.tar.gz`_
+
+..  _`jinrikisha-macosx-0.7.3.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.7.3.tar.gz
 
 ..  attention::
     version |version| 時点では、MacOSX版は基本的な動作確認テストのみが行われています。
 
 スナップショット版
 ------------------
+
 * `jinrikisha-linux-32bit-0.7-snapshot.tar.gz`_
 * `jinrikisha-linux-64bit-0.7-snapshot.tar.gz`_
 * `jinrikisha-macosx-0.7-snapshot.tar.gz`_
@@ -45,6 +50,7 @@ MacOSX版 (Experimental)
 
 対応プラットフォーム
 --------------------
+
 Jinrikishaは以下のプラットフォームで動作を検証しています。
 
 ..  list-table::
@@ -70,38 +76,37 @@ Jinrikishaは以下のプラットフォームで動作を検証しています�
 
 使い方
 ======
+
 ダウンロードしたインストールアーカイブを任意のディレクトリで展開します。
 
-展開したファイルに含まれる ``setup.sh`` を実行するとインストールが開始されます。Jinrikishaのインストールディレクトリなどいくつかのインストールパラメータの入力が促されるので、インストーラの指示に従ってインストールを実行してください。
+展開したファイルに含まれる :program:`setup.sh` を実行するとインストールが開始されます。
+Jinrikishaのインストールディレクトリなどいくつかのインストールパラメータの入力が促されるので、インストーラの指示に従ってインストールを実行してください。
 
 インストール手順の詳細やインストール時の注意事項は、 :doc:`install` を参照して下さい。 
 
 インストールした開発環境を利用する
 ----------------------------------
+
 Jinrikishaのインストールが完了したら、サンプルコードを確認したり、実際にアプリケーションを開発してみましょう。
 
-インストールディレクトリ配下の ``README`` には、インストールした後にAsakusa Frameworkの開発環境で使用するコマンドやEclipseの使い方などを簡単にまとめた Getting Started が記述されています。
+インストールディレクトリ配下の :file:`README` には、インストールした後にAsakusa Frameworkの開発環境で使用するコマンドやEclipseの使い方などを簡単にまとめた Getting Started が記述されています。
 
 サンプルアプリケーションの内容や、アプリケーションの実行方法についてのより詳しい情報は、 `Asakusa Framework入門`_ の `Asakusa Framework スタートガイド`_ を参照してください。
 
 Eclipseのカスタマイズ
 ---------------------
-Jinrikishaに同梱されているEclipseを
-Asakusa Frameworkを使った開発用により使いやすくカスタマイズしてみましょう。
 
-:doc:`Shafu (車夫) - Asakusa Gradle Plug-in Helper for Eclipse - <shafu>` を導入すると
-Asakusa Frameworkのアプリケーション開発準備や
-Gradleを使ったビルド作業のほぼすべてをEclipseから行うことができるようになり、
-アプリケーション開発時のターミナル上でのコマンド操作がほぼ不要になります。
+Jinrikishaに同梱されているEclipseをAsakusa Frameworkを使った開発用により使いやすくカスタマイズしてみましょう。
 
-:doc:`DMDL Editor プラグイン <introduction/dmdl-editor>` を導入すると
-DMDLに対する構文ハイライトや入力補完機能やソース間のジャンプ機能など
-強力な編集サポート機能が利用できるようになります。
+:doc:`Shafu (車夫) - Asakusa Gradle Plug-in Helper for Eclipse - <shafu>` を導入するとAsakusa Frameworkのアプリケーション開発準備やGradleを使ったビルド作業のほぼすべてをEclipseから行うことができるようになり、アプリケーション開発時のターミナル上でのコマンド操作がほぼ不要になります。
+
+:doc:`DMDL Editor プラグイン <introduction/dmdl-editor>` を導入するとDMDLに対する構文ハイライトや入力補完機能やソース間のジャンプ機能など強力な編集サポート機能が利用できるようになります。
 
 :doc:`introduction/localize` ではEclipseを日本語化する手順を紹介しています。
 
 バッチアプリケーションを開発する
 --------------------------------
+
 `Asakusa Framework入門`_ の `開発の流れ`_ を参考にして、バッチアプリケーションを開発してみましょう。
 
 また、Asakusa Frameworkのコミュニティサイトには以下に示すAsakusa Frameworkのバッチアプリケーションを設計、実装するための各種ガイドが公開されているので、これに沿ってバッチアプリケーションを開発してみるのもよいでしょう。
@@ -121,6 +126,7 @@ DMDLに対する構文ハイライトや入力補完機能やソース間のジ�
 
 同梱ソフトウェア
 ================
+
 Jinrikishaには以下のソフトウェアが含まています。
 
 ..  list-table:: 同梱ソフトウェア一覧
@@ -134,10 +140,10 @@ Jinrikishaには以下のソフトウェアが含まています。
       - 1.2.1
       - Apache License, Version 2.0 [#]_
     * - Apache Hive [#]_
-      - 0.14.0
+      - 1.1.0
       - Apache License, Version 2.0
     * - Eclipse IDE for Java Developers [#]_
-      - 4.4.1 [#]_
+      - 4.4.2 [#]_
       - Eclipse Public License - Version 1.0 [#]_
 
 ..  [#] http://hadoop.apache.org/
@@ -149,15 +155,17 @@ Jinrikishaには以下のソフトウェアが含まています。
 
 ライセンス
 ==========
+
 Jinrikishaは `Apache License, Version 2.0`_ の元で公開しています。
 
 ..  _`Apache License, Version 2.0`: http://www.apache.org/licenses/
 
 リソース
 ========
+
 ..  toctree::
     :maxdepth: 1
-   
+
     release-notes
     install
     feature

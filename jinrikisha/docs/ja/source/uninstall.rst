@@ -1,10 +1,12 @@
 ===============================
 Jinrikisha アンインストール手順
 ===============================
+
 この文書ではJinrikishaのアンインストール手順を説明します。
 
 アンインストール手順
 ====================
+
 Jinrikishaをアンインストールするには、以下の手順に従ってアンインストール作業を行います。
 
 1. Jinrikishaのインストールディレクトリの削除
@@ -17,35 +19,38 @@ Jinrikishaをアンインストールするには、以下の手順に従って�
 
 Jinrikishaのインストールディレクトリの削除
 ------------------------------------------
-Jinrikishaをインストールしたディレクトリを削除します。デフォルトでは、Jinrikishaのインストールディレクトリは以下のディレクトリになっています。
 
-* ``$HOME/asakusa-develop`` 
+Jinrikishaをインストールしたディレクトリを削除します。
+デフォルトでは、Jinrikishaのインストールディレクトリは以下のディレクトリになっています。
+
+* :file:`$HOME/asakusa-develop`
 
 Asakusa Frameworkが使用するテンポラリディレクトリの削除
 -------------------------------------------------------
+
 Asakusa Frameworkのテスト実行時に生成する以下のテンポラリ用ディレクトリを削除します。
 
-* ``$HOME/target``
-* ``/tmp/windgate-$USER`` [#]_
-* ``/tmp/hadoop-$USER``
-
-..  [#] WindGateの設定を変更した場合はそのディレクトリを削除してください
+* :file:`$HOME/target`
+* :file:`/tmp/hadoop-$USER`
 
 デスクトップ上のEclipseショートカットの削除
 -------------------------------------------
-インストール時にデスクトップにEclipseのショートカットを追加した場合は、これを削除します。Eclipseのデスクトップのショートカットは以下のシンボリックリンクです。
 
-* ``$HOME/Desktop/eclipse``
+インストール時にデスクトップにEclipseのショートカットを追加した場合は、これを削除します。
+Eclipseのデスクトップのショートカットは以下のシンボリックリンクです。
+
+* :file:`$HOME/Desktop/eclipse`
 
 または
 
-* ``$HOME/デスクトップ/eclipse``
+* :file:`$HOME/デスクトップ/eclipse`
 
 ユーザログイン時に適用されるプロファイル設定の削除
 --------------------------------------------------
+
 インストール時にユーザログイン時に適用される環境変数の設定を追加した場合は、これを削除します。
 
-インストール時にユーザログイン時に適用される環境変数の設定を追加した場合、 ``$HOME/.profile`` または ``$HOME/.bash_profile`` [#]_ 上に以下の4行が追加されているため、この部分を削除してファイルを保存します。
+インストール時にユーザログイン時に適用される環境変数の設定を追加した場合、 :file:`$HOME/.profile` または :file:`$HOME/.bash_profile` [#]_ 上に以下の4行が追加されているため、この部分を削除してファイルを保存します。
 
 ..  code-block:: sh
 
@@ -54,13 +59,15 @@ Asakusa Frameworkのテスト実行時に生成する以下のテンポラリ用
       . "$HOME/asakusa-develop/.rikisha_profile"
     fi
 
-``$HOME/.profile`` または ``$HOME/.bash_profile`` に上記の4行しかない場合は、ファイル自体を削除してください。
+:file:`$HOME/.profile` または :file:`$HOME/.bash_profile` に上記の4行しかない場合は、ファイル自体を削除してください。
 
-..  [#] インストール時に ``$HOME/.bash_profile`` -> ``$HOME\.profile`` の順にファイルを検索し、存在したファイルに定義が追加されます。 このため、デフォルトの環境では Ubuntu版とMacOSX版は ``$HOME\.profile`` 、CentOS版は ``$HOME/.bash_profile`` に定義が追加されます。
+..  [#] インストール時に :file:`$HOME/.bash_profile` -> :file:`$HOME/.profile` の順にファイルを検索し、存在したファイルに定義が追加されます。
+        このため、デフォルトの環境では Ubuntu版とMacOSX版は :file:`$HOME/.profile` 、CentOS版は :file:`$HOME/.bash_profile` に定義が追加されます。
 
-(MacOSX版のみ) ``/etc/launchd.conf`` の環境変数設定の削除
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-MacOSX版では、インストール時に ``/etc/launchd.conf`` に設定を追加するよう選択した場合は、 ``/etc/launchd.conf`` に以下の4行が追加されているため、この部分を削除してファイルを保存します。
+(MacOSX版のみ) /etc/launchd.confの環境変数設定の削除
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+MacOSX版では、インストール時に :file:`/etc/launchd.conf` に設定を追加するよう選択した場合は :file:`/etc/launchd.conf` に以下の4行が追加されているため、この部分を削除してファイルを保存します。
 
 ..  code-block:: sh
 
@@ -69,13 +76,14 @@ MacOSX版では、インストール時に ``/etc/launchd.conf`` に設定を追
     setenv ASAKUSA_HOME /Users/xxx/asakusa-develop/asakusa
     setenv HADOOP_HOME /Users/xxx/asakusa-develop/hadoop
 
-``/etc/launchd.conf`` に上記の4行しかない場合は、ファイル自体を削除してください。
+:file:`/etc/launchd.conf` に上記の4行しかない場合は、ファイル自体を削除してください。
 
 再ログイン/再起動
 -----------------
-``$HOME/.profile`` もしくは ``$HOME/.bash_profile`` を編集した場合は、デスクトップ環境への再ログインを行なってください。
 
-また、 ``/etc/launchd.conf`` を編集した場合は、OSの再起動を行なってください。
+:file:`$HOME/.profile` もしくは :file:`$HOME/.bash_profile` を編集した場合は、デスクトップ環境への再ログインを行なってください。
+
+また、 :file:`/etc/launchd.conf` を編集した場合は、OSの再起動を行なってください。
 
 以上でアンインストールは完了です。
 

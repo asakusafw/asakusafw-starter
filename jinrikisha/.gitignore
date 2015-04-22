@@ -1,5 +1,5 @@
 /.buildinfo
 /archives
 /target
-
-
+.DS_Store
+*.swp
