@@ -38,7 +38,7 @@ Gradleをオフラインモードで使用するには、Gradleのコマンド�
     Gradleを使ったビルド時に、オフライン環境ではじめて実行するタスクを指定した場合は、開発環境に必要なライブラリがキャッシュされていないためにビルドが失敗する可能性があります。
     その場合、一度Gradleをオンラインモードに戻してオンライン環境でビルドを行い、必要なライブラリをダウンロードしてください。
 
-..  _`Asakusa Gradle Plugin利用ガイド`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/application/gradle-plugin.html
+..  _`Asakusa Gradle Plugin利用ガイド`: http://docs.asakusafw.com/latest/release/ja/html/application/gradle-plugin.html
 
 依存ライブラリの追加について
 ----------------------------
