@@ -31,11 +31,11 @@ Shafuは以下のプラットフォームで動作を検証しています。
       - 備考
     * - IDE
       - Eclipse
-      - 4.4.1 / 4.4.2
-      - 
+      - 4.4.2
+      -
     * - Java
       - Oracle JDK
-      - JDK6 / JDK7
+      - JDK7
       - 推奨環境
     * - Java
       - Open JDK
@@ -43,15 +43,15 @@ Shafuは以下のプラットフォームで動作を検証しています。
       - 基本的な動作確認のみ
     * - OS
       - Ubuntu Desktop (32bit/64bit)
-      - 12.04 / 14.04
+      - 14.04
       - 推奨環境
     * - OS
       - CentOS (32bit/64bit)
       - 6.2
-      - 
+      -
     * - OS
       - MacOSX
-      - 10.7 / 10.9
+      - 10.9
       - [#]_
     * - OS
       - Windows
@@ -67,7 +67,7 @@ Shafuは以下のプラットフォームで動作を検証しています。
 
 Shafu は次のアップデートサイトを使用してインストールすることができます。
 
-* http://www.asakusafw.com/eclipse/jinrikisha/updates/
+* ``http://www.asakusafw.com/eclipse/jinrikisha/updates/``
 
 インストール手順
 ----------------
