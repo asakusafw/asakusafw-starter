@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright 2011-2012 Asakusa Framework Team.
+# Copyright 2012-2015 Asakusa Framework Team.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
 . "$(dirname $0)/VERSION"
 
 if [ -r "$(dirname $0)/.buildinfo" ]; then
@@ -29,15 +30,6 @@ _CREATE_ECLIPSE_SHORTCUT_DEFAULT="y"
 _ADD_LAUNCHD_CONF_DEFAULT="y"
 
 #---------------------------------------
-# Define Constants
-#---------------------------------------
-_REPO_URL="http://asakusafw.s3.amazonaws.com/maven/"
-_EXAMPLE_GROUP_ID="com.example"
-_EXAMPLE_ARTIFACT_ID="example-app"
-_EXAMPLE_ARCHETYPE_ID="asakusa-archetype-windgate"
-_EXAMPLE_BATCH_ID="example.summarizeSales"
-
-#---------------------------------------
 # Define Functions
 #---------------------------------------
 exit_abort()
@@ -46,6 +38,15 @@ exit_abort()
   exit 1
 }
 
+aptable()
+{
+  which apt-get > /dev/null 2>&1
+}
+
+yumable()
+{
+  which yum > /dev/null 2>&1
+}
 ########################################
 # Start Message
 ########################################
@@ -60,24 +61,21 @@ echo "
 "
 
 ########################################
-# Parse Command Parameter
+# Initialize and install command
 ########################################
-_CMDNAME=`basename $0`
-
-while getopts r: _OPTWORK
-do
-  case "$_OPTWORK" in
-    "r" ) _OPT_M2REPO_ARCHIVE="true" ; _VAL_M2REPO_ARCHIVE="$OPTARG" ;;
-                   * ) echo Usage: "${_CMDNAME}" [-r path_of_m2repo_tar_archive] 1>&2
-                       exit 1 ;;
-  esac
-done
-
-if [ -n "${_OPT_M2REPO_ARCHIVE}" ]; then
-  _VAL_M2REPO_ARCHIVE=$(cd $(dirname "${_VAL_M2REPO_ARCHIVE}") && pwd)/$(basename "$_VAL_M2REPO_ARCHIVE")
-  if [ ! -r "${_VAL_M2REPO_ARCHIVE}" ]; then
-    echo "オプション [-r] に指定したファイル ${_VAL_M2REPO_ARCHIVE} が読み込み可能ではありません。"
-    exit_abort
+which curl > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+  aptable
+  if [ $? -eq 0 ]; then
+    sudo apt-get install -y curl
+  else
+    yumable
+    if [ $? -eq 0 ]; then
+      sudo yum install -y curl
+    else
+      echo "apt-get または yum が使用出来ないため、インストールを中断します。"
+      exit_abort
+    fi
   fi
 fi
 
@@ -103,22 +101,91 @@ fi
 
 if [ `uname` = "Darwin" ]; then
 ### for MacOSX ###
-  _JAVA_HOME_MACOSX="/System/Library/Frameworks/JavaVM.framework/Home"
-  while :
-  do
-    if [ -r $_JAVA_HOME_MACOSX ]; then
-      break
+  echo "Java(JDK)がインストールされているか確認します..."
+  if [ -n "$JAVA_HOME" -a -r "$JAVA_HOME/bin/javac" ]; then
+    _JAVA_HOME="$JAVA_HOME"
+    echo "環境変数JAVA_HOMEに設定されている以下のJDKを使用します。"
+    echo $_JAVA_HOME
+    echo "OK."
+  else
+    echo "環境変数JAVA_HOMEにJDKのインストールディレクトリが設定されていません。"
+    echo "JDKを検出しています..."
+    # attempt to find java
+
+    for candidate_regex in \
+      /Library/Java/JavaVirtualMachines/jdk1.7*/Contents/Home \
+      /System/Library/Java/JavaVirtualMachines/1.6*/Contents/Home ; do
+        for candidate in `ls -rd $candidate_regex 2>/dev/null`; do
+          if [ -e $candidate/bin/javac ]; then
+            _JAVA_HOME_CANDIDATE=$candidate
+            break
+          fi
+        done
+    done
+    if [ -z "$_JAVA_HOME_CANDIDATE" ]; then
+      echo "JDKは検出されませんでした。"
+      echo '
+  Java(JDK)がインストールされていないため、
+  Appleが提供するJDK6(AppleJDK)をインストールしてセットアップを続行します。
+
+  ** WARNING ********************************************************
+  AppleJDKを使用せず、OracleJDKを使用する場合は
+  インストールを中断してください。
+  
+  (OracleJDKを使用するには、OracleJDKを手動でインストールしてから
+  環境変数JAVA_HOMEにOracleJDKのインストールディレクトリを設定し、
+  再度 setup.sh を実行してインストールを行います)
+  *******************************************************************
+
+    '
+      read -p "AppleJDKをインストールしてインストールを続行しますか？:[Y/n]: " _YN
+      if [ "$_YN" ]; then
+        _YN=`echo $_YN | tr "[:upper:]" "[:lower:]"`
+      else
+        _YN="y"
+      fi
+      if [ "$_YN" = y ]; then
+        _JAVA_HOME="/System/Library/Frameworks/JavaVM.framework/Home"
+        while :
+        do
+          if [ -r $_JAVA_HOME ]; then
+            break
+          else
+            java > /dev/null 2>&1
+            read -p "Javaをインストールした後、[Enter]キーを押してインストールを続行してください。:: " _INSTR
+            continue
+          fi
+        done
+      else
+        echo "インストールを中断します。"
+        exit_abort
+      fi
     else
-      java > /dev/null 2>&1
-      echo "Javaがインストールされていません。"
-      read -p "Javaをインストールした後、[Enter]キーを押してインストールを続行してください。:: " _INSTR
-      continue
+      echo ""
+      echo "JDKを検出しました:[$_JAVA_HOME_CANDIDATE]"
+      read -p "このJDKを使用してインストールを続行しますか？:[Y/n]: " _YN
+      if [ "$_YN" ]; then
+        _USE_JDK=`echo $_YN | tr "[:upper:]" "[:lower:]"`
+      else
+        _USE_JDK="y"
+      fi
+      if [ "$_USE_JDK" = "y" ]; then
+        _JAVA_HOME="$_JAVA_HOME_CANDIDATE"
+        echo "JAVA_HOMEに[$_JAVA_HOME]を指定します。"
+      else
+        echo ""
+        echo "インストールを中断します。"
+        echo "JDKのインストールディレクトリを環境変数JAVA_HOMEに設定した後"
+        echo "再度インストールを行なってください。"
+        exit_abort
+      fi
     fi
-  done
-  _JAVA_HOME="$_JAVA_HOME_MACOSX"
+  fi
   _EXPORT="export JAVA_HOME=$_JAVA_HOME"'\n'
-  _EXPORT="${_EXPORT}export _JAVA_OPTIONS=-Dfile.encoding=UTF-8"'\n'
-  _PATH='export PATH=$JAVA_HOME/bin'
+  _PATH='export PATH=$JAVA_HOME/bin:$PATH'
+  if javac -version 2>&1 | grep -q 1.6.0; then
+    _EXPORT="${_EXPORT}export _JAVA_OPTIONS=-Dfile.encoding=UTF-8"'\n'
+  fi
 else
 ### for Linux ###
   echo "Java(JDK)がインストールされているか確認します..."
@@ -132,20 +199,30 @@ else
     echo "環境変数JAVA_HOMEにJDKのインストールディレクトリが設定されていません。"
     echo "JDKを検出しています..."
     # attempt to find java
-    for candidate in \
+
+    for candidate_regex in \
+      /usr/lib/jvm/j2sdk1.7-oracle \
+      /usr/lib/jvm/java-7-oracle* \
+      /usr/java/jdk1.7* \
+      /usr/lib/j2sdk1.6-sun \
       /usr/lib/jvm/java-6-sun \
       /usr/lib/jvm/java-1.6.0-sun-1.6.0.* \
-      /usr/lib/j2sdk1.6-sun \
+      /usr/lib/jvm/j2sdk1.6-oracle \
       /usr/java/jdk1.6* \
-      /usr/lib/jvm/java-6-openjdk \
-      /usr/lib/jvm/java-6-openjdk-* \
-      /usr/lib/jvm/java-openjdk \
+      /Library/Java/Home \
       /usr/java/default \
-      /usr/lib/jvm/default-java ; do
-      if [ -e $candidate/bin/javac ]; then
-        _JAVA_HOME_CANDIDATE=$candidate
-        break
-      fi  
+      /usr/lib/jvm/default-java \
+      /usr/lib/jvm/java-openjdk \
+      /usr/lib/jvm/java-1.7.0-openjdk* \
+      /usr/lib/jvm/java-7-openjdk* \
+      /usr/lib/jvm/java-1.6.0-openjdk \
+      /usr/lib/jvm/java-1.6.0-openjdk-* ; do
+        for candidate in `ls -rd $candidate_regex 2>/dev/null`; do
+          if [ -e $candidate/bin/javac ]; then
+            _JAVA_HOME_CANDIDATE=$candidate
+            break
+          fi
+        done
     done
     if [ -z "$_JAVA_HOME_CANDIDATE" ]; then
       echo "JDKは検出されませんでした。"
@@ -160,9 +237,6 @@ else
   (OracleJDKを使用するには、OracleJDKを手動でインストールしてから
   環境変数JAVA_HOMEにOracleJDKのインストールディレクトリを設定し、
   再度 setup.sh を実行してインストールを行います)
-
-  OracleJDKのインストール方法は以下のサイトなどを参考にしてください。
-  http://java.sun.com/javase/ja/6/webnotes/install/index.html
   *******************************************************************
 
     '
@@ -173,16 +247,16 @@ else
         _YN="y"
       fi
       if [ "$_YN" = y ]; then
-        which apt-get > /dev/null 2>&1
+        aptable
         _RET=$?
         if [ $_RET -eq 0 ]; then
           sudo apt-get update
-          sudo apt-get install -y openjdk-6-jdk
+          sudo apt-get install -y openjdk-7-jdk
         else
-          which yum > /dev/null 2>&1
+          yumable
           _RET=$?
           if [ $_RET -eq 0 ]; then
-            sudo yum install -y java-1.6.0-openjdk-devel
+            sudo yum install -y java-1.7.0-openjdk-devel
           else
             echo "apt-get または yum が使用出来ないため、インストールを中断します。"
             exit_abort
@@ -195,8 +269,8 @@ else
         echo "OpenJDKのインストールが完了しました。"
         # attempt to find java
         for javahome in \
-          /usr/lib/jvm/java-6-openjdk \
-          /usr/lib/jvm/java-6-openjdk-* \
+          /usr/lib/jvm/java-1.7.0-openjdk* \
+          /usr/lib/jvm/java-7-openjdk* \
           /usr/lib/jvm/java-openjdk ; do
           if [ -e $javahome/bin/javac ]; then
             _JAVA_HOME=$javahome
@@ -299,14 +373,15 @@ echo "
   - JAVA_HOME="$_JAVA_HOME"
   - ASAKUSA_DEVELOP_HOME="$_ASAKUSA_DEVELOP_HOME"
   - ASAKUSA_HOME=\${ASAKUSA_DEVELOP_HOME}/asakusa
-  - M2_HOME=\${ASAKUSA_DEVELOP_HOME}/maven
-  - HADOOP_HOME=\${ASAKUSA_DEVELOP_HOME}/hadoop
-  - PATH: \$JAVA_HOME/bin:\$M2_HOME/bin:\$HADOOP_HOME/bin: \\
+  - HADOOP_CMD=\${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop
+  - HADOOP_CLIENT_OPTS=-Xmx512m
+  - HIVE_HOME=\${ASAKUSA_DEVELOP_HOME}/hive
+  - PATH: \$JAVA_HOME/bin:\${ASAKUSA_DEVELOP_HOME}/hadoop/bin: \\
           \$ASAKUSA_DEVELOP_HOME/eclipse:\$ASAKUSA_HOME/yaess/bin: \\
-          \$PATH
+          \$HIVE_HOME/bin:\$PATH
 
 * インストールする環境にすでに
-  Java,Maven,Hadoop,Asakusa Frameworkがインストールされている場合、
+  Java,Hadoop,Hive,Asakusa Frameworkがインストールされている場合、
   これらの環境変数による影響に注意してください。
 
 * この設定を行わない場合、
@@ -387,7 +462,7 @@ echo "
 ------------------------------------------------------------
 
 ** WARNING ***********************************************************
-1) Mavenリモートリポジトリからライブラリをダウンロードするため、
+1) リモートリポジトリからライブラリをダウンロードするため、
    インストールには10分以上かかる可能性があります。
 **********************************************************************
 "
@@ -403,33 +478,7 @@ if [ -d "$ASAKUSA_DEVELOP_HOME" ]; then
   fi
 fi
 mkdir "$ASAKUSA_DEVELOP_HOME"
-
-cd $(dirname $0) 
-########################################
-# Install Maven
-########################################
-echo "Mavenをインストールしています。"
-
-cd archives
-tar xf apache-maven-*-bin.tar.gz
-mv apache-maven-*/ maven
-mv maven "$ASAKUSA_DEVELOP_HOME"
-cd ..
-
-cp -p "$ASAKUSA_DEVELOP_HOME"/maven/conf/settings.xml "$ASAKUSA_DEVELOP_HOME"/maven/conf/settings.xml.ORG
-cp _templates/maven/conf/settings.xml "$ASAKUSA_DEVELOP_HOME"/maven/conf
-sed -i -e "s;/path/to/local/repo;$ASAKUSA_DEVELOP_HOME/repository;" "$ASAKUSA_DEVELOP_HOME"/maven/conf/settings.xml
-
-cp _templates/maven/conf/archetype-catalog.xml "$ASAKUSA_DEVELOP_HOME"/maven/conf
-sed -i -e "s;/version/to/asakusafw;$_ASAKUSAFW_VERSION;" "$ASAKUSA_DEVELOP_HOME"/maven/conf/archetype-catalog.xml
-
-if [ "${_OPT_M2REPO_ARCHIVE}" ]; then
-  tar -xf "${_VAL_M2REPO_ARCHIVE}"
-  mv repository "$ASAKUSA_DEVELOP_HOME"
-fi
-
-_EXPORT="${_EXPORT}"'export M2_HOME=${ASAKUSA_DEVELOP_HOME}/maven\n'
-_PATH="${_PATH}":'$M2_HOME/bin'
+cd $(dirname $0)
 
 ########################################
 # Install Hadoop
@@ -437,12 +486,26 @@ _PATH="${_PATH}":'$M2_HOME/bin'
 echo "Hadoopをインストールしています。"
 
 cd archives
-tar xf hadoop-0.20.*.tar.gz
-mv hadoop-0.20.*/ hadoop
+tar xf hadoop-*.tar.gz
+mv hadoop-*/ hadoop
 mv hadoop "$ASAKUSA_DEVELOP_HOME"
-_EXPORT="${_EXPORT}"'export HADOOP_HOME=${ASAKUSA_DEVELOP_HOME}/hadoop\n'
-_PATH="${_PATH}":'$HADOOP_HOME/bin'
-cd ..
+_EXPORT="${_EXPORT}"'export HADOOP_CMD=${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop\n'
+_EXPORT="${_EXPORT}"'export HADOOP_CLIENT_OPTS=-Xmx512m\n'
+_PATH="${_PATH}":'${ASAKUSA_DEVELOP_HOME}/hadoop/bin'
+cd -
+
+########################################
+# Install Hive
+########################################
+echo "Hiveをインストールしています。"
+
+cd archives
+tar xf apache-hive-*.tar.gz
+mv apache-hive-*/ hive
+mv hive "$ASAKUSA_DEVELOP_HOME"
+_EXPORT="${_EXPORT}"'export HIVE_HOME=${ASAKUSA_DEVELOP_HOME}/hive\n'
+_PATH="${_PATH}":'${HIVE_HOME}/bin'
+cd -
 
 ########################################
 # Install Eclipse
@@ -453,13 +516,10 @@ cd archives
 tar xf eclipse-*.tar.gz
 mv eclipse "$ASAKUSA_DEVELOP_HOME"
 mkdir "$ASAKUSA_DEVELOP_HOME"/workspace
-cd ..
+cd -
 
 cp -r _templates/eclipse "$ASAKUSA_DEVELOP_HOME"
 sed -i -e "s;/path/to/workspace;$ASAKUSA_DEVELOP_HOME/workspace;" "$ASAKUSA_DEVELOP_HOME"/eclipse/configuration/.settings/org.eclipse.ui.ide.prefs
-
-cp -r _templates/workspace "$ASAKUSA_DEVELOP_HOME"
-sed -i -e "s;/path/to/settings.xml;$ASAKUSA_DEVELOP_HOME/maven/conf/settings.xml;" "$ASAKUSA_DEVELOP_HOME"/workspace/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.m2e.core.prefs
 
 _PATH="${_PATH}":'$ASAKUSA_DEVELOP_HOME/eclipse'
 
@@ -470,7 +530,7 @@ echo "環境変数を設定しています。"
 
 _PATH="${_PATH}":'$ASAKUSA_HOME/yaess/bin'
 _PATH="${_PATH}":'$PATH'
-printf "${_EXPORT}${_PATH}" > "${_RIKISHA_PROFILE}"
+printf "${_EXPORT}${_PATH}\n" > "${_RIKISHA_PROFILE}"
 
 . "${_RIKISHA_PROFILE}"
 
@@ -479,26 +539,20 @@ printf "${_EXPORT}${_PATH}" > "${_RIKISHA_PROFILE}"
 #######################################
 echo "Asakusa Frameworkをインストールしています。"
 
-case "$_ASAKUSAFW_VERSION" in
-  *-SNAPSHOT ) _REPO_SUFFIX="snapshots" ;;
-  * ) _REPO_SUFFIX="releases" ;;
-esac
-
 cd "${ASAKUSA_DEVELOP_HOME}"/workspace
-mvn archetype:generate -DarchetypeRepository="${_REPO_URL}${_REPO_SUFFIX}" -DinteractiveMode=false -DarchetypeGroupId="com.asakusafw" -DarchetypeArtifactId="$_EXAMPLE_ARCHETYPE_ID" -DarchetypeVersion="$_ASAKUSAFW_VERSION" -DgroupId="$_EXAMPLE_GROUP_ID" -DartifactId="$_EXAMPLE_ARTIFACT_ID" -Dversion="1.0-SNAPSHOT" -Dpackage="$_EXAMPLE_GROUP_ID"
-if [ $? -ne 0 ]; then
-  exit_abort
-fi
+curl -O "http://www.asakusafw.com/download/gradle-plugin/asakusa-example-project-${_ASAKUSAFW_VERSION}.tar.gz"
+tar xf "asakusa-example-project-${_ASAKUSAFW_VERSION}.tar.gz"
+cd -
 
-cd "$_EXAMPLE_ARTIFACT_ID"
-mvn clean assembly:single antrun:run package eclipse:eclipse
+cd "${ASAKUSA_DEVELOP_HOME}"/workspace/asakusa-example-project
+./gradlew installAsakusafw build eclipse
 if [ $? -ne 0 ]; then
   exit_abort 
 fi
 
 rm -fr "$ASAKUSA_HOME"/batchapps/*
-jar -xf target/"$_EXAMPLE_ARTIFACT_ID"-batchapps-*.jar "$_EXAMPLE_BATCH_ID"
-mv "$_EXAMPLE_BATCH_ID" $ASAKUSA_HOME/batchapps
+cp -pr build/batchc/* $ASAKUSA_HOME/batchapps
+cd -
 
 ########################################
 # Configuration to OS
@@ -526,10 +580,12 @@ fi" >> $_TARGET_PROFILE
     echo "(sudoのパスワード入力が必要となる場合があります)"
 
     _SETENV="setenv JAVA_HOME $_JAVA_HOME"'\n'
-    _SETENV="${_SETENV}setenv _JAVA_OPTIONS=-Dfile.encoding=UTF-8"'\n'
+    if javac -version 2>&1 | grep -q 1.6.0; then
+      _SETENV="${_SETENV}setenv _JAVA_OPTIONS=-Dfile.encoding=UTF-8"'\n'
+    fi
     _SETENV="${_SETENV}setenv ASAKUSA_HOME ${ASAKUSA_DEVELOP_HOME}/asakusa"'\n'
-    _SETENV="${_SETENV}setenv HADOOP_HOME ${ASAKUSA_DEVELOP_HOME}/hadoop"'\n'
-    printf "$_SETENV" | sudo tee /etc/launchd.conf
+    _SETENV="${_SETENV}setenv HADOOP_CMD ${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop"'\n'
+    printf "\n${_SETENV}\n" | sudo tee -a /etc/launchd.conf
   fi
 fi
 
@@ -578,10 +634,10 @@ Getting Started
 # ------------------------------
 
 # サンプルテストデータの配置
-mkdir -p /tmp/windgate-"$USER"
-rm -fr /tmp/windgate-"$USER"/*
-cd "$ASAKUSA_DEVELOP_HOME/workspace/$_EXAMPLE_ARTIFACT_ID"
-cp -a src/test/example-dataset/* /tmp/windgate-"$USER"
+cd ~
+hadoop fs -rmr target/testing/directio
+hadoop fs -put $ASAKUSA_DEVELOP_HOME/workspace/asakusa-example-project/src/test/example-dataset/master target/testing/directio/master
+hadoop fs -put $ASAKUSA_DEVELOP_HOME/workspace/asakusa-example-project/src/test/example-dataset/sales target/testing/directio/sales
 
 # バッチの実行
 yaess-batch.sh example.summarizeSales -A date=2011-04-01
@@ -596,15 +652,15 @@ eclipse &
 # サンプルアプリケーションをワークスペースへインポート
 1. Eclipseのメニューから [File] -> [Import] -> [General] -> [Existing Projects into Workspace]を選択
 2. Importダイアログで右上の [Browse]ボタンを押して、表示されたダイアログでそのまま[OK]ボタンを押す
-3. example-app というプロジェクトが選択されていることを確認したら、そのまま右下の [Finish]ボタンを押す
+3. asakusa-example-project というプロジェクトが選択されていることを確認したら、そのまま右下の [Finish]ボタンを押す
 
 # モデルクラスの生成
-cd $ASAKUSA_DEVELOP_HOME/workspace/$_EXAMPLE_ARTIFACT_ID
-mvn clean generate-sources
+cd $ASAKUSA_DEVELOP_HOME/workspace/asakusa-example-project
+./gradlew compileDMDL
 
 # バッチコンパイル
-cd $ASAKUSA_DEVELOP_HOME/workspace/$_EXAMPLE_ARTIFACT_ID
-mvn clean package
+cd $ASAKUSA_DEVELOP_HOME/workspace/asakusa-example-project
+./gradlew compileBatchapp
 
 ------------------------------------------------------------------
 " > "$ASAKUSA_DEVELOP_HOME"/README
