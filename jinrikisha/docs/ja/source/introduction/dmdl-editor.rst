@@ -94,7 +94,7 @@ DMDLのコンパイルを行う機能です。
 
 ..  note::
 
-    通常は `GradleやMavenのコマンドでDMDLのコンパイル <http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/dmdl/start-guide.html#java>`_ を行ってJavaのデータモデルクラスを生成しますが、
+    通常は `GradleやMavenのコマンドでDMDLのコンパイル <http://docs.asakusafw.com/latest/release/ja/html/dmdl/start-guide.html#java>`_ を行ってJavaのデータモデルクラスを生成しますが、
     DMDL EditorXではGradleやMavenを使わずにコンパイルすることが出来ます。
 
 ツールバーの「DMDL compile」のアイコンをクリックすると、コンパイルが実行されます（コンソール上にコンパイルメッセージが表示されます）。

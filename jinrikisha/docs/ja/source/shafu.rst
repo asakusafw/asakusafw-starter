@@ -9,12 +9,12 @@ Shafuを使うことで、ターミナル上でのビルドツールの操作が
 
 Shafu は Jinrikisha でセットアップしたEclipse環境ではもちろんのこと、単体でセットアップしたEclipse上での利用も可能です。
 
-..  _`Asakusa Framework`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/index.html
+..  _`Asakusa Framework`: http://docs.asakusafw.com/latest/release/ja/html/index.html
   
 ..  note::
     Asakusa Frameworkが提供するGradle上のビルド機能についての詳細は、Asakusa Frameworkのドキュメント `Asakusa Gradle Plugin利用ガイド`_ を参照してください。
 
-..  _`Asakusa Gradle Plugin利用ガイド`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/application/gradle-plugin.html
+..  _`Asakusa Gradle Plugin利用ガイド`: http://docs.asakusafw.com/latest/release/ja/html/application/gradle-plugin.html
 
 対応プラットフォーム
 ====================
@@ -208,7 +208,7 @@ Asakusa Framework ページ
 
 ..  [#] エミュレーションモードについては、Asakusa Frameworkのドキュメント `エミュレーションモードによるアプリケーションテスト`_ を参照してください。
 
-..  _`エミュレーションモードによるアプリケーションテスト`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/testing/emulation-mode.html
+..  _`エミュレーションモードによるアプリケーションテスト`: http://docs.asakusafw.com/latest/release/ja/html/testing/emulation-mode.html
 
 現在の設定
 ^^^^^^^^^^
