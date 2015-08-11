@@ -6,7 +6,7 @@ Jinrikisha (人力車) は、 `Asakusa Framework`_ の開発環境を手軽に�
 
 同梱のインストーラを利用し、Asakusa Framework本体、Hadoop、関連ツールなどをわずかな手順でセットアップすることで、すぐにAsakusa DSLによるバッチアプリケーションの開発を始めることができます。
 
-..  _`Asakusa Framework`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/index.html
+..  _`Asakusa Framework`: http://docs.asakusafw.com/latest/release/ja/html/index.html
 
 より詳しくは、 :doc:`feature` も参照してください。
 
@@ -16,23 +16,23 @@ Jinrikisha (人力車) は、 `Asakusa Framework`_ の開発環境を手軽に�
 Linux-32bit版
 -------------
 
-* `jinrikisha-linux-32bit-0.7.3.tar.gz`_
+* `jinrikisha-linux-32bit-0.7.4.tar.gz`_
 
-..  _`jinrikisha-linux-32bit-0.7.3.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.7.3.tar.gz
+..  _`jinrikisha-linux-32bit-0.7.4.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.7.4.tar.gz
 
 Linux-64bit版
 -------------
 
-* `jinrikisha-linux-64bit-0.7.3.tar.gz`_
+* `jinrikisha-linux-64bit-0.7.4.tar.gz`_
 
-..  _`jinrikisha-linux-64bit-0.7.3.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.7.3.tar.gz
+..  _`jinrikisha-linux-64bit-0.7.4.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.7.4.tar.gz
 
 MacOSX版 (Experimental)
 -----------------------
 
-* `jinrikisha-macosx-0.7.3.tar.gz`_
+* `jinrikisha-macosx-0.7.4.tar.gz`_
 
-..  _`jinrikisha-macosx-0.7.3.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.7.3.tar.gz
+..  _`jinrikisha-macosx-0.7.4.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.7.4.tar.gz
 
 ..  attention::
     version |version| 時点では、MacOSX版は基本的な動作確認テストのみが行われています。
@@ -61,13 +61,13 @@ Jinrikishaは以下のプラットフォームで動作を検証しています�
       - バージョン
       - 備考
     * - Ubuntu Desktop [#]_
-      - 12.04 / 14.04
+      - 14.04
       - 推奨環境
     * - CentOS [#]_
       - 6.2
       - 要デスクトップ環境のインストール
     * - MacOSX [#]_
-      - 10.7 / 10.9
+      - 10.9
       - 基本的な動作確認のみ
 
 ..  [#] http://www.ubuntu.com/
@@ -82,7 +82,7 @@ Jinrikishaは以下のプラットフォームで動作を検証しています�
 展開したファイルに含まれる :program:`setup.sh` を実行するとインストールが開始されます。
 Jinrikishaのインストールディレクトリなどいくつかのインストールパラメータの入力が促されるので、インストーラの指示に従ってインストールを実行してください。
 
-インストール手順の詳細やインストール時の注意事項は、 :doc:`install` を参照して下さい。 
+インストール手順の詳細やインストール時の注意事項は、 :doc:`install` を参照して下さい。
 
 インストールした開発環境を利用する
 ----------------------------------
@@ -120,9 +120,9 @@ Jinrikishaに同梱されているEclipseをAsakusa Frameworkを使った開発�
     * - バッチ設計と実装ガイド
       - http://www.asakusafw.com/techinfo/methodology.html
 
-..  _`Asakusa Framework入門`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/introduction/index.html
-..  _`Asakusa Framework スタートガイド`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/introduction/start-guide.html
-..  _`開発の流れ`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/introduction/next-step.html
+..  _`Asakusa Framework入門`: http://docs.asakusafw.com/latest/release/ja/html/introduction/index.html
+..  _`Asakusa Framework スタートガイド`: http://docs.asakusafw.com/latest/release/ja/html/introduction/start-guide.html
+..  _`開発の流れ`: http://docs.asakusafw.com/latest/release/ja/html/introduction/next-step.html
 
 同梱ソフトウェア
 ================
@@ -130,7 +130,7 @@ Jinrikishaに同梱されているEclipseをAsakusa Frameworkを使った開発�
 Jinrikishaには以下のソフトウェアが含まています。
 
 ..  list-table:: 同梱ソフトウェア一覧
-    :widths: 4 2 4 
+    :widths: 4 2 4
     :header-rows: 1
 
     * - プロダクト
@@ -140,7 +140,7 @@ Jinrikishaには以下のソフトウェアが含まています。
       - 1.2.1
       - Apache License, Version 2.0 [#]_
     * - Apache Hive [#]_
-      - 1.1.0
+      - 1.2.1
       - Apache License, Version 2.0
     * - Eclipse IDE for Java Developers [#]_
       - 4.4.2 [#]_

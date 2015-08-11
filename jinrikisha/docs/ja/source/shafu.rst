@@ -9,12 +9,12 @@ Shafuを使うことで、ターミナル上でのビルドツールの操作が
 
 Shafu は Jinrikisha でセットアップしたEclipse環境ではもちろんのこと、単体でセットアップしたEclipse上での利用も可能です。
 
-..  _`Asakusa Framework`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/index.html
+..  _`Asakusa Framework`: http://docs.asakusafw.com/latest/release/ja/html/index.html
   
 ..  note::
     Asakusa Frameworkが提供するGradle上のビルド機能についての詳細は、Asakusa Frameworkのドキュメント `Asakusa Gradle Plugin利用ガイド`_ を参照してください。
 
-..  _`Asakusa Gradle Plugin利用ガイド`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/application/gradle-plugin.html
+..  _`Asakusa Gradle Plugin利用ガイド`: http://docs.asakusafw.com/latest/release/ja/html/application/gradle-plugin.html
 
 対応プラットフォーム
 ====================
@@ -31,11 +31,11 @@ Shafuは以下のプラットフォームで動作を検証しています。
       - 備考
     * - IDE
       - Eclipse
-      - 4.4.1 / 4.4.2
-      - 
+      - 4.4.2
+      -
     * - Java
       - Oracle JDK
-      - JDK6 / JDK7
+      - JDK7
       - 推奨環境
     * - Java
       - Open JDK
@@ -43,15 +43,15 @@ Shafuは以下のプラットフォームで動作を検証しています。
       - 基本的な動作確認のみ
     * - OS
       - Ubuntu Desktop (32bit/64bit)
-      - 12.04 / 14.04
+      - 14.04
       - 推奨環境
     * - OS
       - CentOS (32bit/64bit)
       - 6.2
-      - 
+      -
     * - OS
       - MacOSX
-      - 10.7 / 10.9
+      - 10.9
       - [#]_
     * - OS
       - Windows
@@ -67,7 +67,7 @@ Shafuは以下のプラットフォームで動作を検証しています。
 
 Shafu は次のアップデートサイトを使用してインストールすることができます。
 
-* http://www.asakusafw.com/eclipse/jinrikisha/updates/
+* ``http://www.asakusafw.com/eclipse/jinrikisha/updates/``
 
 インストール手順
 ----------------
@@ -208,7 +208,7 @@ Asakusa Framework ページ
 
 ..  [#] エミュレーションモードについては、Asakusa Frameworkのドキュメント `エミュレーションモードによるアプリケーションテスト`_ を参照してください。
 
-..  _`エミュレーションモードによるアプリケーションテスト`: http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/testing/emulation-mode.html
+..  _`エミュレーションモードによるアプリケーションテスト`: http://docs.asakusafw.com/latest/release/ja/html/testing/emulation-mode.html
 
 現在の設定
 ^^^^^^^^^^
