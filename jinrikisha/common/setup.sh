@@ -56,7 +56,7 @@ echo "
                                                   
       - Asakusa Framework Starter Package -
                                                   
-        Version: $_RIKISHA_VERSION ($_BUILD_ID)
+        Version: $_RIKISHA_VERSION
 ****************************************************
 "
 

@@ -54,7 +54,7 @@ setup.shの実行
                                                   
           - Asakusa Framework Starter Package -
                                                   
-            Version: x.x.x (xxx)
+            Version: x.x.x
     ************************************************
     ...
 
