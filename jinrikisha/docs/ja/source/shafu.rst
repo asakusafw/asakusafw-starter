@@ -31,11 +31,11 @@ Shafuは以下のプラットフォームで動作を検証しています。
       - 備考
     * - IDE
       - Eclipse
-      - 4.4.2
+      - 4.4.2 / 4.5.1
       -
     * - Java
       - Oracle JDK
-      - JDK7
+      - JDK7 / JDK8
       - 推奨環境
     * - Java
       - Open JDK
@@ -51,16 +51,12 @@ Shafuは以下のプラットフォームで動作を検証しています。
       -
     * - OS
       - MacOSX
-      - 10.9
-      - [#]_
+      - 10.11
+      -
     * - OS
       - Windows
-      - 7 SP1 / 8.1
+      - 7 SP1 / 10
       -
-
-..  [#] MacOSXでJDK6を利用する場合、Eclipse実行時の文字エンコーディングをUTF-8などの日本語を利用できる環境にする必要があります。 `Eclipseの公式サイト`_ などを参考に、 ``eclipse.ini`` ファイルの ``-vmargs`` 以降の行に ``-Dfile.encoding=UTF-8`` の記述を追加してください。なおJinrikishaで構築した環境では環境変数 ``_JAVA_OPTIONS`` 経由で ``file.encoding`` が設定されるためこの設定は不要です。
-
-..  _`Eclipseの公式サイト`: http://wiki.eclipse.org/Eclipse.ini
 
 インストール
 ============
@@ -92,7 +88,7 @@ Gradleプロジェクトをテンプレートから生成
 オンライン上に公開されているAsakusa Frameworkのプロジェクトテンプレートや、ローカルに配置したプロジェクトテンプレートを利用して、Eclipse上に新規プロジェクトを作成することができます。
 
 ..  figure:: images/shafu-create-project.png
-    :width: 100%
+    :width: 640px
 
 #. Javaパースペクティブ上のメインメニューなどから :menuselection:`File --> New --> Gradleプロジェクトをテンプレートから生成` を選択します。
 #. 新規プロジェクト情報ダイアログで、プロジェクト名などを入力します。
@@ -116,7 +112,7 @@ Gradleプロジェクトのインポート
 プロジェクトのデータモデルクラスの生成やAsakusa DSLのコンパイルなど、Asakusa FrameworkがGradleを利用する各ビルド機能を実行することができます。
 
 ..  figure:: images/shafu-build-project.png
-    :width: 100%
+    :width: 640px
 
 #. プロジェクトを選択してコンテキストメニュー(右クリックなどで表示されるメニュー)を表示します。
 #. コンテキストメニューの :guilabel:`Jinrikisha (人力車)` を選択し、サブメニューとして表示される以下の各ビルド機能を選択します。
@@ -160,6 +156,9 @@ Gradleプロジェクトのインポート
     * - :guilabel:`Asakusa Frameworkのインストール`
       - 開発用のAsakusa Frameworkをインストールする
       - :program:`installAsakusafw`
+    * - :guilabel:`バッチアプリケーションの配備`
+      - プロジェクトのビルドディレクトリからバッチコンパイルの生成物をローカルの ``$ASAKUSA_HOME/batchapps`` に配置する
+      - ``-``
 
 ..  [#] 各メニューの選択時に実行されるAsakusa Gradle PluginのGradleタスクです。
         詳しくはAsakusa Frameworkのドキュメント `Asakusa Gradle Plugin利用ガイド`_ を参照してください。
@@ -171,7 +170,7 @@ Gradleプロジェクトのインポート
 Eclipseの設定画面からShafuの設定を変更することができます。
 
 ..  figure:: images/shafu-preferences.png
-    :width: 100%
+    :width: 640px
 
 #. メニューバーから :menuselection:`Window --> Preferences` を選択します。
 #. Eclipse設定画面のサイドメニューから :guilabel:`Jinrikisha  (人力車)` を選択します。

@@ -52,11 +52,11 @@ yumable()
 ########################################
 echo "
 ****************************************************
-              Jinrikisha (人力車)                 
+              Jinrikisha (人力車)
                                                   
       - Asakusa Framework Starter Package -
                                                   
-        Version: $_RIKISHA_VERSION ($_BUILD_ID)
+        Version: $_RIKISHA_VERSION
 ****************************************************
 "
 
@@ -275,12 +275,12 @@ else
           if [ -e $javahome/bin/javac ]; then
             _JAVA_HOME=$javahome
             break
-          fi  
+          fi
         done
         if [ -z "$_JAVA_HOME" ]; then
           echo "OpenJDKのインストールディレクトリが検出出来ませんでした。インストールを中断します。"
           exit_abort
-        fi     
+        fi
         echo "JAVA_HOMEに[$_JAVA_HOME]を指定します。"
       else
         echo "インストールを中断します。"
@@ -402,25 +402,29 @@ else
 fi
 if [ "$_YN" = "y" ]; then
   _ADD_PROFILE="y"
-  echo ""
-  read -p "4) デスクトップにEclipseのショートカットを追加しますか？:[Y/n]: " _YN
-  if [ "$_YN" ]; then
-    _YN=`echo $_YN | tr "[:upper:]" "[:lower:]"`
-  else
-    _YN="$_CREATE_ECLIPSE_SHORTCUT_DEFAULT"
-  fi
-  if [ "$_YN" = "y" ]; then
-    _CREATE_ECLIPSE_SHORTCUT="y"
+  if [ `uname` != "Darwin" ]; then
+    echo ""
+    read -p "4) デスクトップにEclipseのショートカットを追加しますか？:[Y/n]: " _YN
+    if [ "$_YN" ]; then
+      _YN=`echo $_YN | tr "[:upper:]" "[:lower:]"`
+    else
+      _YN="$_CREATE_ECLIPSE_SHORTCUT_DEFAULT"
+    fi
+    if [ "$_YN" = "y" ]; then
+      _CREATE_ECLIPSE_SHORTCUT="y"
+    else
+      _CREATE_ECLIPSE_SHORTCUT="n"
+    fi
+    _ADD_LAUNCHD_CONF="n"
   else
     _CREATE_ECLIPSE_SHORTCUT="n"
-  fi
-
-  if [ `uname` = "Darwin" ]; then
     echo "
-5) EclipseをGUI(Finder,Dock,Spotlightなど)から起動するために
+4) EclipseをGUI(Finder,Dock,Spotlightなど)から起動するために
    必要な環境変数を /etc/launchd.conf に追加しますか？
 
 ** WARNING **********************************************
+この設定は MacOSX 10.10 以降では使用できません。
+
 この設定はOS全体に適用されるため、
 他のアプリケーションに影響を与える可能性があります。
 
@@ -443,8 +447,6 @@ Eclipseはターミナルまたはデスクトップのショートカットか�
     else
       _ADD_LAUNCHD_CONF="n"
     fi
-  else
-     _ADD_LAUNCHD_CONF="n"
   fi
 else
   _ADD_PROFILE="n"
@@ -512,16 +514,24 @@ cd -
 ########################################
 echo "Eclipseをインストールしています。"
 
-cd archives
-tar xf eclipse-*.tar.gz
-mv eclipse "$ASAKUSA_DEVELOP_HOME"
-mkdir "$ASAKUSA_DEVELOP_HOME"/workspace
-cd -
+if [ `uname` = "Darwin" ]; then
+    cd archives
+    tar xf eclipse-*.tar.gz
+    mv Eclipse.app "$ASAKUSA_DEVELOP_HOME"
+    mkdir "$ASAKUSA_DEVELOP_HOME"/workspace
+    cd -
+else
+  cd archives
+  tar xf eclipse-*.tar.gz
+  mv eclipse "$ASAKUSA_DEVELOP_HOME"
+  mkdir "$ASAKUSA_DEVELOP_HOME"/workspace
+  cd -
+    
+  cp -r _templates/eclipse "$ASAKUSA_DEVELOP_HOME"
+  sed -i -e "s;/path/to/workspace;$ASAKUSA_DEVELOP_HOME/workspace;" "$ASAKUSA_DEVELOP_HOME"/eclipse/configuration/.settings/org.eclipse.ui.ide.prefs
 
-cp -r _templates/eclipse "$ASAKUSA_DEVELOP_HOME"
-sed -i -e "s;/path/to/workspace;$ASAKUSA_DEVELOP_HOME/workspace;" "$ASAKUSA_DEVELOP_HOME"/eclipse/configuration/.settings/org.eclipse.ui.ide.prefs
-
-_PATH="${_PATH}":'$ASAKUSA_DEVELOP_HOME/eclipse'
+  _PATH="${_PATH}":'$ASAKUSA_DEVELOP_HOME/eclipse'
+fi
 
 ########################################
 # Setup Environment Variables
@@ -547,7 +557,7 @@ cd -
 cd "${ASAKUSA_DEVELOP_HOME}"/workspace/asakusa-example-project
 ./gradlew installAsakusafw build eclipse
 if [ $? -ne 0 ]; then
-  exit_abort 
+  exit_abort
 fi
 
 rm -fr "$ASAKUSA_HOME"/batchapps/*
@@ -626,7 +636,7 @@ echo "
 Getting Started
 ===============
 
-# シェルに対して環境変数を追加 
+# シェルに対して環境変数を追加
 # ----------------------------
 . ${_RIKISHA_PROFILE}
 
