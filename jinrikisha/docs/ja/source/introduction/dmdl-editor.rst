@@ -13,7 +13,7 @@ DMDL Editorプラグインとは
 
 * DMDLスクリプトのキーワードに色が付きます。
 * 別のデータモデルを参照しているデータモデルにおいて、参照元データモデルへジャンプすることが出来ます。
-* GradleやMavenを使わずにEclipse上でDMDLスクリプトのコンパイルを行い、Javaのデータモデルクラスを生成することが出来ます。（現在は :doc:`Shafu <shafu>` で行うことが出来ます）
+* GradleやMavenを使わずにEclipse上でDMDLスクリプトのコンパイルを行い、Javaのデータモデルクラスを生成することが出来ます。（現在は :doc:`Shafu <../shafu>` で行うことが出来ます）
 * Javaソース上のデータモデルのクラス名あるいはメソッド名からDMDLスクリプトファイルへジャンプすることが出来ます。
 
 ..  [#] 機能やインストール手順の詳細については、 `DMDL EditorX`_ のサイトを確認してください。 
@@ -64,13 +64,13 @@ Jinrikisha バージョン |version| に同梱されているEclipseにはXtext�
     DMDL EditorXのインストール後、dmdlファイルを初めて開いた時などにXtextネイチャーがEclipseプロジェクトに登録され、Xtextが有効になります。
 
 ..  tip::
-    :doc:`Shafu <shafu>` の :guilabel:`Eclipseプロジェクト情報の再構成` や gradlewコマンド でEclipseプロジェクト情報を再構成すると、Xtextネイチャーの情報がクリアされ、Xtextに依存した機能が使えなくなります。
+    :doc:`Shafu <../shafu>` の :guilabel:`Eclipseプロジェクト情報の再構成` や gradlewコマンド でEclipseプロジェクト情報を再構成すると、Xtextネイチャーの情報がクリアされ、Xtextに依存した機能が使えなくなります。
     この場合は、いずれかのDMDLスクリプトファイルを新規に開く（開いている場合は一旦閉じてから再度開く）と再び使えるようになります。
 
 ..  tip::
     Asakusaアプリケーションのbuild.gradleに以下の定義を追加しておくと、Eclipseプロジェクト情報の再構成を行ってもXtextネイチャーの情報がクリアされなくなります。
 
-    .. code-block:: grale
+    .. code-block:: groovy
 
        eclipse {
            project {
@@ -116,7 +116,7 @@ DMDLのコンパイルを行う機能です。
 ツールバーの「DMDL compile」のアイコンをクリックすると、コンパイルが実行されます（コンソール上にコンパイルメッセージが表示されます）。
 
 ..  note::
-    現在は :doc:`Shafu <shafu>` でDMDLのコンパイルを行うことが出来ますが、DMDL EditorXでコンパイルを行うと、DMDLスクリプトファイルにエラーがあった場合にEclipseの :guilabel:`問題ビュー` にエラー内容が表示されます。そこからエラー箇所へジャンプすることも出来ます。
+    現在は :doc:`Shafu <../shafu>` でDMDLのコンパイルを行うことが出来ますが、DMDL EditorXでコンパイルを行うと、DMDLスクリプトファイルにエラーがあった場合にEclipseの :guilabel:`問題ビュー` にエラー内容が表示されます。そこからエラー箇所へジャンプすることも出来ます。
 
 JavaソースからDMDLへのジャンプ
 ------------------------------
