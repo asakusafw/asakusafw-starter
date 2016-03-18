@@ -47,6 +47,33 @@ yumable()
 {
   which yum > /dev/null 2>&1
 }
+
+select_apt_java_package()
+{
+    if [ -n "`sudo apt-cache search openjdk-8-jdk`" ]; then
+      echo "openjdk-8-jdk"
+      return 0
+    elif [ -n "`sudo apt-cache search openjdk-7-jdk`" ]; then
+      echo "openjdk-7-jdk"
+      return 0
+    else
+      return 1
+    fi
+}
+
+select_yum_java_package()
+{
+    if [ -n "`sudo yum list available java-1.8.0-openjdk-devel | grep java-1.8.0-openjdk-devel`" ]; then
+      echo "java-1.8.0-openjdk-devel"
+      return 0
+  elif [ -n "`sudo yum list available java-1.7.0-openjdk-devel | grep java-1.7.0-openjdk-devel`" ]; then
+      echo "java-1.7.0-openjdk-devel"
+      return 0
+    else
+      return 1
+    fi
+}
+
 ########################################
 # Start Message
 ########################################
@@ -113,8 +140,8 @@ if [ `uname` = "Darwin" ]; then
     # attempt to find java
 
     for candidate_regex in \
-      /Library/Java/JavaVirtualMachines/jdk1.7*/Contents/Home \
-      /System/Library/Java/JavaVirtualMachines/1.6*/Contents/Home ; do
+      /Library/Java/JavaVirtualMachines/jdk1.8*/Contents/Home \
+      /Library/Java/JavaVirtualMachines/jdk1.7*/Contents/Home ; do
         for candidate in `ls -rd $candidate_regex 2>/dev/null`; do
           if [ -e $candidate/bin/javac ]; then
             _JAVA_HOME_CANDIDATE=$candidate
@@ -124,42 +151,11 @@ if [ `uname` = "Darwin" ]; then
     done
     if [ -z "$_JAVA_HOME_CANDIDATE" ]; then
       echo "JDKは検出されませんでした。"
-      echo '
-  Java(JDK)がインストールされていないため、
-  Appleが提供するJDK6(AppleJDK)をインストールしてセットアップを続行します。
-
-  ** WARNING ********************************************************
-  AppleJDKを使用せず、OracleJDKを使用する場合は
-  インストールを中断してください。
-  
-  (OracleJDKを使用するには、OracleJDKを手動でインストールしてから
-  環境変数JAVA_HOMEにOracleJDKのインストールディレクトリを設定し、
-  再度 setup.sh を実行してインストールを行います)
-  *******************************************************************
-
-    '
-      read -p "AppleJDKをインストールしてインストールを続行しますか？:[Y/n]: " _YN
-      if [ "$_YN" ]; then
-        _YN=`echo $_YN | tr "[:upper:]" "[:lower:]"`
-      else
-        _YN="y"
-      fi
-      if [ "$_YN" = y ]; then
-        _JAVA_HOME="/System/Library/Frameworks/JavaVM.framework/Home"
-        while :
-        do
-          if [ -r $_JAVA_HOME ]; then
-            break
-          else
-            java > /dev/null 2>&1
-            read -p "Javaをインストールした後、[Enter]キーを押してインストールを続行してください。:: " _INSTR
-            continue
-          fi
-        done
-      else
-        echo "インストールを中断します。"
-        exit_abort
-      fi
+      echo ""
+      echo "インストールを中断します。"
+      echo "JDKのインストールディレクトリを環境変数JAVA_HOMEに設定した後"
+      echo "再度インストールを行なってください。"
+      exit_abort
     else
       echo ""
       echo "JDKを検出しました:[$_JAVA_HOME_CANDIDATE]"
@@ -183,9 +179,6 @@ if [ `uname` = "Darwin" ]; then
   fi
   _EXPORT="export JAVA_HOME=$_JAVA_HOME"'\n'
   _PATH='export PATH=$JAVA_HOME/bin:$PATH'
-  if javac -version 2>&1 | grep -q 1.6.0; then
-    _EXPORT="${_EXPORT}export _JAVA_OPTIONS=-Dfile.encoding=UTF-8"'\n'
-  fi
 else
 ### for Linux ###
   echo "Java(JDK)がインストールされているか確認します..."
@@ -201,22 +194,19 @@ else
     # attempt to find java
 
     for candidate_regex in \
+      /usr/lib/jvm/j2sdk1.8-oracle \
+      /usr/lib/jvm/java-8-oracle* \
+      /usr/java/jdk1.8* \
+      /usr/lib/jvm/java-1.8.0-openjdk* \
+      /usr/lib/jvm/java-8-openjdk* \
       /usr/lib/jvm/j2sdk1.7-oracle \
       /usr/lib/jvm/java-7-oracle* \
       /usr/java/jdk1.7* \
-      /usr/lib/j2sdk1.6-sun \
-      /usr/lib/jvm/java-6-sun \
-      /usr/lib/jvm/java-1.6.0-sun-1.6.0.* \
-      /usr/lib/jvm/j2sdk1.6-oracle \
-      /usr/java/jdk1.6* \
-      /Library/Java/Home \
-      /usr/java/default \
-      /usr/lib/jvm/default-java \
-      /usr/lib/jvm/java-openjdk \
       /usr/lib/jvm/java-1.7.0-openjdk* \
       /usr/lib/jvm/java-7-openjdk* \
-      /usr/lib/jvm/java-1.6.0-openjdk \
-      /usr/lib/jvm/java-1.6.0-openjdk-* ; do
+      /usr/lib/jvm/java-openjdk \
+      /usr/java/default \
+      /usr/lib/jvm/default-java ; do
         for candidate in `ls -rd $candidate_regex 2>/dev/null`; do
           if [ -e $candidate/bin/javac ]; then
             _JAVA_HOME_CANDIDATE=$candidate
@@ -251,12 +241,22 @@ else
         _RET=$?
         if [ $_RET -eq 0 ]; then
           sudo apt-get update
-          sudo apt-get install -y openjdk-7-jdk
+          _APT_JAVA_PACKAGE=`select_apt_java_package`
+          if [ $_RET -ne 0 ]; then
+            echo "インストール可能なOpenJDKパッケージが見つかりませんでした。インストールを中断します。"
+            exit_abort
+          fi
+          sudo apt-get install -y "$_APT_JAVA_PACKAGE"
         else
           yumable
           _RET=$?
           if [ $_RET -eq 0 ]; then
-            sudo yum install -y java-1.7.0-openjdk-devel
+            _YUM_JAVA_PACKAGE=`select_yum_java_package`
+            if [ $_RET -ne 0 ]; then
+              echo "インストール可能なOpenJDKパッケージが見つかりませんでした。インストールを中断します。"
+              exit_abort
+            fi
+            sudo yum install -y "$_YUM_JAVA_PACKAGE"
           else
             echo "apt-get または yum が使用出来ないため、インストールを中断します。"
             exit_abort
@@ -269,6 +269,8 @@ else
         echo "OpenJDKのインストールが完了しました。"
         # attempt to find java
         for javahome in \
+          /usr/lib/jvm/java-1.8.0-openjdk* \
+          /usr/lib/jvm/java-8-openjdk* \
           /usr/lib/jvm/java-1.7.0-openjdk* \
           /usr/lib/jvm/java-7-openjdk* \
           /usr/lib/jvm/java-openjdk ; do
