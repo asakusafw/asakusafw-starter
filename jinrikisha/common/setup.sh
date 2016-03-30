@@ -376,14 +376,19 @@ echo "
   - ASAKUSA_DEVELOP_HOME="$_ASAKUSA_DEVELOP_HOME"
   - ASAKUSA_HOME=\${ASAKUSA_DEVELOP_HOME}/asakusa
   - HADOOP_CMD=\${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop
-  - HADOOP_CLIENT_OPTS=-Xmx512m
+  - SPARK_CMD=\${ASAKUSA_DEVELOP_HOME}/spark/bin/spark-submit
   - HIVE_HOME=\${ASAKUSA_DEVELOP_HOME}/hive
-  - PATH: \$JAVA_HOME/bin:\${ASAKUSA_DEVELOP_HOME}/hadoop/bin: \\
-          \$ASAKUSA_DEVELOP_HOME/eclipse:\$ASAKUSA_HOME/yaess/bin: \\
-          \$HIVE_HOME/bin:\$PATH
+  - GRADLE_OPTS=-Dorg.gradle.daemon=true
+  - PATH: \${JAVA_HOME}/bin: \\
+          \${ASAKUSA_DEVELOP_HOME}/hadoop/bin: \\
+          \${ASAKUSA_DEVELOP_HOME}/spark/bin: \\
+          \${ASAKUSA_DEVELOP_HOME}/hive/bin: \\
+          \${ASAKUSA_DEVELOP_HOME}/eclipse: \\
+          \${ASAKUSA_HOME}/yaess/bin: \\
+          \${PATH}
 
 * インストールする環境にすでに
-  Java,Hadoop,Hive,Asakusa Frameworkがインストールされている場合、
+  Java,Hadoop,Spark,Hive,Asakusa Frameworkがインストールされている場合、
   これらの環境変数による影響に注意してください。
 
 * この設定を行わない場合、
@@ -494,8 +499,27 @@ tar xf hadoop-*.tar.gz
 mv hadoop-*/ hadoop
 mv hadoop "$ASAKUSA_DEVELOP_HOME"
 _EXPORT="${_EXPORT}"'export HADOOP_CMD=${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop\n'
-_EXPORT="${_EXPORT}"'export HADOOP_CLIENT_OPTS=-Xmx512m\n'
 _PATH="${_PATH}":'${ASAKUSA_DEVELOP_HOME}/hadoop/bin'
+cd -
+
+########################################
+# Install Spark
+########################################
+echo "Sparkをインストールしています。"
+
+cd archives
+tar xf spark-*.tgz
+mv spark-*/ spark
+mv spark "$ASAKUSA_DEVELOP_HOME"
+_EXPORT="${_EXPORT}"'export SPARK_CMD=${ASAKUSA_DEVELOP_HOME}/spark/bin/spark-submit\n'
+_PATH="${_PATH}":'${ASAKUSA_DEVELOP_HOME}/spark/bin'
+
+cp ${ASAKUSA_DEVELOP_HOME}/spark/conf/spark-env.sh.template ${ASAKUSA_DEVELOP_HOME}/spark/conf/spark-env.sh
+echo "
+export SPARK_DIST_CLASSPATH=\$(hadoop classpath)
+export HADOOP_CONF_DIR=${ASAKUSA_DEVELOP_HOME}/hadoop/conf
+" >> ${ASAKUSA_DEVELOP_HOME}/spark/conf/spark-env.sh
+
 cd -
 
 ########################################
@@ -536,6 +560,13 @@ else
 fi
 
 ########################################
+# Setup Gradle Configration
+########################################
+echo "Gradleの環境設定を行います。"
+
+_EXPORT="${_EXPORT}"'export GRADLE_OPTS=-Dorg.gradle.daemon=true\n'
+
+########################################
 # Setup Environment Variables
 ########################################
 echo "環境変数を設定しています。"
@@ -552,18 +583,15 @@ printf "${_EXPORT}${_PATH}\n" > "${_RIKISHA_PROFILE}"
 echo "Asakusa Frameworkをインストールしています。"
 
 cd "${ASAKUSA_DEVELOP_HOME}"/workspace
-curl -O "http://www.asakusafw.com/download/gradle-plugin/asakusa-example-project-${_ASAKUSAFW_VERSION}.tar.gz"
-tar xf "asakusa-example-project-${_ASAKUSAFW_VERSION}.tar.gz"
+curl -LO "https://github.com/asakusafw/asakusafw-examples/archive/${_ASAKUSAFW_VERSION}.tar.gz"
+tar xf "${_ASAKUSAFW_VERSION}.tar.gz"
 cd -
 
-cd "${ASAKUSA_DEVELOP_HOME}"/workspace/asakusa-example-project
-./gradlew installAsakusafw build eclipse
+cd "${ASAKUSA_DEVELOP_HOME}"/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-directio-csv
+./gradlew installAsakusafw attachMapreduceBatchapps attachSparkBatchapps test eclipse
 if [ $? -ne 0 ]; then
   exit_abort
 fi
-
-rm -fr "$ASAKUSA_HOME"/batchapps/*
-cp -pr build/batchc/* $ASAKUSA_HOME/batchapps
 cd -
 
 ########################################
@@ -647,13 +675,14 @@ Getting Started
 
 # サンプルテストデータの配置
 cd ~
-hadoop fs -rmr target/testing/directio
-hadoop fs -put $ASAKUSA_DEVELOP_HOME/workspace/asakusa-example-project/src/test/example-dataset/master target/testing/directio/master
-hadoop fs -put $ASAKUSA_DEVELOP_HOME/workspace/asakusa-example-project/src/test/example-dataset/sales target/testing/directio/sales
+hadoop fs -rm -r target/testing/directio/*
+hadoop fs -put ${ASAKUSA_DEVELOP_HOME}/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-directio-csv/src/test/example-dataset/master target/testing/directio/master
+hadoop fs -put ${ASAKUSA_DEVELOP_HOME}/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-directio-csv/src/test/example-dataset/sales target/testing/directio/sales
 
-# バッチの実行
+# バッチの実行 (MapReduce)
 yaess-batch.sh example.summarizeSales -A date=2011-04-01
-
+# バッチの実行 (Spark)
+yaess-batch.sh spark.example.summarizeSales -A date=2011-04-01
 
 # アプリケーションの開発
 # ----------------------
@@ -663,15 +692,14 @@ eclipse &
 
 # サンプルアプリケーションをワークスペースへインポート
 1. Eclipseのメニューから [File] -> [Import] -> [General] -> [Existing Projects into Workspace]を選択
-2. Importダイアログで右上の [Browse]ボタンを押して、表示されたダイアログでそのまま[OK]ボタンを押す
-3. asakusa-example-project というプロジェクトが選択されていることを確認したら、そのまま右下の [Finish]ボタンを押す
+2. asakusafw-examples-${_ASAKUSAFW_VERSION}/example-directio-csv を選択する
 
 # モデルクラスの生成
-cd $ASAKUSA_DEVELOP_HOME/workspace/asakusa-example-project
+cd ${ASAKUSA_DEVELOP_HOME}/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-directio-csv
 ./gradlew compileDMDL
 
 # バッチコンパイル
-cd $ASAKUSA_DEVELOP_HOME/workspace/asakusa-example-project
+cd ${ASAKUSA_DEVELOP_HOME}/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-directio-csv
 ./gradlew compileBatchapp
 
 ------------------------------------------------------------------
