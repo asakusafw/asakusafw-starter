@@ -27,7 +27,6 @@ fi
 _ASAKUSA_DEVELOP_HOME_DEFAULT="$HOME/asakusa-develop"
 _ADD_PROFILE_DEFAULT="y"
 _CREATE_ECLIPSE_SHORTCUT_DEFAULT="y"
-_ADD_LAUNCHD_CONF_DEFAULT="y"
 
 #---------------------------------------
 # Define Functions
@@ -422,43 +421,12 @@ if [ "$_YN" = "y" ]; then
     else
       _CREATE_ECLIPSE_SHORTCUT="n"
     fi
-    _ADD_LAUNCHD_CONF="n"
   else
     _CREATE_ECLIPSE_SHORTCUT="n"
-    echo "
-4) EclipseをGUI(Finder,Dock,Spotlightなど)から起動するために
-   必要な環境変数を /etc/launchd.conf に追加しますか？
-
-** WARNING **********************************************
-この設定は MacOSX 10.10 以降では使用できません。
-
-この設定はOS全体に適用されるため、
-他のアプリケーションに影響を与える可能性があります。
-
-この設定を行わない場合、
-Eclipseはターミナルまたはデスクトップのショートカットから
-起動してください。
-
-(EclipseをGUIから起動してもAsakusa Frameworkを使った
-アプリケーションのテストが正常に動作しません)
-*********************************************************
-"
-    read -p "/etc/launchd.conf に環境変数を追加しますか？:[Y/n]: " _YN
-    if [ "$_YN" ]; then
-      _YN=`echo $_YN | tr "[:upper:]" "[:lower:]"`
-    else
-      _YN="$_ADD_LAUNCHD_CONF_DEFAULT"
-    fi
-    if [ "$_YN" = "y" ]; then
-      _ADD_LAUNCHD_CONF="y"
-    else
-      _ADD_LAUNCHD_CONF="n"
-    fi
   fi
 else
   _ADD_PROFILE="n"
   _CREATE_ECLIPSE_SHORTCUT="n"
-  _ADD_LAUNCHD_CONF="n"
 fi
 
 ########################################
@@ -613,19 +581,6 @@ fi" >> $_TARGET_PROFILE
     elif [ -d ~/デスクトップ ]; then
       ln -fs "$ASAKUSA_DEVELOP_HOME"/eclipse/eclipse ~/デスクトップ
     fi
-  fi
-
-  if [ "$_ADD_LAUNCHD_CONF" = "y" ]; then
-    echo "/etc/launchd.confに環境変数の設定を追加します。"
-    echo "(sudoのパスワード入力が必要となる場合があります)"
-
-    _SETENV="setenv JAVA_HOME $_JAVA_HOME"'\n'
-    if javac -version 2>&1 | grep -q 1.6.0; then
-      _SETENV="${_SETENV}setenv _JAVA_OPTIONS=-Dfile.encoding=UTF-8"'\n'
-    fi
-    _SETENV="${_SETENV}setenv ASAKUSA_HOME ${ASAKUSA_DEVELOP_HOME}/asakusa"'\n'
-    _SETENV="${_SETENV}setenv HADOOP_CMD ${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop"'\n'
-    printf "\n${_SETENV}\n" | sudo tee -a /etc/launchd.conf
   fi
 fi
 
