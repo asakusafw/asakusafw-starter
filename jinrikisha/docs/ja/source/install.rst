@@ -33,7 +33,7 @@ UbuntuやMacOSXではインストール時にデフォルトで自ホスト名�
 
 Jinrikishaを使ったAsakusa Framework開発環境のインストール手順を説明します。
 
-ここでは主にUbuntu DesktopへLinux-32bit版を使ってインストールする手順を説明しますが、他のプラットフォームにおいてもインストール手順は同様です。
+ここでは主にUbuntu DesktopへLinux-64bit版を使ってインストールする手順を説明しますが、他のプラットフォームにおいてもインストール手順は同様です。
 
 setup.shの実行
 --------------
@@ -42,8 +42,8 @@ setup.shの実行
 
 ..  code-block:: sh
 
-    tar -xf jinrikisha-linux-32bit-*.tar.gz
-    jinrikisha-linux-32bit/setup.sh
+    tar -xf jinrikisha-linux-64bit-*.tar.gz
+    jinrikisha-linux-64bit/setup.sh
 
 :program:`setup.sh` を実行すると、Jinrikishaのインストーラ画面が表示され、インストールが開始されます。
 
@@ -121,7 +121,7 @@ MacOSX版では、Javaがセットアップされていない場合、OracleJDK�
 
 Asakusa Frameworkの開発環境をインストールするディレクトリパスを指定します。何も入力しない場合、デフォルトで :file:`$HOME/asakusa-develop` が指定されます。
 
-..  code-block:: sh
+..  code-block:: none
 
     1) Asakusa Framework開発環境のインストールディレクトリ(ASAKUSA_DEVELOP_HOME)を入力してください。: /home/asakusa/asakusa-develop:
 
@@ -133,9 +133,9 @@ Asakusa Frameworkの開発環境をインストールするディレクトリパ
 
 インストールするAsakusa Frameworkのバージョンを入力します。何も入力しない場合、デフォルトでJinriksihaの推奨バージョンが指定されます。
 
-..  code-block:: sh
+..  code-block:: none
 
-    2) Asakusa Frameworkのバージョンを入力してください。: 0.7.3:
+    2) Asakusa Frameworkのバージョンを入力してください。: 0.8.0:
 
 ..  attention::
     基本的にはデフォルトの推奨バージョンをそのまま利用することを推奨します。その他のバージョンとの組み合わせは動作検証が行われていない可能性があります。
@@ -150,24 +150,29 @@ OSユーザのログイン時に読み込まれるプロファイルにAsakusa F
 この設定を行うと、OSユーザのログイン時に以下の画面説明に示す環境変数がログイン時に読み込まれます。
 OSユーザをAsakusa Frameworkの開発専用のユーザとして使用する場合は、環境変数を追加すると便利でしょう。
 
-..  code-block:: sh
+..  code-block:: none
 
     3) /home/asakusa/.profile に環境変数の設定を追加しますか？
 
     ** WARNING ********************************************************
     * この設定を行う場合、以下の環境変数が設定されます。
-      - JAVA_HOME=/usr/lib/jvm/java-7-openjdk-i386
+      - JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
       - ASAKUSA_DEVELOP_HOME=/home/asakusa/asakusa-develop
       - ASAKUSA_HOME=${ASAKUSA_DEVELOP_HOME}/asakusa
       - HADOOP_CMD=${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop
-      - HADOOP_CLIENT_OPTS=-Xmx512m
+      - SPARK_CMD=${ASAKUSA_DEVELOP_HOME}/spark/bin/spark-submit
       - HIVE_HOME=${ASAKUSA_DEVELOP_HOME}/hive
-      - PATH: $JAVA_HOME/bin:${ASAKUSA_DEVELOP_HOME}/hadoop/bin: \
-              $ASAKUSA_DEVELOP_HOME/eclipse:$ASAKUSA_HOME/yaess/bin: \
-              $HIVE_HOME/bin:$PATH
+      - GRADLE_OPTS=-Dorg.gradle.daemon=true
+      - PATH: ${JAVA_HOME}/bin: \
+              ${ASAKUSA_DEVELOP_HOME}/hadoop/bin: \
+              ${ASAKUSA_DEVELOP_HOME}/spark/bin: \
+              ${ASAKUSA_DEVELOP_HOME}/hive/bin: \
+              ${ASAKUSA_DEVELOP_HOME}/eclipse: \
+              ${ASAKUSA_HOME}/yaess/bin: \
+              ${PATH}
 
     * インストールする環境にすでに
-      Java,Hadoop,Hive,Asakusa Frameworkがインストールされている場合、
+      Java,Hadoop,Spark,Hive,Asakusa Frameworkがインストールされている場合、
       これらの環境変数による影響に注意してください。
 
     * この設定を行わない場合、
@@ -184,49 +189,21 @@ OSユーザをAsakusa Frameworkの開発専用のユーザとして使用する�
 ..  tip::
     ログインプロファイルは、 OSユーザの環境に ``$HOME/.bash_profile`` が存在した場合は ``$HOME/.bash_profile`` に対して追加し、 ``$HOME/.bash_profile`` が存在しない場合は ``$HOME/.profile`` に追加します。
 
-4-1. (Linux版のみ) Eclipseのショートカット追加の設定
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4. (Linux版のみ) Eclipseのショートカット追加の設定
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :ref:`configure-profile` で環境変数設定の追加を行った場合、 デスクトップにEclipseのショートカットを追加するかを選択出来ます。
 
-..  code-block:: sh
+..  code-block:: none
 
     4) デスクトップにEclipseのショートカットを追加しますか？:[Y/n]:
-
-4-2. (MacOSX版のみ) デスクトップ環境に対する環境変数追加の設定
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-MacOSX版では、 :ref:`configure-profile` で環境変数設定の追加を行った場合でも、OSユーザログイン時にデスクトップ環境に対して環境変数を読み込ませるために、ログインプロファイルの他に :file:`/etc/launchd.conf` に環境変数を追加する必要があります。
-
-この設定を行うことで、OSユーザのログイン時にAsakusa Frameworkを使った開発に必要な環境変数が読み込まれます。
-
-..  code-block:: sh
-
-    4) EclipseをGUI(Finder,Dock,Spotlightなど)から起動するために
-       必要な環境変数を /etc/launchd.conf に追加しますか？
-
-    ** WARNING **********************************************
-    この設定は MacOSX 10.10 以降では使用できません。
-
-    この設定はOS全体に適用されるため、
-    他のアプリケーションに影響を与える可能性があります。
-
-    この設定を行わない場合、
-    Eclipseはターミナルまたはデスクトップのショートカットから
-    起動してください。
-
-    (EclipseをGUIから起動してもAsakusa Frameworkを使った
-    アプリケーションのテストが正常に動作しません)
-    *********************************************************
-
-    /etc/launchd.conf に環境変数を追加しますか？:[Y/n]:
 
 インストールの実行
 ------------------
 
 インストールのパラメータ入力が完了すると、以下の画面が表示されてインストールの続行を促されます。注意事項を確認し、 ``Enter`` キーを押してください。
 
-..  code-block:: sh
+..  code-block:: none
 
     ------------------------------------------------------------
     インストールの準備が完了しました。
@@ -242,7 +219,7 @@ MacOSX版では、 :ref:`configure-profile` で環境変数設定の追加を行
 
 インストールが完了したら、以下の画面が表示されます。
 
-..  code-block:: sh
+..  code-block:: none
 
     ------------------------------------------------------------
     インストールが成功しました。
@@ -250,7 +227,7 @@ MacOSX版では、 :ref:`configure-profile` で環境変数設定の追加を行
 
 :ref:`configure-profile` で環境変数設定の追加を行った場合、以下の画面が表示されOSの再起動が促されますので、再起動を行なってください。
 
-..  code-block:: sh
+..  code-block:: none
 
     デスクトップ環境に対して /home/asakusa/.profile の変更を反映するためOSを再起動してください。
     今すぐにOSを再起動しますか？:[y/n]:
@@ -288,6 +265,10 @@ JinrikishaによってインストールされたAsakusa Framework開発環境�
       - Eclipseのインストールディレクトリ ( MacOSX版は ``Eclipse.app`` )
     * - :file:`hadoop`
       - Hadoopのインストールディレクトリ
+    * - :file:`hive`
+      - Hiveのインストールディレクトリ
+    * - :file:`spark`
+      - Sparkのインストールディレクトリ
     * - :file:`workspace`
       - Eclipseのワークスペース用ディレクトリ
     * - :file:`README`

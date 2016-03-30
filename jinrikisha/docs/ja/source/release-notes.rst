@@ -4,6 +4,22 @@
 Jinrikisha リリースノート
 =========================
 
+Release 0.8.0
+=============
+
+(開発中)
+
+* Asakusa Framework 0.8.0 を推奨バージョンに変更
+* JDK 8に対応
+* JDK 6の対応を削除
+* 同梱するHadoopのバージョンを Apache Hadoop 1.2.1 から Apache Hadoop 2.7.2 に変更
+* Apache Sparkを同梱し、これをセットアップする機能を追加
+* 同梱するEclipseのバージョンを 4.5.2 にアップデート
+* 古いMacOSX向けのセットアップ機能(launchd.confの設定など)を削除
+
+..  attention::
+    同梱のソフトウェアに対する動作検証などの理由により、 本バージョン以降では **インストールするAsakusa Frameworkのバージョンは 0.7.6 以降に指定することを強く推奨します。**
+
 Release 0.7.6
 =============
 

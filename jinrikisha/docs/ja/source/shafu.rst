@@ -43,11 +43,11 @@ Shafuは以下のプラットフォームで動作を検証しています。
       - 基本的な動作確認のみ
     * - OS
       - Ubuntu Desktop (32bit/64bit)
-      - 14.04
+      - 14.04 / 15.10
       - 推奨環境
     * - OS
       - CentOS (32bit/64bit)
-      - 6.2
+      - 7.2
       -
     * - OS
       - MacOSX

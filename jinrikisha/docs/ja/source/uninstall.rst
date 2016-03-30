@@ -55,7 +55,7 @@ Eclipseのデスクトップのショートカットは以下のシンボリッ�
 ..  code-block:: sh
 
     # Configuration for Jinrikisha (Asakusa Framework Starter Package with Installer)
-    if [ -f "$HOME/asakusa-develop/.rikisha_profile" ]; then 
+    if [ -f "$HOME/asakusa-develop/.rikisha_profile" ]; then
       . "$HOME/asakusa-develop/.rikisha_profile"
     fi
 
@@ -66,6 +66,9 @@ Eclipseのデスクトップのショートカットは以下のシンボリッ�
 
 (MacOSX版のみ) /etc/launchd.confの環境変数設定の削除
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..  attention::
+    この手順は Jinrikisha 0.7.6 以前のバージョンをアンインストールする場合に確認が必要です。
 
 MacOSX版では、インストール時に :file:`/etc/launchd.conf` に設定を追加するよう選択した場合は :file:`/etc/launchd.conf` に以下の4行が追加されているため、この部分を削除してファイルを保存します。
 
