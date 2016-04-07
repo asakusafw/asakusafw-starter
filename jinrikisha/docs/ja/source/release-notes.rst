@@ -7,7 +7,7 @@ Jinrikisha リリースノート
 Release 0.8.0
 =============
 
-(開発中)
+Apr 08, 2016
 
 * Asakusa Framework 0.8.0 を推奨バージョンに変更
 * JDK 8に対応
