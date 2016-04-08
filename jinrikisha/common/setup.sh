@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright 2012-2015 Asakusa Framework Team.
+# Copyright 2012-2016 Asakusa Framework Team.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,7 +27,6 @@ fi
 _ASAKUSA_DEVELOP_HOME_DEFAULT="$HOME/asakusa-develop"
 _ADD_PROFILE_DEFAULT="y"
 _CREATE_ECLIPSE_SHORTCUT_DEFAULT="y"
-_ADD_LAUNCHD_CONF_DEFAULT="y"
 
 #---------------------------------------
 # Define Functions
@@ -47,6 +46,33 @@ yumable()
 {
   which yum > /dev/null 2>&1
 }
+
+select_apt_java_package()
+{
+    if [ -n "`sudo apt-cache search openjdk-8-jdk`" ]; then
+      echo "openjdk-8-jdk"
+      return 0
+    elif [ -n "`sudo apt-cache search openjdk-7-jdk`" ]; then
+      echo "openjdk-7-jdk"
+      return 0
+    else
+      return 1
+    fi
+}
+
+select_yum_java_package()
+{
+    if [ -n "`sudo yum list available java-1.8.0-openjdk-devel | grep java-1.8.0-openjdk-devel`" ]; then
+      echo "java-1.8.0-openjdk-devel"
+      return 0
+  elif [ -n "`sudo yum list available java-1.7.0-openjdk-devel | grep java-1.7.0-openjdk-devel`" ]; then
+      echo "java-1.7.0-openjdk-devel"
+      return 0
+    else
+      return 1
+    fi
+}
+
 ########################################
 # Start Message
 ########################################
@@ -113,8 +139,8 @@ if [ `uname` = "Darwin" ]; then
     # attempt to find java
 
     for candidate_regex in \
-      /Library/Java/JavaVirtualMachines/jdk1.7*/Contents/Home \
-      /System/Library/Java/JavaVirtualMachines/1.6*/Contents/Home ; do
+      /Library/Java/JavaVirtualMachines/jdk1.8*/Contents/Home \
+      /Library/Java/JavaVirtualMachines/jdk1.7*/Contents/Home ; do
         for candidate in `ls -rd $candidate_regex 2>/dev/null`; do
           if [ -e $candidate/bin/javac ]; then
             _JAVA_HOME_CANDIDATE=$candidate
@@ -124,42 +150,11 @@ if [ `uname` = "Darwin" ]; then
     done
     if [ -z "$_JAVA_HOME_CANDIDATE" ]; then
       echo "JDKは検出されませんでした。"
-      echo '
-  Java(JDK)がインストールされていないため、
-  Appleが提供するJDK6(AppleJDK)をインストールしてセットアップを続行します。
-
-  ** WARNING ********************************************************
-  AppleJDKを使用せず、OracleJDKを使用する場合は
-  インストールを中断してください。
-  
-  (OracleJDKを使用するには、OracleJDKを手動でインストールしてから
-  環境変数JAVA_HOMEにOracleJDKのインストールディレクトリを設定し、
-  再度 setup.sh を実行してインストールを行います)
-  *******************************************************************
-
-    '
-      read -p "AppleJDKをインストールしてインストールを続行しますか？:[Y/n]: " _YN
-      if [ "$_YN" ]; then
-        _YN=`echo $_YN | tr "[:upper:]" "[:lower:]"`
-      else
-        _YN="y"
-      fi
-      if [ "$_YN" = y ]; then
-        _JAVA_HOME="/System/Library/Frameworks/JavaVM.framework/Home"
-        while :
-        do
-          if [ -r $_JAVA_HOME ]; then
-            break
-          else
-            java > /dev/null 2>&1
-            read -p "Javaをインストールした後、[Enter]キーを押してインストールを続行してください。:: " _INSTR
-            continue
-          fi
-        done
-      else
-        echo "インストールを中断します。"
-        exit_abort
-      fi
+      echo ""
+      echo "インストールを中断します。"
+      echo "JDKのインストールディレクトリを環境変数JAVA_HOMEに設定した後"
+      echo "再度インストールを行なってください。"
+      exit_abort
     else
       echo ""
       echo "JDKを検出しました:[$_JAVA_HOME_CANDIDATE]"
@@ -183,9 +178,6 @@ if [ `uname` = "Darwin" ]; then
   fi
   _EXPORT="export JAVA_HOME=$_JAVA_HOME"'\n'
   _PATH='export PATH=$JAVA_HOME/bin:$PATH'
-  if javac -version 2>&1 | grep -q 1.6.0; then
-    _EXPORT="${_EXPORT}export _JAVA_OPTIONS=-Dfile.encoding=UTF-8"'\n'
-  fi
 else
 ### for Linux ###
   echo "Java(JDK)がインストールされているか確認します..."
@@ -201,22 +193,19 @@ else
     # attempt to find java
 
     for candidate_regex in \
+      /usr/lib/jvm/j2sdk1.8-oracle \
+      /usr/lib/jvm/java-8-oracle* \
+      /usr/java/jdk1.8* \
+      /usr/lib/jvm/java-1.8.0-openjdk* \
+      /usr/lib/jvm/java-8-openjdk* \
       /usr/lib/jvm/j2sdk1.7-oracle \
       /usr/lib/jvm/java-7-oracle* \
       /usr/java/jdk1.7* \
-      /usr/lib/j2sdk1.6-sun \
-      /usr/lib/jvm/java-6-sun \
-      /usr/lib/jvm/java-1.6.0-sun-1.6.0.* \
-      /usr/lib/jvm/j2sdk1.6-oracle \
-      /usr/java/jdk1.6* \
-      /Library/Java/Home \
-      /usr/java/default \
-      /usr/lib/jvm/default-java \
-      /usr/lib/jvm/java-openjdk \
       /usr/lib/jvm/java-1.7.0-openjdk* \
       /usr/lib/jvm/java-7-openjdk* \
-      /usr/lib/jvm/java-1.6.0-openjdk \
-      /usr/lib/jvm/java-1.6.0-openjdk-* ; do
+      /usr/lib/jvm/java-openjdk \
+      /usr/java/default \
+      /usr/lib/jvm/default-java ; do
         for candidate in `ls -rd $candidate_regex 2>/dev/null`; do
           if [ -e $candidate/bin/javac ]; then
             _JAVA_HOME_CANDIDATE=$candidate
@@ -251,12 +240,22 @@ else
         _RET=$?
         if [ $_RET -eq 0 ]; then
           sudo apt-get update
-          sudo apt-get install -y openjdk-7-jdk
+          _APT_JAVA_PACKAGE=`select_apt_java_package`
+          if [ $_RET -ne 0 ]; then
+            echo "インストール可能なOpenJDKパッケージが見つかりませんでした。インストールを中断します。"
+            exit_abort
+          fi
+          sudo apt-get install -y "$_APT_JAVA_PACKAGE"
         else
           yumable
           _RET=$?
           if [ $_RET -eq 0 ]; then
-            sudo yum install -y java-1.7.0-openjdk-devel
+            _YUM_JAVA_PACKAGE=`select_yum_java_package`
+            if [ $_RET -ne 0 ]; then
+              echo "インストール可能なOpenJDKパッケージが見つかりませんでした。インストールを中断します。"
+              exit_abort
+            fi
+            sudo yum install -y "$_YUM_JAVA_PACKAGE"
           else
             echo "apt-get または yum が使用出来ないため、インストールを中断します。"
             exit_abort
@@ -269,6 +268,8 @@ else
         echo "OpenJDKのインストールが完了しました。"
         # attempt to find java
         for javahome in \
+          /usr/lib/jvm/java-1.8.0-openjdk* \
+          /usr/lib/jvm/java-8-openjdk* \
           /usr/lib/jvm/java-1.7.0-openjdk* \
           /usr/lib/jvm/java-7-openjdk* \
           /usr/lib/jvm/java-openjdk ; do
@@ -374,14 +375,19 @@ echo "
   - ASAKUSA_DEVELOP_HOME="$_ASAKUSA_DEVELOP_HOME"
   - ASAKUSA_HOME=\${ASAKUSA_DEVELOP_HOME}/asakusa
   - HADOOP_CMD=\${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop
-  - HADOOP_CLIENT_OPTS=-Xmx512m
+  - SPARK_CMD=\${ASAKUSA_DEVELOP_HOME}/spark/bin/spark-submit
   - HIVE_HOME=\${ASAKUSA_DEVELOP_HOME}/hive
-  - PATH: \$JAVA_HOME/bin:\${ASAKUSA_DEVELOP_HOME}/hadoop/bin: \\
-          \$ASAKUSA_DEVELOP_HOME/eclipse:\$ASAKUSA_HOME/yaess/bin: \\
-          \$HIVE_HOME/bin:\$PATH
+  - GRADLE_OPTS=-Dorg.gradle.daemon=true
+  - PATH: \${JAVA_HOME}/bin: \\
+          \${ASAKUSA_DEVELOP_HOME}/hadoop/bin: \\
+          \${ASAKUSA_DEVELOP_HOME}/spark/bin: \\
+          \${ASAKUSA_DEVELOP_HOME}/hive/bin: \\
+          \${ASAKUSA_DEVELOP_HOME}/eclipse: \\
+          \${ASAKUSA_HOME}/yaess/bin: \\
+          \${PATH}
 
 * インストールする環境にすでに
-  Java,Hadoop,Hive,Asakusa Frameworkがインストールされている場合、
+  Java,Hadoop,Spark,Hive,Asakusa Frameworkがインストールされている場合、
   これらの環境変数による影響に注意してください。
 
 * この設定を行わない場合、
@@ -415,43 +421,12 @@ if [ "$_YN" = "y" ]; then
     else
       _CREATE_ECLIPSE_SHORTCUT="n"
     fi
-    _ADD_LAUNCHD_CONF="n"
   else
     _CREATE_ECLIPSE_SHORTCUT="n"
-    echo "
-4) EclipseをGUI(Finder,Dock,Spotlightなど)から起動するために
-   必要な環境変数を /etc/launchd.conf に追加しますか？
-
-** WARNING **********************************************
-この設定は MacOSX 10.10 以降では使用できません。
-
-この設定はOS全体に適用されるため、
-他のアプリケーションに影響を与える可能性があります。
-
-この設定を行わない場合、
-Eclipseはターミナルまたはデスクトップのショートカットから
-起動してください。
-
-(EclipseをGUIから起動してもAsakusa Frameworkを使った
-アプリケーションのテストが正常に動作しません)
-*********************************************************
-"
-    read -p "/etc/launchd.conf に環境変数を追加しますか？:[Y/n]: " _YN
-    if [ "$_YN" ]; then
-      _YN=`echo $_YN | tr "[:upper:]" "[:lower:]"`
-    else
-      _YN="$_ADD_LAUNCHD_CONF_DEFAULT"
-    fi
-    if [ "$_YN" = "y" ]; then
-      _ADD_LAUNCHD_CONF="y"
-    else
-      _ADD_LAUNCHD_CONF="n"
-    fi
   fi
 else
   _ADD_PROFILE="n"
   _CREATE_ECLIPSE_SHORTCUT="n"
-  _ADD_LAUNCHD_CONF="n"
 fi
 
 ########################################
@@ -492,8 +467,27 @@ tar xf hadoop-*.tar.gz
 mv hadoop-*/ hadoop
 mv hadoop "$ASAKUSA_DEVELOP_HOME"
 _EXPORT="${_EXPORT}"'export HADOOP_CMD=${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop\n'
-_EXPORT="${_EXPORT}"'export HADOOP_CLIENT_OPTS=-Xmx512m\n'
 _PATH="${_PATH}":'${ASAKUSA_DEVELOP_HOME}/hadoop/bin'
+cd -
+
+########################################
+# Install Spark
+########################################
+echo "Sparkをインストールしています。"
+
+cd archives
+tar xf spark-*.tgz
+mv spark-*/ spark
+mv spark "$ASAKUSA_DEVELOP_HOME"
+_EXPORT="${_EXPORT}"'export SPARK_CMD=${ASAKUSA_DEVELOP_HOME}/spark/bin/spark-submit\n'
+_PATH="${_PATH}":'${ASAKUSA_DEVELOP_HOME}/spark/bin'
+
+cp ${ASAKUSA_DEVELOP_HOME}/spark/conf/spark-env.sh.template ${ASAKUSA_DEVELOP_HOME}/spark/conf/spark-env.sh
+echo "
+export SPARK_DIST_CLASSPATH=\$(hadoop classpath)
+export HADOOP_CONF_DIR=${ASAKUSA_DEVELOP_HOME}/hadoop/conf
+" >> ${ASAKUSA_DEVELOP_HOME}/spark/conf/spark-env.sh
+
 cd -
 
 ########################################
@@ -534,6 +528,13 @@ else
 fi
 
 ########################################
+# Setup Gradle Configration
+########################################
+echo "Gradleの環境設定を行います。"
+
+_EXPORT="${_EXPORT}"'export GRADLE_OPTS=-Dorg.gradle.daemon=true\n'
+
+########################################
 # Setup Environment Variables
 ########################################
 echo "環境変数を設定しています。"
@@ -550,18 +551,15 @@ printf "${_EXPORT}${_PATH}\n" > "${_RIKISHA_PROFILE}"
 echo "Asakusa Frameworkをインストールしています。"
 
 cd "${ASAKUSA_DEVELOP_HOME}"/workspace
-curl -O "http://www.asakusafw.com/download/gradle-plugin/asakusa-example-project-${_ASAKUSAFW_VERSION}.tar.gz"
-tar xf "asakusa-example-project-${_ASAKUSAFW_VERSION}.tar.gz"
+curl -LO "https://github.com/asakusafw/asakusafw-examples/archive/${_ASAKUSAFW_VERSION}.tar.gz"
+tar xf "${_ASAKUSAFW_VERSION}.tar.gz"
 cd -
 
-cd "${ASAKUSA_DEVELOP_HOME}"/workspace/asakusa-example-project
-./gradlew installAsakusafw build eclipse
+cd "${ASAKUSA_DEVELOP_HOME}"/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-directio-csv
+./gradlew installAsakusafw attachMapreduceBatchapps attachSparkBatchapps test eclipse
 if [ $? -ne 0 ]; then
   exit_abort
 fi
-
-rm -fr "$ASAKUSA_HOME"/batchapps/*
-cp -pr build/batchc/* $ASAKUSA_HOME/batchapps
 cd -
 
 ########################################
@@ -583,19 +581,6 @@ fi" >> $_TARGET_PROFILE
     elif [ -d ~/デスクトップ ]; then
       ln -fs "$ASAKUSA_DEVELOP_HOME"/eclipse/eclipse ~/デスクトップ
     fi
-  fi
-
-  if [ "$_ADD_LAUNCHD_CONF" = "y" ]; then
-    echo "/etc/launchd.confに環境変数の設定を追加します。"
-    echo "(sudoのパスワード入力が必要となる場合があります)"
-
-    _SETENV="setenv JAVA_HOME $_JAVA_HOME"'\n'
-    if javac -version 2>&1 | grep -q 1.6.0; then
-      _SETENV="${_SETENV}setenv _JAVA_OPTIONS=-Dfile.encoding=UTF-8"'\n'
-    fi
-    _SETENV="${_SETENV}setenv ASAKUSA_HOME ${ASAKUSA_DEVELOP_HOME}/asakusa"'\n'
-    _SETENV="${_SETENV}setenv HADOOP_CMD ${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop"'\n'
-    printf "\n${_SETENV}\n" | sudo tee -a /etc/launchd.conf
   fi
 fi
 
@@ -645,13 +630,14 @@ Getting Started
 
 # サンプルテストデータの配置
 cd ~
-hadoop fs -rmr target/testing/directio
-hadoop fs -put $ASAKUSA_DEVELOP_HOME/workspace/asakusa-example-project/src/test/example-dataset/master target/testing/directio/master
-hadoop fs -put $ASAKUSA_DEVELOP_HOME/workspace/asakusa-example-project/src/test/example-dataset/sales target/testing/directio/sales
+hadoop fs -rm -r target/testing/directio/*
+hadoop fs -put ${ASAKUSA_DEVELOP_HOME}/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-directio-csv/src/test/example-dataset/master target/testing/directio/master
+hadoop fs -put ${ASAKUSA_DEVELOP_HOME}/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-directio-csv/src/test/example-dataset/sales target/testing/directio/sales
 
-# バッチの実行
+# バッチの実行 (MapReduce)
 yaess-batch.sh example.summarizeSales -A date=2011-04-01
-
+# バッチの実行 (Spark)
+yaess-batch.sh spark.example.summarizeSales -A date=2011-04-01
 
 # アプリケーションの開発
 # ----------------------
@@ -661,15 +647,14 @@ eclipse &
 
 # サンプルアプリケーションをワークスペースへインポート
 1. Eclipseのメニューから [File] -> [Import] -> [General] -> [Existing Projects into Workspace]を選択
-2. Importダイアログで右上の [Browse]ボタンを押して、表示されたダイアログでそのまま[OK]ボタンを押す
-3. asakusa-example-project というプロジェクトが選択されていることを確認したら、そのまま右下の [Finish]ボタンを押す
+2. asakusafw-examples-${_ASAKUSAFW_VERSION}/example-directio-csv を選択する
 
 # モデルクラスの生成
-cd $ASAKUSA_DEVELOP_HOME/workspace/asakusa-example-project
+cd ${ASAKUSA_DEVELOP_HOME}/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-directio-csv
 ./gradlew compileDMDL
 
 # バッチコンパイル
-cd $ASAKUSA_DEVELOP_HOME/workspace/asakusa-example-project
+cd ${ASAKUSA_DEVELOP_HOME}/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-directio-csv
 ./gradlew compileBatchapp
 
 ------------------------------------------------------------------

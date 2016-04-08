@@ -13,7 +13,7 @@ DMDL Editorプラグインとは
 
 * DMDLスクリプトのキーワードに色が付きます。
 * 別のデータモデルを参照しているデータモデルにおいて、参照元データモデルへジャンプすることが出来ます。
-* GradleやMavenを使わずにEclipse上でDMDLスクリプトのコンパイルを行い、Javaのデータモデルクラスを生成することが出来ます。
+* GradleやMavenを使わずにEclipse上でDMDLスクリプトのコンパイルを行い、Javaのデータモデルクラスを生成することが出来ます。（現在は :doc:`Shafu <../shafu>` で行うことが出来ます）
 * Javaソース上のデータモデルのクラス名あるいはメソッド名からDMDLスクリプトファイルへジャンプすることが出来ます。
 
 ..  [#] 機能やインストール手順の詳細については、 `DMDL EditorX`_ のサイトを確認してください。 
@@ -58,9 +58,25 @@ Jinrikisha バージョン |version| に同梱されているEclipseにはXtext�
 
 6. Eclipseを再起動します。
 
-..  attention::
-   もし「 ``Do you want to add the Xtext nature to the project 'プロジェクト名'?`` 」というメッセージのダイアログが表示されたら、「Yes」ボタンを押してください。
-   これは、プロジェクトにXtextネイチャーを追加するもので、追加しないとXtextの機能を使うことが出来ません。
+..  note::
+    DMDL EditorXはXtextの機能を使っており、DMDL EditorXを使用するEclipseプロジェクトでXtextが有効になっている必要があります。
+    （通常のJavaプロジェクトではパッケージエクスプローラー上のプロジェクトのアイコンにJマークが付いていますが、Xtextが有効になっているとXマークに変わります）
+    DMDL EditorXのインストール後、dmdlファイルを初めて開いた時などにXtextネイチャーがEclipseプロジェクトに登録され、Xtextが有効になります。
+
+..  tip::
+    :doc:`Shafu <../shafu>` の :guilabel:`Eclipseプロジェクト情報の再構成` や gradlewコマンド でEclipseプロジェクト情報を再構成すると、Xtextネイチャーの情報がクリアされ、Xtextに依存した機能が使えなくなります。
+    この場合は、いずれかのDMDLスクリプトファイルを新規に開く（開いている場合は一旦閉じてから再度開く）と再び使えるようになります。
+
+..  tip::
+    Asakusaアプリケーションのbuild.gradleに以下の定義を追加しておくと、Eclipseプロジェクト情報の再構成を行ってもXtextネイチャーの情報がクリアされなくなります。
+
+    .. code-block:: groovy
+
+       eclipse {
+           project {
+               natures 'org.eclipse.xtext.ui.shared.xtextNature'
+           }
+       }
 
 DMDL Editorプラグインの機能の紹介
 =================================
@@ -99,13 +115,16 @@ DMDLのコンパイルを行う機能です。
 
 ツールバーの「DMDL compile」のアイコンをクリックすると、コンパイルが実行されます（コンソール上にコンパイルメッセージが表示されます）。
 
+..  note::
+    現在は :doc:`Shafu <../shafu>` でDMDLのコンパイルを行うことが出来ますが、DMDL EditorXでコンパイルを行うと、DMDLスクリプトファイルにエラーがあった場合にEclipseの :guilabel:`問題ビュー` にエラー内容が表示されます。そこからエラー箇所へジャンプすることも出来ます。
+
 JavaソースからDMDLへのジャンプ
 ------------------------------
 
 Javaのソースコード上のデータモデルのクラスやメソッドから定義元のDMDLへジャンプする機能です。
 
 例えば以下のような演算子クラスのソースコードにおいて、 ``ErrorRecord`` （データモデルのクラス名）や ``setMessageAsString`` （データモデルのメソッド名）を ``Ctrl`` キーを押しながらマウスでクリックすると、ジャンプ先の選択肢が表示されます。
-ここで「 `guilabel:`Open DMDL` 」を選ぶとDMDLスクリプトファイルへジャンプします。
+ここで「 :guilabel:`Open DMDL` 」を選ぶとDMDLスクリプトファイルへジャンプします。
 
 ..  code-block:: java
 

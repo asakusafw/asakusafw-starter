@@ -29,6 +29,13 @@ Jinrikishaはインストールパッケージに `Apache Hadoop`_ を同梱し�
 
 HadoopはJinrikishaによって自動的にインストールされ、スタンドアロンモードで動作するよう設定されます。
 
+Sparkのインストールとセットアップ
+----------------------------------
+
+Jinrikishaはインストールパッケージに `Apache Spark`_ を同梱しています。
+
+SparkもHadoopと同様、Jinrikishaによって自動的にインストールされ、スタンドアロンモードで動作するよう設定されます。
+
 環境変数の設定
 --------------
 
@@ -73,6 +80,7 @@ Jinrikisha のインストール時に指定した単一のディレクトリ配
 ..  _`開発の流れ`: http://docs.asakusafw.com/latest/release/ja/html/introduction/next-step.html
 ..  _`OpenJDK`: http://openjdk.java.net/
 ..  _`Apache Hadoop`: http://hadoop.apache.org/
+..  _`Apache Spark`: http://spark.apache.org/
 ..  _`Apache Hive`: https://hive.apache.org/
 ..  _`Asakusa FrameworkとHiveを連携して利用する`: http://docs.asakusafw.com/latest/release/ja/html/sandbox/asakusa-with-hive.html
 ..  _`GettingStarted`: https://cwiki.apache.org/confluence/display/Hive/GettingStarted
