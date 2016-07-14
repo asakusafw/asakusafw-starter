@@ -51,9 +51,9 @@ setup.shの実行
 
     ************************************************
                  Jinrikisha (人力車)
-                                                  
+
           - Asakusa Framework Starter Package -
-                                                  
+
             Version: x.x.x
     ************************************************
     ...
@@ -82,13 +82,13 @@ Javaがインストールされていない環境でインストールを行っ�
       ** WARNING ********************************************************
       OpenJDKを使用せず、OracleJDKを使用する場合は
       インストールを中断してください。
-  
+
       (OracleJDKを使用するには、OracleJDKを手動でインストールしてから
       環境変数JAVA_HOMEにOracleJDKのインストールディレクトリを設定し、
       再度 setup.sh を実行してインストールを行います)
       *******************************************************************
 
-    
+
     OpenJDKをインストールしてインストールを続行しますか？:[Y/n]:
 
 インストール時にユーザのパスワード入力を促された場合は、パスワードを入力して処理を続行してください。
@@ -135,11 +135,11 @@ Asakusa Frameworkの開発環境をインストールするディレクトリパ
 
 ..  code-block:: none
 
-    2) Asakusa Frameworkのバージョンを入力してください。: 0.8.0:
+    2) Asakusa Frameworkのバージョンを入力してください。: 0.8.1:
 
 ..  attention::
     基本的にはデフォルトの推奨バージョンをそのまま利用することを推奨します。その他のバージョンとの組み合わせは動作検証が行われていない可能性があります。
-   
+
 .. _configure-profile:
 
 3. ログインプロファイルに対する環境変数追加の設定
@@ -156,7 +156,7 @@ OSユーザをAsakusa Frameworkの開発専用のユーザとして使用する�
 
     ** WARNING ********************************************************
     * この設定を行う場合、以下の環境変数が設定されます。
-      - JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
+      - JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
       - ASAKUSA_DEVELOP_HOME=/home/asakusa/asakusa-develop
       - ASAKUSA_HOME=${ASAKUSA_DEVELOP_HOME}/asakusa
       - HADOOP_CMD=${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop
