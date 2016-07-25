@@ -16,23 +16,23 @@ Jinrikisha (人力車) は、 `Asakusa Framework`_ の開発環境を手軽に�
 Linux-32bit版
 -------------
 
-* `jinrikisha-linux-32bit-0.8.0.tar.gz`_
+* `jinrikisha-linux-32bit-0.8.1.tar.gz`_
 
-..  _`jinrikisha-linux-32bit-0.8.0.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.8.0.tar.gz
+..  _`jinrikisha-linux-32bit-0.8.1.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.8.1.tar.gz
 
 Linux-64bit版
 -------------
 
-* `jinrikisha-linux-64bit-0.8.0.tar.gz`_
+* `jinrikisha-linux-64bit-0.8.1.tar.gz`_
 
-..  _`jinrikisha-linux-64bit-0.8.0.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.8.0.tar.gz
+..  _`jinrikisha-linux-64bit-0.8.1.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.8.1.tar.gz
 
 MacOSX版 (Experimental)
 -----------------------
 
-* `jinrikisha-macosx-0.8.0.tar.gz`_
+* `jinrikisha-macosx-0.8.1.tar.gz`_
 
-..  _`jinrikisha-macosx-0.8.0.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.8.0.tar.gz
+..  _`jinrikisha-macosx-0.8.1.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.8.1.tar.gz
 
 ..  attention::
     version |version| 時点では、MacOSX版は基本的な動作確認テストのみが行われています。
@@ -61,7 +61,7 @@ Jinrikishaは以下のプラットフォームで動作を検証しています�
       - バージョン
       - 備考
     * - Ubuntu Desktop [#]_
-      - 14.04 / 15.10
+      - 16.04
       - 推奨環境
     * - CentOS [#]_
       - 7.2
@@ -114,7 +114,7 @@ Jinrikishaに同梱されているEclipseをAsakusa Frameworkを使った開発�
 ..  list-table:: Asakusa Frameworkによるバッチアプリケーション開発のための参考資料
     :widths: 4 6
     :header-rows: 1
-    
+
     * - ドキュメント
       - URL
     * - バッチ設計と実装ガイド
@@ -140,13 +140,13 @@ Jinrikishaには以下のソフトウェアが含まています。
       - 2.7.2
       - Apache License, Version 2.0 [#]_
     * - Apache Spark [#]_
-      - 1.6.1
+      - 1.6.2
       - Apache License, Version 2.0
     * - Apache Hive [#]_
       - 1.2.1
       - Apache License, Version 2.0
     * - Eclipse IDE for Java Developers [#]_
-      - 4.5.2 [#]_
+      - 4.6.0 [#]_
       - Eclipse Public License - Version 1.0 [#]_
 
 ..  [#] http://hadoop.apache.org/

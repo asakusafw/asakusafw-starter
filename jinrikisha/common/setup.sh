@@ -555,7 +555,7 @@ curl -LO "https://github.com/asakusafw/asakusafw-examples/archive/${_ASAKUSAFW_V
 tar xf "${_ASAKUSAFW_VERSION}.tar.gz"
 cd -
 
-cd "${ASAKUSA_DEVELOP_HOME}"/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-directio-csv
+cd "${ASAKUSA_DEVELOP_HOME}"/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-basic-spark
 ./gradlew installAsakusafw attachMapreduceBatchapps attachSparkBatchapps test eclipse
 if [ $? -ne 0 ]; then
   exit_abort
@@ -631,8 +631,8 @@ Getting Started
 # サンプルテストデータの配置
 cd ~
 hadoop fs -rm -r target/testing/directio/*
-hadoop fs -put ${ASAKUSA_DEVELOP_HOME}/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-directio-csv/src/test/example-dataset/master target/testing/directio/master
-hadoop fs -put ${ASAKUSA_DEVELOP_HOME}/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-directio-csv/src/test/example-dataset/sales target/testing/directio/sales
+hadoop fs -put ${ASAKUSA_DEVELOP_HOME}/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-basic-spark/src/test/example-dataset/master target/testing/directio/master
+hadoop fs -put ${ASAKUSA_DEVELOP_HOME}/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-basic-spark/src/test/example-dataset/sales target/testing/directio/sales
 
 # バッチの実行 (MapReduce)
 yaess-batch.sh example.summarizeSales -A date=2011-04-01
@@ -647,14 +647,14 @@ eclipse &
 
 # サンプルアプリケーションをワークスペースへインポート
 1. Eclipseのメニューから [File] -> [Import] -> [General] -> [Existing Projects into Workspace]を選択
-2. asakusafw-examples-${_ASAKUSAFW_VERSION}/example-directio-csv を選択する
+2. asakusafw-examples-${_ASAKUSAFW_VERSION}/example-basic-spark を選択する
 
 # モデルクラスの生成
-cd ${ASAKUSA_DEVELOP_HOME}/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-directio-csv
+cd ${ASAKUSA_DEVELOP_HOME}/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-basic-spark
 ./gradlew compileDMDL
 
 # バッチコンパイル
-cd ${ASAKUSA_DEVELOP_HOME}/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-directio-csv
+cd ${ASAKUSA_DEVELOP_HOME}/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-basic-spark
 ./gradlew compileBatchapp
 
 ------------------------------------------------------------------
