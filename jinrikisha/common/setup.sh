@@ -542,7 +542,7 @@ tar xf "${_ASAKUSAFW_VERSION}.tar.gz"
 cd -
 
 cd "${ASAKUSA_DEVELOP_HOME}"/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-basic-spark
-./gradlew installAsakusafw attachMapreduceBatchapps attachSparkBatchapps test eclipse
+./gradlew installAsakusafw attachSparkBatchapps test eclipse
 if [ $? -ne 0 ]; then
   exit_abort
 fi
@@ -620,8 +620,6 @@ hadoop fs -rm -r target/testing/directio/*
 hadoop fs -put ${ASAKUSA_DEVELOP_HOME}/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-basic-spark/src/test/example-dataset/master target/testing/directio/master
 hadoop fs -put ${ASAKUSA_DEVELOP_HOME}/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-basic-spark/src/test/example-dataset/sales target/testing/directio/sales
 
-# バッチの実行 (MapReduce)
-yaess-batch.sh example.summarizeSales -A date=2011-04-01
 # バッチの実行 (Spark)
 yaess-batch.sh spark.example.summarizeSales -A date=2011-04-01
 
