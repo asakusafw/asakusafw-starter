@@ -52,9 +52,6 @@ select_apt_java_package()
     if [ -n "`sudo apt-cache search openjdk-8-jdk`" ]; then
       echo "openjdk-8-jdk"
       return 0
-    elif [ -n "`sudo apt-cache search openjdk-7-jdk`" ]; then
-      echo "openjdk-7-jdk"
-      return 0
     else
       return 1
     fi
@@ -64,9 +61,6 @@ select_yum_java_package()
 {
     if [ -n "`sudo yum list available java-1.8.0-openjdk-devel | grep java-1.8.0-openjdk-devel`" ]; then
       echo "java-1.8.0-openjdk-devel"
-      return 0
-  elif [ -n "`sudo yum list available java-1.7.0-openjdk-devel | grep java-1.7.0-openjdk-devel`" ]; then
-      echo "java-1.7.0-openjdk-devel"
       return 0
     else
       return 1
@@ -79,9 +73,9 @@ select_yum_java_package()
 echo "
 ****************************************************
               Jinrikisha (人力車)
-                                                  
+
       - Asakusa Framework Starter Package -
-                                                  
+
         Version: $_RIKISHA_VERSION
 ****************************************************
 "
@@ -139,8 +133,7 @@ if [ `uname` = "Darwin" ]; then
     # attempt to find java
 
     for candidate_regex in \
-      /Library/Java/JavaVirtualMachines/jdk1.8*/Contents/Home \
-      /Library/Java/JavaVirtualMachines/jdk1.7*/Contents/Home ; do
+      /Library/Java/JavaVirtualMachines/jdk1.8*/Contents/Home ; do
         for candidate in `ls -rd $candidate_regex 2>/dev/null`; do
           if [ -e $candidate/bin/javac ]; then
             _JAVA_HOME_CANDIDATE=$candidate
@@ -198,11 +191,6 @@ else
       /usr/java/jdk1.8* \
       /usr/lib/jvm/java-1.8.0-openjdk* \
       /usr/lib/jvm/java-8-openjdk* \
-      /usr/lib/jvm/j2sdk1.7-oracle \
-      /usr/lib/jvm/java-7-oracle* \
-      /usr/java/jdk1.7* \
-      /usr/lib/jvm/java-1.7.0-openjdk* \
-      /usr/lib/jvm/java-7-openjdk* \
       /usr/lib/jvm/java-openjdk \
       /usr/java/default \
       /usr/lib/jvm/default-java ; do
@@ -222,7 +210,7 @@ else
   ** WARNING ********************************************************
   OpenJDKを使用せず、OracleJDKを使用する場合は
   インストールを中断してください。
-  
+
   (OracleJDKを使用するには、OracleJDKを手動でインストールしてから
   環境変数JAVA_HOMEにOracleJDKのインストールディレクトリを設定し、
   再度 setup.sh を実行してインストールを行います)
@@ -270,8 +258,6 @@ else
         for javahome in \
           /usr/lib/jvm/java-1.8.0-openjdk* \
           /usr/lib/jvm/java-8-openjdk* \
-          /usr/lib/jvm/java-1.7.0-openjdk* \
-          /usr/lib/jvm/java-7-openjdk* \
           /usr/lib/jvm/java-openjdk ; do
           if [ -e $javahome/bin/javac ]; then
             _JAVA_HOME=$javahome
@@ -520,7 +506,7 @@ else
   mv eclipse "$ASAKUSA_DEVELOP_HOME"
   mkdir "$ASAKUSA_DEVELOP_HOME"/workspace
   cd -
-    
+
   cp -r _templates/eclipse "$ASAKUSA_DEVELOP_HOME"
   sed -i -e "s;/path/to/workspace;$ASAKUSA_DEVELOP_HOME/workspace;" "$ASAKUSA_DEVELOP_HOME"/eclipse/configuration/.settings/org.eclipse.ui.ide.prefs
 
