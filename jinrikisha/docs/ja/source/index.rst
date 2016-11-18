@@ -13,40 +13,12 @@ Jinrikisha (人力車) は、 `Asakusa Framework`_ の開発環境を手軽に�
 ダウンロード
 ============
 
-Linux-32bit版
--------------
-
-* `jinrikisha-linux-32bit-0.8.1.tar.gz`_
-
-..  _`jinrikisha-linux-32bit-0.8.1.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.8.1.tar.gz
-
 Linux-64bit版
 -------------
 
-* `jinrikisha-linux-64bit-0.8.1.tar.gz`_
+* `jinrikisha-linux-64bit-0.9.0.tar.gz`_
 
-..  _`jinrikisha-linux-64bit-0.8.1.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.8.1.tar.gz
-
-MacOSX版 (Experimental)
------------------------
-
-* `jinrikisha-macosx-0.8.1.tar.gz`_
-
-..  _`jinrikisha-macosx-0.8.1.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.8.1.tar.gz
-
-..  attention::
-    version |version| 時点では、MacOSX版は基本的な動作確認テストのみが行われています。
-
-スナップショット版
-------------------
-
-* `jinrikisha-linux-32bit-0.8-snapshot.tar.gz`_
-* `jinrikisha-linux-64bit-0.8-snapshot.tar.gz`_
-* `jinrikisha-macosx-0.8-snapshot.tar.gz`_
-
-..  _`jinrikisha-linux-32bit-0.8-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-32bit-0.8-snapshot.tar.gz
-..  _`jinrikisha-linux-64bit-0.8-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.8-snapshot.tar.gz
-..  _`jinrikisha-macosx-0.8-snapshot.tar.gz`: http://www.asakusafw.com/download/jinrikisha/macosx/jinrikisha-macosx-0.8-snapshot.tar.gz
+..  _`jinrikisha-linux-64bit-0.9.0.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.9.0.tar.gz
 
 対応プラットフォーム
 --------------------
@@ -66,13 +38,9 @@ Jinrikishaは以下のプラットフォームで動作を検証しています�
     * - CentOS [#]_
       - 7.2
       - 要デスクトップ環境のインストール
-    * - MacOSX [#]_
-      - 10.11
-      - 基本的な動作確認のみ
 
 ..  [#] http://www.ubuntu.com/
 ..  [#] http://www.centos.org/
-..  [#] http://www.apple.com/macosx/
 
 使い方
 ======
@@ -137,16 +105,16 @@ Jinrikishaには以下のソフトウェアが含まています。
       - バージョン
       - ライセンス
     * - Apache Hadoop [#]_
-      - 2.7.2
+      - 2.7.3
       - Apache License, Version 2.0 [#]_
     * - Apache Spark [#]_
-      - 1.6.2
+      - 2.0.2
       - Apache License, Version 2.0
     * - Apache Hive [#]_
       - 1.2.1
       - Apache License, Version 2.0
     * - Eclipse IDE for Java Developers [#]_
-      - 4.6.0 [#]_
+      - 4.6.1 [#]_
       - Eclipse Public License - Version 1.0 [#]_
 
 ..  [#] http://hadoop.apache.org/
@@ -154,7 +122,7 @@ Jinrikishaには以下のソフトウェアが含まています。
 ..  [#] http://spark.apache.org/
 ..  [#] http://hive.apache.org/
 ..  [#] http://eclipse.org/
-..  [#] Linux-32bit版、Linux-64bit版、MacOSX版それぞれに対応したプラットフォーム版が同梱されています。
+..  [#] Linux-64bit版が同梱されています。
 ..  [#] http://www.eclipse.org/legal/epl-v10.html
 
 ライセンス
