@@ -52,9 +52,6 @@ select_apt_java_package()
     if [ -n "`sudo apt-cache search openjdk-8-jdk`" ]; then
       echo "openjdk-8-jdk"
       return 0
-    elif [ -n "`sudo apt-cache search openjdk-7-jdk`" ]; then
-      echo "openjdk-7-jdk"
-      return 0
     else
       return 1
     fi
@@ -64,9 +61,6 @@ select_yum_java_package()
 {
     if [ -n "`sudo yum list available java-1.8.0-openjdk-devel | grep java-1.8.0-openjdk-devel`" ]; then
       echo "java-1.8.0-openjdk-devel"
-      return 0
-  elif [ -n "`sudo yum list available java-1.7.0-openjdk-devel | grep java-1.7.0-openjdk-devel`" ]; then
-      echo "java-1.7.0-openjdk-devel"
       return 0
     else
       return 1
@@ -79,9 +73,9 @@ select_yum_java_package()
 echo "
 ****************************************************
               Jinrikisha (人力車)
-                                                  
+
       - Asakusa Framework Starter Package -
-                                                  
+
         Version: $_RIKISHA_VERSION
 ****************************************************
 "
@@ -125,192 +119,128 @@ else
   echo ""
 fi
 
-if [ `uname` = "Darwin" ]; then
-### for MacOSX ###
-  echo "Java(JDK)がインストールされているか確認します..."
-  if [ -n "$JAVA_HOME" -a -r "$JAVA_HOME/bin/javac" ]; then
-    _JAVA_HOME="$JAVA_HOME"
-    echo "環境変数JAVA_HOMEに設定されている以下のJDKを使用します。"
-    echo $_JAVA_HOME
-    echo "OK."
-  else
-    echo "環境変数JAVA_HOMEにJDKのインストールディレクトリが設定されていません。"
-    echo "JDKを検出しています..."
-    # attempt to find java
+echo "Java(JDK)がインストールされているか確認します..."
+if [ -n "$JAVA_HOME" -a -r "$JAVA_HOME/bin/javac" ]; then
+  _JAVA_HOME="$JAVA_HOME"
+  echo "環境変数JAVA_HOMEに設定されている以下のJDKを使用します。"
+  echo $_JAVA_HOME
+  echo "OK."
+else
+  echo "環境変数JAVA_HOMEにJDKのインストールディレクトリが設定されていません。"
+  echo "JDKを検出しています..."
+  # attempt to find java
 
-    for candidate_regex in \
-      /Library/Java/JavaVirtualMachines/jdk1.8*/Contents/Home \
-      /Library/Java/JavaVirtualMachines/jdk1.7*/Contents/Home ; do
-        for candidate in `ls -rd $candidate_regex 2>/dev/null`; do
-          if [ -e $candidate/bin/javac ]; then
-            _JAVA_HOME_CANDIDATE=$candidate
-            break
+  for candidate_regex in \
+    /usr/lib/jvm/j2sdk1.8-oracle \
+    /usr/lib/jvm/java-8-oracle* \
+    /usr/java/jdk1.8* \
+    /usr/lib/jvm/java-1.8.0-openjdk* \
+    /usr/lib/jvm/java-8-openjdk* \
+    /usr/lib/jvm/java-openjdk \
+    /usr/java/default \
+    /usr/lib/jvm/default-java ; do
+      for candidate in `ls -rd $candidate_regex 2>/dev/null`; do
+        if [ -e $candidate/bin/javac ]; then
+          _JAVA_HOME_CANDIDATE=$candidate
+          break
+        fi
+      done
+  done
+  if [ -z "$_JAVA_HOME_CANDIDATE" ]; then
+    echo "JDKは検出されませんでした。"
+    echo '
+Java(JDK)がインストールされていないため、
+OpenJDKをインストールしてセットアップを続行します。
+
+** WARNING ********************************************************
+OpenJDKを使用せず、OracleJDKを使用する場合は
+インストールを中断してください。
+
+(OracleJDKを使用するには、OracleJDKを手動でインストールしてから
+環境変数JAVA_HOMEにOracleJDKのインストールディレクトリを設定し、
+再度 setup.sh を実行してインストールを行います)
+*******************************************************************
+
+  '
+    read -p "OpenJDKをインストールしてインストールを続行しますか？:[Y/n]: " _YN
+    if [ "$_YN" ]; then
+      _YN=`echo $_YN | tr "[:upper:]" "[:lower:]"`
+    else
+      _YN="y"
+    fi
+    if [ "$_YN" = y ]; then
+      aptable
+      _RET=$?
+      if [ $_RET -eq 0 ]; then
+        sudo apt-get update
+        _APT_JAVA_PACKAGE=`select_apt_java_package`
+        if [ $_RET -ne 0 ]; then
+          echo "インストール可能なOpenJDKパッケージが見つかりませんでした。インストールを中断します。"
+          exit_abort
+        fi
+        sudo apt-get install -y "$_APT_JAVA_PACKAGE"
+      else
+        yumable
+        _RET=$?
+        if [ $_RET -eq 0 ]; then
+          _YUM_JAVA_PACKAGE=`select_yum_java_package`
+          if [ $_RET -ne 0 ]; then
+            echo "インストール可能なOpenJDKパッケージが見つかりませんでした。インストールを中断します。"
+            exit_abort
           fi
-        done
-    done
-    if [ -z "$_JAVA_HOME_CANDIDATE" ]; then
-      echo "JDKは検出されませんでした。"
+          sudo yum install -y "$_YUM_JAVA_PACKAGE"
+        else
+          echo "apt-get または yum が使用出来ないため、インストールを中断します。"
+          exit_abort
+        fi
+      fi
+      _RET=$?
+      if [ $_RET -ne 0 ]; then
+        exit_abort
+      fi
+      echo "OpenJDKのインストールが完了しました。"
+      # attempt to find java
+      for javahome in \
+        /usr/lib/jvm/java-1.8.0-openjdk* \
+        /usr/lib/jvm/java-8-openjdk* \
+        /usr/lib/jvm/java-openjdk ; do
+        if [ -e $javahome/bin/javac ]; then
+          _JAVA_HOME=$javahome
+          break
+        fi
+      done
+      if [ -z "$_JAVA_HOME" ]; then
+        echo "OpenJDKのインストールディレクトリが検出出来ませんでした。インストールを中断します。"
+        exit_abort
+      fi
+      echo "JAVA_HOMEに[$_JAVA_HOME]を指定します。"
+    else
+      echo "インストールを中断します。"
+      exit_abort
+    fi
+  else
+    echo ""
+    echo "JDKを検出しました:[$_JAVA_HOME_CANDIDATE]"
+    read -p "このJDKを使用してインストールを続行しますか？:[Y/n]: " _YN
+    if [ "$_YN" ]; then
+      _USE_JDK=`echo $_YN | tr "[:upper:]" "[:lower:]"`
+    else
+      _USE_JDK="y"
+    fi
+    if [ "$_USE_JDK" = "y" ]; then
+      _JAVA_HOME="$_JAVA_HOME_CANDIDATE"
+      echo "JAVA_HOMEに[$_JAVA_HOME]を指定します。"
+    else
       echo ""
       echo "インストールを中断します。"
       echo "JDKのインストールディレクトリを環境変数JAVA_HOMEに設定した後"
       echo "再度インストールを行なってください。"
       exit_abort
-    else
-      echo ""
-      echo "JDKを検出しました:[$_JAVA_HOME_CANDIDATE]"
-      read -p "このJDKを使用してインストールを続行しますか？:[Y/n]: " _YN
-      if [ "$_YN" ]; then
-        _USE_JDK=`echo $_YN | tr "[:upper:]" "[:lower:]"`
-      else
-        _USE_JDK="y"
-      fi
-      if [ "$_USE_JDK" = "y" ]; then
-        _JAVA_HOME="$_JAVA_HOME_CANDIDATE"
-        echo "JAVA_HOMEに[$_JAVA_HOME]を指定します。"
-      else
-        echo ""
-        echo "インストールを中断します。"
-        echo "JDKのインストールディレクトリを環境変数JAVA_HOMEに設定した後"
-        echo "再度インストールを行なってください。"
-        exit_abort
-      fi
     fi
   fi
-  _EXPORT="export JAVA_HOME=$_JAVA_HOME"'\n'
-  _PATH='export PATH=$JAVA_HOME/bin:$PATH'
-else
-### for Linux ###
-  echo "Java(JDK)がインストールされているか確認します..."
-
-  if [ -n "$JAVA_HOME" -a -r "$JAVA_HOME/bin/javac" ]; then
-    _JAVA_HOME="$JAVA_HOME"
-    echo "環境変数JAVA_HOMEに設定されている以下のJDKを使用します。"
-    echo $_JAVA_HOME
-    echo "OK."
-  else
-    echo "環境変数JAVA_HOMEにJDKのインストールディレクトリが設定されていません。"
-    echo "JDKを検出しています..."
-    # attempt to find java
-
-    for candidate_regex in \
-      /usr/lib/jvm/j2sdk1.8-oracle \
-      /usr/lib/jvm/java-8-oracle* \
-      /usr/java/jdk1.8* \
-      /usr/lib/jvm/java-1.8.0-openjdk* \
-      /usr/lib/jvm/java-8-openjdk* \
-      /usr/lib/jvm/j2sdk1.7-oracle \
-      /usr/lib/jvm/java-7-oracle* \
-      /usr/java/jdk1.7* \
-      /usr/lib/jvm/java-1.7.0-openjdk* \
-      /usr/lib/jvm/java-7-openjdk* \
-      /usr/lib/jvm/java-openjdk \
-      /usr/java/default \
-      /usr/lib/jvm/default-java ; do
-        for candidate in `ls -rd $candidate_regex 2>/dev/null`; do
-          if [ -e $candidate/bin/javac ]; then
-            _JAVA_HOME_CANDIDATE=$candidate
-            break
-          fi
-        done
-    done
-    if [ -z "$_JAVA_HOME_CANDIDATE" ]; then
-      echo "JDKは検出されませんでした。"
-      echo '
-  Java(JDK)がインストールされていないため、
-  OpenJDKをインストールしてセットアップを続行します。
-
-  ** WARNING ********************************************************
-  OpenJDKを使用せず、OracleJDKを使用する場合は
-  インストールを中断してください。
-  
-  (OracleJDKを使用するには、OracleJDKを手動でインストールしてから
-  環境変数JAVA_HOMEにOracleJDKのインストールディレクトリを設定し、
-  再度 setup.sh を実行してインストールを行います)
-  *******************************************************************
-
-    '
-      read -p "OpenJDKをインストールしてインストールを続行しますか？:[Y/n]: " _YN
-      if [ "$_YN" ]; then
-        _YN=`echo $_YN | tr "[:upper:]" "[:lower:]"`
-      else
-        _YN="y"
-      fi
-      if [ "$_YN" = y ]; then
-        aptable
-        _RET=$?
-        if [ $_RET -eq 0 ]; then
-          sudo apt-get update
-          _APT_JAVA_PACKAGE=`select_apt_java_package`
-          if [ $_RET -ne 0 ]; then
-            echo "インストール可能なOpenJDKパッケージが見つかりませんでした。インストールを中断します。"
-            exit_abort
-          fi
-          sudo apt-get install -y "$_APT_JAVA_PACKAGE"
-        else
-          yumable
-          _RET=$?
-          if [ $_RET -eq 0 ]; then
-            _YUM_JAVA_PACKAGE=`select_yum_java_package`
-            if [ $_RET -ne 0 ]; then
-              echo "インストール可能なOpenJDKパッケージが見つかりませんでした。インストールを中断します。"
-              exit_abort
-            fi
-            sudo yum install -y "$_YUM_JAVA_PACKAGE"
-          else
-            echo "apt-get または yum が使用出来ないため、インストールを中断します。"
-            exit_abort
-          fi
-        fi
-        _RET=$?
-        if [ $_RET -ne 0 ]; then
-          exit_abort
-        fi
-        echo "OpenJDKのインストールが完了しました。"
-        # attempt to find java
-        for javahome in \
-          /usr/lib/jvm/java-1.8.0-openjdk* \
-          /usr/lib/jvm/java-8-openjdk* \
-          /usr/lib/jvm/java-1.7.0-openjdk* \
-          /usr/lib/jvm/java-7-openjdk* \
-          /usr/lib/jvm/java-openjdk ; do
-          if [ -e $javahome/bin/javac ]; then
-            _JAVA_HOME=$javahome
-            break
-          fi
-        done
-        if [ -z "$_JAVA_HOME" ]; then
-          echo "OpenJDKのインストールディレクトリが検出出来ませんでした。インストールを中断します。"
-          exit_abort
-        fi
-        echo "JAVA_HOMEに[$_JAVA_HOME]を指定します。"
-      else
-        echo "インストールを中断します。"
-        exit_abort
-      fi
-    else
-      echo ""
-      echo "JDKを検出しました:[$_JAVA_HOME_CANDIDATE]"
-      read -p "このJDKを使用してインストールを続行しますか？:[Y/n]: " _YN
-      if [ "$_YN" ]; then
-        _USE_JDK=`echo $_YN | tr "[:upper:]" "[:lower:]"`
-      else
-        _USE_JDK="y"
-      fi
-      if [ "$_USE_JDK" = "y" ]; then
-        _JAVA_HOME="$_JAVA_HOME_CANDIDATE"
-        echo "JAVA_HOMEに[$_JAVA_HOME]を指定します。"
-      else
-        echo ""
-        echo "インストールを中断します。"
-        echo "JDKのインストールディレクトリを環境変数JAVA_HOMEに設定した後"
-        echo "再度インストールを行なってください。"
-        exit_abort
-      fi
-    fi
-  fi
-  _EXPORT="export JAVA_HOME=$_JAVA_HOME"'\n'
-  _PATH='export PATH=$JAVA_HOME/bin'
 fi
+_EXPORT="export JAVA_HOME=$_JAVA_HOME"'\n'
+_PATH='export PATH=$JAVA_HOME/bin'
 
 ########################################
 # Input Install Parameters
@@ -408,19 +338,15 @@ else
 fi
 if [ "$_YN" = "y" ]; then
   _ADD_PROFILE="y"
-  if [ `uname` != "Darwin" ]; then
-    echo ""
-    read -p "4) デスクトップにEclipseのショートカットを追加しますか？:[Y/n]: " _YN
-    if [ "$_YN" ]; then
-      _YN=`echo $_YN | tr "[:upper:]" "[:lower:]"`
-    else
-      _YN="$_CREATE_ECLIPSE_SHORTCUT_DEFAULT"
-    fi
-    if [ "$_YN" = "y" ]; then
-      _CREATE_ECLIPSE_SHORTCUT="y"
-    else
-      _CREATE_ECLIPSE_SHORTCUT="n"
-    fi
+  echo ""
+  read -p "4) デスクトップにEclipseのショートカットを追加しますか？:[Y/n]: " _YN
+  if [ "$_YN" ]; then
+    _YN=`echo $_YN | tr "[:upper:]" "[:lower:]"`
+  else
+    _YN="$_CREATE_ECLIPSE_SHORTCUT_DEFAULT"
+  fi
+  if [ "$_YN" = "y" ]; then
+    _CREATE_ECLIPSE_SHORTCUT="y"
   else
     _CREATE_ECLIPSE_SHORTCUT="n"
   fi
@@ -508,24 +434,16 @@ cd -
 ########################################
 echo "Eclipseをインストールしています。"
 
-if [ `uname` = "Darwin" ]; then
-    cd archives
-    tar xf eclipse-*.tar.gz
-    mv Eclipse.app "$ASAKUSA_DEVELOP_HOME"
-    mkdir "$ASAKUSA_DEVELOP_HOME"/workspace
-    cd -
-else
-  cd archives
-  tar xf eclipse-*.tar.gz
-  mv eclipse "$ASAKUSA_DEVELOP_HOME"
-  mkdir "$ASAKUSA_DEVELOP_HOME"/workspace
-  cd -
-    
-  cp -r _templates/eclipse "$ASAKUSA_DEVELOP_HOME"
-  sed -i -e "s;/path/to/workspace;$ASAKUSA_DEVELOP_HOME/workspace;" "$ASAKUSA_DEVELOP_HOME"/eclipse/configuration/.settings/org.eclipse.ui.ide.prefs
+cd archives
+tar xf eclipse-*.tar.gz
+mv eclipse "$ASAKUSA_DEVELOP_HOME"
+mkdir "$ASAKUSA_DEVELOP_HOME"/workspace
+cd -
 
-  _PATH="${_PATH}":'$ASAKUSA_DEVELOP_HOME/eclipse'
-fi
+cp -r _templates/eclipse "$ASAKUSA_DEVELOP_HOME"
+sed -i -e "s;/path/to/workspace;$ASAKUSA_DEVELOP_HOME/workspace;" "$ASAKUSA_DEVELOP_HOME"/eclipse/configuration/.settings/org.eclipse.ui.ide.prefs
+
+_PATH="${_PATH}":'$ASAKUSA_DEVELOP_HOME/eclipse'
 
 ########################################
 # Setup Gradle Configration
@@ -556,7 +474,7 @@ tar xf "${_ASAKUSAFW_VERSION}.tar.gz"
 cd -
 
 cd "${ASAKUSA_DEVELOP_HOME}"/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-basic-spark
-./gradlew installAsakusafw attachMapreduceBatchapps attachSparkBatchapps test eclipse
+./gradlew installAsakusafw attachSparkBatchapps test eclipse
 if [ $? -ne 0 ]; then
   exit_abort
 fi
@@ -634,8 +552,6 @@ hadoop fs -rm -r target/testing/directio/*
 hadoop fs -put ${ASAKUSA_DEVELOP_HOME}/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-basic-spark/src/test/example-dataset/master target/testing/directio/master
 hadoop fs -put ${ASAKUSA_DEVELOP_HOME}/workspace/asakusafw-examples-${_ASAKUSAFW_VERSION}/example-basic-spark/src/test/example-dataset/sales target/testing/directio/sales
 
-# バッチの実行 (MapReduce)
-yaess-batch.sh example.summarizeSales -A date=2011-04-01
 # バッチの実行 (Spark)
 yaess-batch.sh spark.example.summarizeSales -A date=2011-04-01
 

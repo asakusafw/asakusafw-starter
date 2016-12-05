@@ -31,7 +31,7 @@ Shafuは以下のプラットフォームで動作を検証しています。
       - 備考
     * - IDE
       - Eclipse
-      - 4.5.2 / 4.6.0
+      - 4.6.1
       -
     * - Java
       - Oracle JDK
@@ -337,7 +337,7 @@ Windows上の開発環境で作成したアプリケーションを運用環境�
 
 デプロイメントアーカイブを生成するには、コンテキストメニューから :menuselection:`Jinrikisha (人力車) --> Asakusaデプロイメントアーカイブを生成` を選択します。
 
-デプロイメントアーカイブの生成に成功した場合、Eclipseのコンソールに以下のように表示され、プロジェクトの :file:`build` フォルダ配下にデプロイメントアーカイブファイル ``asakusafw-{asakusafwVersion}.tar.gz`` が生成されます。
+デプロイメントアーカイブの生成に成功した場合、Eclipseのコンソールに以下のように表示され、プロジェクトの :file:`build` フォルダ配下にデプロイメントアーカイブファイル ``asakusafw-{project.name}.tar.gz`` が生成されます。
 
 ..  code-block:: none
 
@@ -470,7 +470,7 @@ Shafuのインストール後にJavaパースペクティブが初期化され�
 Eclipseがデフォルトで利用するJavaにJDKが登録されていない可能性があります。
 `JDKの登録`_ の手順を確認し、JDKが登録されていることを確認してください。
 
-複数のJava環境が登録されている場合、Eclipse設定画面の :menuselection:`Installed JREs --> Execution-Environments` の ``JavaSE-1.7`` または ``JavaSE-1.8`` の項目にJDKが表示されていること、およびJDKにチェックがON(デフォルトで利用する)になっていることを確認してください。
+複数のJava環境が登録されている場合、Eclipse設定画面の :menuselection:`Installed JREs --> Execution-Environments` の ``JavaSE-1.8`` の項目にJDKが表示されていること、およびJDKにチェックがON(デフォルトで利用する)になっていることを確認してください。
 
 Asakusa Frameworkのインストールに失敗する
 -----------------------------------------
@@ -541,7 +541,7 @@ Eclipseを起動中に環境変数を追加した場合は、Eclipseの再起動
 Eclipseがデフォルトで利用するJavaにJDKが登録されていない可能性があります。
 `JDKの登録`_ の手順を確認し、JDKが登録されていることを確認してください。
 
-複数のJava環境が登録されている場合、Eclipse設定画面の :menuselection:`Installed JREs --> Execution-Environments` の ``JavaSE-1.7`` または ``JavaSE-1.8``  の項目にJDKが表示されていること、およびJDKにチェックがON(デフォルトで利用する)になっていることを確認してください。
+複数のJava環境が登録されている場合、Eclipse設定画面の :menuselection:`Installed JREs --> Execution-Environments` の ``JavaSE-1.8``  の項目にJDKが表示されていること、およびJDKにチェックがON(デフォルトで利用する)になっていることを確認してください。
 
 発生する事象
 ~~~~~~~~~~~~
