@@ -7,7 +7,7 @@ Jinrikisha リリースノート
 Release 0.9.0
 =============
 
-(開発中)
+Dec 05, 2016
 
 * Asakusa Framework 0.9.0 を推奨バージョンに変更
 * 同梱するApache Hadoopのバージョンを 2.7.2 から 2.7.3 にアップデート
