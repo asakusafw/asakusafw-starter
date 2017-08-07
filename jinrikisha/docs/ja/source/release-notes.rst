@@ -7,7 +7,7 @@ Jinrikisha リリースノート
 Release 0.9.2
 =============
 
-(開発中)
+Aug 07, 2017
 
 * Asakusa Framework 0.9.2 を推奨バージョンに変更
 
