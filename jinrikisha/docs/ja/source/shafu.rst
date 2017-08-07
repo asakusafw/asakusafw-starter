@@ -362,7 +362,6 @@ Shafuの設定
 Eclipseの設定画面からShafuの設定を変更することができます。
 
 ..  figure:: images/shafu-preferences.png
-    :width: 640px
 
 #. メニューバーから :menuselection:`Window --> Preferences` を選択します。
 #. Eclipse設定画面のサイドメニューから :guilabel:`Jinrikisha  (人力車)` を選択します。
@@ -390,19 +389,6 @@ Asakusa Framework ページ
     Asakusa Frameworkが公開しているテスト用のバージョン (スナップショットビルドやRC版）を使用したい場合は、テンプレートカタログURLを以下のURLに変更します。
 
     http://www.asakusafw.com/download/gradle-plugin/template-catalog-develop.txt
-
-拡張機能
-^^^^^^^^
-
-:guilabel:`テスト時にエミュレーションモードを有効にする`
-  `Gradleプロジェクトをテンプレートから生成`_  を使った新規プロジェクトの作成時やプロジェクトに対して :guilabel:`Eclipseプロジェクト情報を再構成` を実行した場合に、プロジェクトに対してエミュレーションモード [#]_ を利用する設定を追加します。
-
-..  [#] エミュレーションモードについては、Asakusa Frameworkのドキュメント `エミュレーションモードによるアプリケーションテスト`_ を参照してください。
-
-..  _`エミュレーションモードによるアプリケーションテスト`: http://docs.asakusafw.com/latest/release/ja/html/testing/emulation-mode.html
-
-..  attention::
-    Asakusa Framework バージョン 0.8.0 以降のプロジェクトテンプレートやサンプルアプリケーションでは、標準でエミュレーションモードが有効になっています。
 
 現在の設定
 ^^^^^^^^^^
@@ -562,33 +548,6 @@ Eclipseがデフォルトで利用するJavaにJDKが登録されていない可
 開発環境の ``ASAKUSA_HOME`` フォルダにAsakusa Frameworkがインストールされていない可能性があります。
 `開発用Asakusa Frameworkのインストール`_ が正しく行われているかを確認してください。
 
-
-発生する事象
-~~~~~~~~~~~~
-
-`アプリケーションのテスト`_ の手順を実行すると、以下のメッセージが表示され一部のテストがスキップされてしまう。
-
-..  code-block:: none
-
-    ...
-    XX:YY:ZZ WARN  コマンド"hadoop"を検出できませんでした
-    XX:YY:ZZ INFO  この環境では現在のテストを実行できないため、スキップします: com.example.jobflow.CategorySummaryJobTest
-    ...
-
-原因
-^^^^
-
-エミュレーションモードが有効になっていない可能性があります。
-`Shafuの設定`_ の手順を確認し、エミュレーションモードの設定が有効になっていることを確認してください。
-
-エミュレーションモードを無効から有効に切り替えた場合、すでにEclipseのワークスペースに存在するプロジェクトについてはEclipseプロジェクト情報の再構成（クラスパス情報の更新）を行うまではエミュレーションモードが有効になりません。
-
-エミュレーションモードを利用するプロジェクトはプロジェクトのコンテキストメニューから :menuselection:`Jinrikisha (人力車) --> Eclipseプロジェクト情報の再構成` を選択してEclipseプロジェクト情報の再構成を行なってください。
-
-..  attention::
-    Shafuでエミュレーションモードを有効にするためには、
-    プロジェクトのAsakusa Framework バージョンが ``0.7.2`` 以降である必要があります。
-    これより前のバージョンを指定した場合、エミュレーションモードは有効にならないことに注意してください。
 
 リソース
 ========

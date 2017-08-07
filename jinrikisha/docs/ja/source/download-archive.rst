@@ -3,6 +3,16 @@ Jinrikisha ダウンロードアーカイブ
 =================================
 過去バージョンのJinrikshaのダウンロードページです。
 
+ver 0.9.1
+=========
+
+Linux-64bit版
+-------------
+
+* `jinrikisha-linux-64bit-0.9.1.tar.gz`_
+
+..  _`jinrikisha-linux-64bit-0.9.1.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.9.1.tar.gz
+
 ver 0.9.0
 =========
 
