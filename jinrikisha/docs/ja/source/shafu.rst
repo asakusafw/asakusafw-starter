@@ -31,7 +31,7 @@ Shafuは以下のプラットフォームで動作を検証しています。
       - 備考
     * - IDE
       - Eclipse
-      - 4.6.3
+      - 4.7.1a
       -
     * - Java
       - Oracle JDK
