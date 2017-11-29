@@ -307,12 +307,13 @@ echo "
   - HADOOP_CMD=\${ASAKUSA_DEVELOP_HOME}/hadoop/bin/hadoop
   - SPARK_CMD=\${ASAKUSA_DEVELOP_HOME}/spark/bin/spark-submit
   - HIVE_HOME=\${ASAKUSA_DEVELOP_HOME}/hive
-  - GRADLE_OPTS=-Dorg.gradle.daemon=true
   - PATH: \${JAVA_HOME}/bin: \\
           \${ASAKUSA_DEVELOP_HOME}/hadoop/bin: \\
           \${ASAKUSA_DEVELOP_HOME}/spark/bin: \\
           \${ASAKUSA_DEVELOP_HOME}/hive/bin: \\
           \${ASAKUSA_DEVELOP_HOME}/eclipse: \\
+          \${ASAKUSA_HOME}/bin: \\
+          \${ASAKUSA_HOME}/tools/bin: \\
           \${ASAKUSA_HOME}/yaess/bin: \\
           \${PATH}
 
@@ -366,7 +367,7 @@ echo "
 
 ** WARNING ***********************************************************
 1) リモートリポジトリからライブラリをダウンロードするため、
-   インストールには10分以上かかる可能性があります。
+   インストールには数分程度かかります。
 **********************************************************************
 "
 read -p "インストールを続行するには[Enter]キーを押してください。: " _DUMMY
@@ -446,17 +447,12 @@ sed -i -e "s;/path/to/workspace;$ASAKUSA_DEVELOP_HOME/workspace;" "$ASAKUSA_DEVE
 _PATH="${_PATH}":'$ASAKUSA_DEVELOP_HOME/eclipse'
 
 ########################################
-# Setup Gradle Configration
-########################################
-echo "Gradleの環境設定を行います。"
-
-_EXPORT="${_EXPORT}"'export GRADLE_OPTS=-Dorg.gradle.daemon=true\n'
-
-########################################
 # Setup Environment Variables
 ########################################
 echo "環境変数を設定しています。"
 
+_PATH="${_PATH}":'$ASAKUSA_HOME/bin'
+_PATH="${_PATH}":'$ASAKUSA_HOME/tools/bin'
 _PATH="${_PATH}":'$ASAKUSA_HOME/yaess/bin'
 _PATH="${_PATH}":'$PATH'
 printf "${_EXPORT}${_PATH}\n" > "${_RIKISHA_PROFILE}"

@@ -82,6 +82,6 @@ Jinrikisha のインストール時に指定した単一のディレクトリ配
 ..  _`Apache Hadoop`: http://hadoop.apache.org/
 ..  _`Apache Spark`: http://spark.apache.org/
 ..  _`Apache Hive`: https://hive.apache.org/
-..  _`Asakusa FrameworkとHiveを連携して利用する`: http://docs.asakusafw.com/latest/release/ja/html/sandbox/asakusa-with-hive.html
+..  _`Asakusa FrameworkとHiveを連携して利用する`: http://docs.asakusafw.com/latest/release/ja/html/administration/asakusa-with-hive.html
 ..  _`GettingStarted`: https://cwiki.apache.org/confluence/display/Hive/GettingStarted
 

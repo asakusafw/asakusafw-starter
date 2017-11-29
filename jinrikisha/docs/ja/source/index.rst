@@ -16,9 +16,9 @@ Jinrikisha (人力車) は、 `Asakusa Framework`_ の開発環境を手軽に�
 Linux-64bit版
 -------------
 
-* `jinrikisha-linux-64bit-0.9.2.tar.gz`_
+* `jinrikisha-linux-64bit-0.10.0.tar.gz`_
 
-..  _`jinrikisha-linux-64bit-0.9.2.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.9.2.tar.gz
+..  _`jinrikisha-linux-64bit-0.10.0.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.10.0.tar.gz
 
 対応プラットフォーム
 --------------------
@@ -108,13 +108,13 @@ Jinrikishaには以下のソフトウェアが含まています。
       - 2.7.3
       - Apache License, Version 2.0 [#]_
     * - Apache Spark [#]_
-      - 2.1.0
+      - 2.2.0
       - Apache License, Version 2.0
     * - Apache Hive [#]_
-      - 1.2.1
+      - 1.2.2
       - Apache License, Version 2.0
     * - Eclipse IDE for Java Developers [#]_
-      - 4.6.3 [#]_
+      - 4.7.1a [#]_
       - Eclipse Public License - Version 1.0 [#]_
 
 ..  [#] http://hadoop.apache.org/
