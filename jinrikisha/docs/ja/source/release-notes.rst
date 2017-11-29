@@ -7,7 +7,7 @@ Jinrikisha リリースノート
 Release 0.10.0
 ==============
 
-(開発中)
+Nov 29, 2017
 
 * Asakusa Framework 0.10.0 を推奨バージョンに変更
 * 同梱するApache Sparkのバージョンを 2.2.0 にアップデート
