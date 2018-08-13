@@ -16,9 +16,9 @@ Jinrikisha (人力車) は、 `Asakusa Framework`_ の開発環境を手軽に�
 Linux-64bit版
 -------------
 
-* `jinrikisha-linux-64bit-0.10.0.tar.gz`_
+* `jinrikisha-linux-64bit-0.10.1.tar.gz`_
 
-..  _`jinrikisha-linux-64bit-0.10.0.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.10.0.tar.gz
+..  _`jinrikisha-linux-64bit-0.10.1.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.10.1.tar.gz
 
 対応プラットフォーム
 --------------------
@@ -33,14 +33,10 @@ Jinrikishaは以下のプラットフォームで動作を検証しています�
       - バージョン
       - 備考
     * - Ubuntu Desktop [#]_
-      - 16.04
+      - 18.04
       - 推奨環境
-    * - CentOS [#]_
-      - 7.2
-      - 要デスクトップ環境のインストール
 
 ..  [#] http://www.ubuntu.com/
-..  [#] http://www.centos.org/
 
 使い方
 ======
@@ -108,13 +104,13 @@ Jinrikishaには以下のソフトウェアが含まています。
       - 2.7.3
       - Apache License, Version 2.0 [#]_
     * - Apache Spark [#]_
-      - 2.2.0
+      - 2.3.1
       - Apache License, Version 2.0
     * - Apache Hive [#]_
       - 1.2.2
       - Apache License, Version 2.0
     * - Eclipse IDE for Java Developers [#]_
-      - 4.7.1a [#]_
+      - 4.8.0 [#]_
       - Eclipse Public License - Version 1.0 [#]_
 
 ..  [#] http://hadoop.apache.org/
