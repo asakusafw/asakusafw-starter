@@ -31,32 +31,16 @@ Shafuは以下のプラットフォームで動作を検証しています。
       - 備考
     * - IDE
       - Eclipse
-      - 4.7.1a
+      - 4.8.0
       -
     * - Java
       - Oracle JDK
       - JDK7 / JDK8
-      - 推奨環境
+      - JDK8 を推奨
     * - Java
       - Open JDK
       - JDK7 / JDK8
-      - 基本的な動作確認のみ
-    * - OS
-      - Ubuntu Desktop
-      - 16.04.3
-      - 推奨環境
-    * - OS
-      - CentOS
-      - 7.2
-      -
-    * - OS
-      - MacOSX
-      - 10.13
-      -
-    * - OS
-      - Windows
-      - 10 (1709)
-      -
+      - JDK8 を推奨
 
 ..  attention::
     Asakusa Frameworkのバッチアプリケーションのコンパイルやテストの実行にはJDKが必要です。
@@ -89,6 +73,10 @@ JDKの登録
 
 Eclipse経由で実行するJavaにJREが設定されている場合は、これをJDKに設定します。
 
+..  attention::
+  Asakusa Frameworkのバッチアプリケーションのコンパイルやテストの実行にはJDKを使用する必要があります。
+  JREでは一部の機能が利用できないため、必ずこの設定を行ってください。
+
 1. Eclipseの設定画面から :menuselection:`Java --> Installed JREs` を選択します。
 2. :guilabel:`Installed JREs` ダイアログにJDK以外のJava定義が表示されている場合 (例えば ``jre8`` のような項目が表示されている場合)、これら項目を削除します。 削除する項目を選択して、 :guilabel:`Remove` ボタンを押下します。
 3. JDKを追加します。 :guilabel:`Installed JREs` ダイアログで :guilabel:`Add` ボタンを押下します。
@@ -98,10 +86,6 @@ Eclipse経由で実行するJavaにJREが設定されている場合は、これ
 7. :guilabel:`Installed JREs` ダイアログに追加したJDKの項目が表示されるので、その項目の :guilabel:`Name` 欄に表示されているチェックボックスを :guilabel:`ON` にします。JDKの項目が ``jdk1.8.0_XX (default)`` のような表示になれば設定完了です。
 
 ..  figure:: images/installed-jre-jdk8.png
-
-..  attention::
-  Asakusa Frameworkのバッチアプリケーションのコンパイルやテストの実行にはJDKを使用する必要があります。
-  JREを使用することはできないため、ここで示す手順以外でJDKの設定を行う場合、誤ってJREが使用されるような設定にならないよう注意してください。
 
 ネットワークプロキシの設定
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -333,7 +317,7 @@ Asakusa Frameworkのアプリケーションのテストを行うには、開発
 デプロイメントアーカイブの作成
 ------------------------------
 
-Windows上の開発環境で作成したアプリケーションを運用環境（Hadoopクラスタ）上で実行するには、まずアプリケーションをパッケージングして「デプロイメントアーカイブ」を作成します。
+Windows上の開発環境で作成したアプリケーションを運用環境上で実行するには、まずアプリケーションをパッケージングして「デプロイメントアーカイブ」を作成します。
 
 デプロイメントアーカイブを生成するには、コンテキストメニューから :menuselection:`Jinrikisha (人力車) --> Asakusaデプロイメントアーカイブを生成` を選択します。
 
@@ -361,27 +345,119 @@ Shafuの設定
 
 Eclipseの設定画面からShafuの設定を変更することができます。
 
-..  figure:: images/shafu-preferences.png
-
 #. メニューバーから :menuselection:`Window --> Preferences` を選択します。
 #. Eclipse設定画面のサイドメニューから :guilabel:`Jinrikisha  (人力車)` を選択します。
 
-Jinrikisha (人力車) ページ
---------------------------
+Jinrikisha (人力車) プリファレンスページ
+----------------------------------------
 
-:guilabel:`基本`
-  Gradleのログレベルやバージョン、オフラインモードの設定など、Gradleの動作に関する設定を行います。
+:guilabel:`Jinrikisha (人力車)` プリファレンスページでは、主にShafuが実行するGradleの設定を編集することができます。
 
-:guilabel:`プロジェクト`
-  Gradleのプロジェクトビルド時に使用するプロジェクトプロパティーを設定することができます。
+このプリファレンスページには以下3つのタブによって各設定画面を切り替えます。
 
-:guilabel:`Java VM`
-  Gradleのビルドで使用するJava VMやJavaプロセスに対するシステムプロパティーを指定します。
+* :guilabel:`[基本]` タブ
+* :guilabel:`[プロジェクト]` タブ
+* :guilabel:`[Java VM]` タブ
 
-Asakusa Framework ページ
-~~~~~~~~~~~~~~~~~~~~~~~~
+また、:guilabel:`Jinrikisha (人力車)` のサブ階層として :guilabel:`Asakusa Framework` プリファレンスページがあります。
 
-:guilabel:`テンプレートカタログURL`
+[基本]タブ
+~~~~~~~~~~
+
+Gradleのログレベルやバージョン、オフラインモードの設定など、Gradleの動作に関する設定を行います。
+
+..  figure:: images/preference-jinrikisha-basic.png
+
+:guilabel:`ログレベル`
+  Shafu経由で実行するGradleタスクのログレベルを指定します。
+
+:guilabel:`スタックトレース`
+  Shafu経由で実行するGradleタスクが失敗した時のスタックトレースの表示方法を指定します。
+
+:guilabel:`Gradleのバージョン`
+  Shafu経由で実行するGradleのバージョンを指定します。
+
+  後述の :guilabel:`Gradleのバージョンをラッパーの設定情報から取得` の設定有効になっている場合、そちらの設定が優先されます。
+
+:guilabel:`ネットワークモード`
+  Shafu経由で実行するGradleのオンラインモード|オフラインモードを切り替えます。
+
+:guilabel:`Gradle User Home ディレクトリー`
+  Shafu経由で実行するGradleのGradle User Home ディレクトリーを指定します。
+
+  未指定の場合、Gradle標準のディレクトリーが使用されます。
+  詳しくは、次のGradleドキュメントを参照してください。
+
+  * `Gradle User Manual - Build Environment`_
+
+..  _`Gradle User Manual - Build Environment`: https://docs.gradle.org/current/userguide/build_environment.html
+
+:guilabel:`Gradleのバージョンをラッパーの設定情報から取得`
+  この設定が有効になっている場合、プロジェクトに含まれるGradleラッパーの設定情報に基づいてShafu経由で実行するGradleバージョンを決定します。
+
+  .. note::
+     この設定はShafu バージョン 0.7.0から追加されました。
+     特別な理由がない限り、この設定を有効した状態でShafuを利用することを推奨します。
+
+:guilabel:`ラッパーの設定ファイルの位置`
+  上述の :guilabel:`Gradleのバージョンをラッパーの設定情報から取得` を有効にした場合に使用する、
+  Gradleラッパーの設定情報のパスをプロジェクトルートからの相対パスで指定します。
+  パスはカンマ区切りで複数指定することができます。
+
+  通常、この設定を変更する必要はありません。
+
+[プロジェクト]タブ
+~~~~~~~~~~~~~~~~~~
+
+Gradleのプロジェクトビルド時に使用するプロジェクトプロパティーの設定を行います。
+
+..  figure:: images/preference-jinrikisha-project.png
+
+:guilabel:`プロジェクトプロパティー`
+  Shafu経由で実行するGradleのプロジェクトプロパティーを追加|変更|削除します。
+
+  プロジェクトプロパティーについて詳しくは、次のGradleドキュメントを参照してください。
+
+  * `Gradle User Manual - Build Environment`_
+
+[Java VM]タブ
+~~~~~~~~~~~~~
+Gradleのビルドで使用するJava VMやJavaプロセスに対する設定を行います。
+
+..  figure:: images/preference-jinrikisha-javavm.png
+
+:guilabel:`Java Home ディレクトリー`
+  後述の :guilabel:`デフォルトのJavaランタイムにプロジェクトのJavaランタイム環境を利用する` 設定を無効にした場合に使用する、
+  Javaのインストールディレクトリを指定します。
+
+:guilabel:`デフォルトのJavaランタイムにプロジェクトのJavaランタイム環境を利用する`
+  この設定が有効になっている場合、プロジェクトのJavaランタイム設定に基づいて、先述の `JDKの登録`_ で登録した設定からJava実行環境を決定します。
+
+  通常、この設定を変更する必要はありません。
+
+:guilabel:`システムプロパティー`
+
+  Shafu経由で実行するGradleのJavaプロセスに設定するシステムプロパティーを追加|変更|削除します。
+
+  Gradleに設定するシステムプロパティーについて詳しくは、次のGradleドキュメントを参照してください。
+
+  * `Gradle User Manual - Build Environment`_
+
+:guilabel:`環境変数`
+
+  Shafu経由で実行するGradleのJavaプロセスに設定する環境変数を追加|変更|削除します。
+  この設定を利用する場合、実行するGradleのバージョンが3.5以上である必要があります。
+
+  Gradleに設定する環境変数について詳しくは、次のGradleドキュメントを参照してください。
+
+  * `Gradle User Manual - Build Environment`_
+
+Asakusa Framework プリファレンスページ
+--------------------------------------
+
+..  figure:: images/preference-jinrikisha-asakusafw.png
+
+:guilabel:`プロジェクトテンプレートカタログURL`
   `Gradleプロジェクトをテンプレートから生成`_ でプロジェクトテンプレートを選択する際に使用する、プロジェクトテンプレートの一覧を定義したテンプレートカタログファイルを指定します。
   デフォルトでは Asakusa Frameworkが公開しているリリースバージョンの一覧を含むテンプレートカタログが指定されています。
 
@@ -390,16 +466,15 @@ Asakusa Framework ページ
 
     http://www.asakusafw.com/download/gradle-plugin/template-catalog-develop.txt
 
-現在の設定
-^^^^^^^^^^
-
-現在の環境の設定に関する情報を表示します。この画面から各項目の値を編集することはできません。
-
 :guilabel:`フレームワークのインストール先 (ASAKUSA_HOME)`
   現在の環境で設定されている環境変数 ``ASAKUSA_HOME`` の値を表示します。
 
+  この項目は表示のみです。このプリファレンスページから編集することはできません。
+
 :guilabel:`Hadoopコマンドの場所`
   現在の環境で使用するHadoopコマンドのパスを表示します。
+
+  この項目は表示のみです。このプリファレンスページから編集することはできません。
 
 トラブルシューティング
 ======================

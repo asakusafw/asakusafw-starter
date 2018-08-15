@@ -130,7 +130,7 @@ Asakusa Frameworkの開発環境をインストールするディレクトリパ
 
 ..  code-block:: none
 
-    2) Asakusa Frameworkのバージョンを入力してください。: 0.10.0:
+    2) Asakusa Frameworkのバージョンを入力してください。: 0.10.1:
 
 ..  attention::
     基本的にはデフォルトの推奨バージョンをそのまま利用することを推奨します。その他のバージョンとの組み合わせは動作検証が行われていない可能性があります。
@@ -163,6 +163,8 @@ OSユーザをAsakusa Frameworkの開発専用のユーザとして使用する�
               ${ASAKUSA_DEVELOP_HOME}/spark/bin: \
               ${ASAKUSA_DEVELOP_HOME}/hive/bin: \
               ${ASAKUSA_DEVELOP_HOME}/eclipse: \
+              ${ASAKUSA_HOME}/bin: \
+              ${ASAKUSA_HOME}/tools/bin: \
               ${ASAKUSA_HOME}/yaess/bin: \
               ${PATH}
 
