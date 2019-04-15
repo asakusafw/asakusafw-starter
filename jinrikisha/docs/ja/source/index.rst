@@ -6,7 +6,7 @@ Jinrikisha (人力車) は、 `Asakusa Framework`_ の開発環境を手軽に�
 
 同梱のインストーラを利用し、Asakusa Framework本体、Hadoop、関連ツールなどをわずかな手順でセットアップすることで、すぐにAsakusa DSLによるバッチアプリケーションの開発を始めることができます。
 
-..  _`Asakusa Framework`: http://docs.asakusafw.com/latest/release/ja/html/index.html
+..  _`Asakusa Framework`: https://docs.asakusafw.com/latest/release/ja/html/index.html
 
 より詳しくは、 :doc:`feature` も参照してください。
 
@@ -84,9 +84,9 @@ Jinrikishaに同梱されているEclipseをAsakusa Frameworkを使った開発�
     * - バッチ設計と実装ガイド
       - http://www.asakusafw.com/techinfo/methodology.html
 
-..  _`Asakusa Framework入門`: http://docs.asakusafw.com/latest/release/ja/html/introduction/index.html
-..  _`Asakusa Framework スタートガイド`: http://docs.asakusafw.com/latest/release/ja/html/introduction/start-guide.html
-..  _`開発の流れ`: http://docs.asakusafw.com/latest/release/ja/html/introduction/next-step.html
+..  _`Asakusa Framework入門`: https://docs.asakusafw.com/latest/release/ja/html/introduction/index.html
+..  _`Asakusa Framework スタートガイド`: https://docs.asakusafw.com/latest/release/ja/html/introduction/start-guide.html
+..  _`開発の流れ`: https://docs.asakusafw.com/latest/release/ja/html/introduction/next-step.html
 
 同梱ソフトウェア
 ================
