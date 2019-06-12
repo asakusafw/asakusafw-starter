@@ -75,13 +75,13 @@ Jinrikisha のインストール時に指定した単一のディレクトリ配
 なお、Java本体のインストールについてはOSのパッケージ管理システムの仕様に依存します。
 また、OSユーザのプロファイル設定ファイル( :file:`$HOME/.profile` または :file:`$HOME/.bash_profile` )に対する設定の追加や、デスクトップに対するショートカットを加えるような処理については、インストール時にこれらの設定を行うかどうかを選択します。
 
-..  _`Asakusa Framework入門`: http://docs.asakusafw.com/latest/release/ja/html/introduction/index.html
-..  _`Asakusa Framework スタートガイド`: http://docs.asakusafw.com/latest/release/ja/html/introduction/start-guide.html
-..  _`開発の流れ`: http://docs.asakusafw.com/latest/release/ja/html/introduction/next-step.html
+..  _`Asakusa Framework入門`: https://docs.asakusafw.com/latest/release/ja/html/introduction/index.html
+..  _`Asakusa Framework スタートガイド`: https://docs.asakusafw.com/latest/release/ja/html/introduction/start-guide.html
+..  _`開発の流れ`: https://docs.asakusafw.com/latest/release/ja/html/introduction/next-step.html
 ..  _`OpenJDK`: http://openjdk.java.net/
 ..  _`Apache Hadoop`: http://hadoop.apache.org/
 ..  _`Apache Spark`: http://spark.apache.org/
 ..  _`Apache Hive`: https://hive.apache.org/
-..  _`Asakusa FrameworkとHiveを連携して利用する`: http://docs.asakusafw.com/latest/release/ja/html/administration/asakusa-with-hive.html
+..  _`Asakusa FrameworkとHiveを連携して利用する`: https://docs.asakusafw.com/latest/release/ja/html/administration/asakusa-with-hive.html
 ..  _`GettingStarted`: https://cwiki.apache.org/confluence/display/Hive/GettingStarted
 

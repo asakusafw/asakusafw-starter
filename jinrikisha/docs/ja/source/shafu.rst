@@ -9,12 +9,12 @@ Shafuを使うことで、ターミナル上でのビルドツールの操作が
 
 Shafu は Jinrikisha でセットアップしたEclipse環境ではもちろんのこと、単体でセットアップしたEclipse上での利用も可能です。
 
-..  _`Asakusa Framework`: http://docs.asakusafw.com/latest/release/ja/html/index.html
+..  _`Asakusa Framework`: https://docs.asakusafw.com/latest/release/ja/html/index.html
 
 ..  note::
     Asakusa Frameworkが提供するGradle上のビルド機能についての詳細は、Asakusa Frameworkのドキュメント `Asakusa Gradle Plugin ユーザガイド`_ を参照してください。
 
-..  _`Asakusa Gradle Plugin ユーザガイド`: http://docs.asakusafw.com/latest/release/ja/html/application/gradle-plugin.html
+..  _`Asakusa Gradle Plugin ユーザガイド`: https://docs.asakusafw.com/latest/release/ja/html/application/gradle-plugin.html
 
 対応プラットフォーム
 ====================
@@ -290,9 +290,9 @@ Asakusa Frameworkのアプリケーションのテストを行うには、開発
     * `DMDLスタートガイド`_
     * `Asakusa DSLスタートガイド`_
 
-..  _`Asakusa Framework 入門 - 開発の流れ`: http://docs.asakusafw.com/latest/release/ja/html/introduction/next-step.html
-..  _`DMDLスタートガイド`: http://docs.asakusafw.com/latest/release/ja/html/dmdl/start-guide.html
-..  _`Asakusa DSLスタートガイド`: http://docs.asakusafw.com/latest/release/ja/html/dsl/start-guide.html
+..  _`Asakusa Framework 入門 - 開発の流れ`: https://docs.asakusafw.com/latest/release/ja/html/introduction/next-step.html
+..  _`DMDLスタートガイド`: https://docs.asakusafw.com/latest/release/ja/html/dmdl/start-guide.html
+..  _`Asakusa DSLスタートガイド`: https://docs.asakusafw.com/latest/release/ja/html/dsl/start-guide.html
 
 アプリケーションのテスト
 ------------------------
@@ -312,7 +312,7 @@ Asakusa Frameworkのアプリケーションのテストを行うには、開発
 
     * `アプリケーションテストスタートガイド`_
 
-..  _`アプリケーションテストスタートガイド`: http://docs.asakusafw.com/latest/release/ja/html/testing/start-guide.html
+..  _`アプリケーションテストスタートガイド`: https://docs.asakusafw.com/latest/release/ja/html/testing/start-guide.html
 
 デプロイメントアーカイブの作成
 ------------------------------
@@ -338,7 +338,7 @@ Windows上の開発環境で作成したアプリケーションを運用環境�
 
     * `Asakusa Framework デプロイメントガイド`_
 
-..  _`Asakusa Framework デプロイメントガイド`: http://docs.asakusafw.com/latest/release/ja/html/administration/deployment-guide.html
+..  _`Asakusa Framework デプロイメントガイド`: https://docs.asakusafw.com/latest/release/ja/html/administration/deployment-guide.html
 
 Shafuの設定
 ===========
