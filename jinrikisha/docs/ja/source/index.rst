@@ -16,9 +16,9 @@ Jinrikisha (人力車) は、 `Asakusa Framework`_ の開発環境を手軽に�
 Linux-64bit版
 -------------
 
-* `jinrikisha-linux-64bit-0.10.3.tar.gz`_
+* `jinrikisha-linux-64bit-0.10.4.tar.gz`_
 
-..  _`jinrikisha-linux-64bit-0.10.3.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.10.3.tar.gz
+..  _`jinrikisha-linux-64bit-0.10.4.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.10.4.tar.gz
 
 対応プラットフォーム
 --------------------
