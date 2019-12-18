@@ -112,7 +112,7 @@ Eclipse上でShafu のアップデートサイトを利用したインストー�
     * - :guilabel:`Name:`
       - ``Jinrikisha``
     * - :guilabel:`Location:`
-      - ``httpsq://www.asakusafw.com/eclipse/jinrikisha/updates/``
+      - ``https://www.asakusafw.com/eclipse/jinrikisha/updates/``
 
 4. Install ダイアログに表示された ``[Jinrikisha (人力車)]`` カテゴリを展開して ``[Asakusa Gradle プラグインサポート]`` を選択し、 :guilabel:`Next >` ボタンを押下します。
 
