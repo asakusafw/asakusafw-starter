@@ -26,7 +26,7 @@ DMDL Editorプラグインのインストール
 前提条件
 --------
 
-DMDL Editorプラグインを利用するには、Eclipse環境に `Xtext <http://www.eclipse.org/Xtext/>`_ がインストールされている必要があります。
+DMDL Editorプラグインを利用するには、Eclipse環境に `Xtext <https://www.eclipse.org/Xtext/>`_ がインストールされている必要があります。
 
 Jinrikisha バージョン |version| に同梱されているEclipseにはXtextが含まれていますが、異なるEclipse環境を利用する場合、必要に応じてXtextをインストール [#]_ してください。
 
@@ -50,7 +50,7 @@ Jinrikisha バージョン |version| に同梱されているEclipseにはXtext�
     * - :guilabel:`名前（Name）`
       - サイトの名前（例： ``dmdl-editor`` ）
     * - :guilabel:`ロケーション（Location）`
-      - ``http://hishidama.github.io/xtext-dmdl-editor/site/``
+      - ``https://hishidama.github.io/xtext-dmdl-editor/site/``
 
 4. :guilabel:`名前（Name）` に表示されている :guilabel:`DMDL EditorX` にチェックを入れます。
 
