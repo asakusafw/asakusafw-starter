@@ -78,9 +78,9 @@ Jinrikisha のインストール時に指定した単一のディレクトリ配
 ..  _`Asakusa Framework入門`: https://docs.asakusafw.com/latest/release/ja/html/introduction/index.html
 ..  _`Asakusa Framework スタートガイド`: https://docs.asakusafw.com/latest/release/ja/html/introduction/start-guide.html
 ..  _`開発の流れ`: https://docs.asakusafw.com/latest/release/ja/html/introduction/next-step.html
-..  _`OpenJDK`: http://openjdk.java.net/
-..  _`Apache Hadoop`: http://hadoop.apache.org/
-..  _`Apache Spark`: http://spark.apache.org/
+..  _`OpenJDK`: https://openjdk.java.net/
+..  _`Apache Hadoop`: https://hadoop.apache.org/
+..  _`Apache Spark`: https://spark.apache.org/
 ..  _`Apache Hive`: https://hive.apache.org/
 ..  _`Asakusa FrameworkとHiveを連携して利用する`: https://docs.asakusafw.com/latest/release/ja/html/administration/asakusa-with-hive.html
 ..  _`GettingStarted`: https://cwiki.apache.org/confluence/display/Hive/GettingStarted
