@@ -18,7 +18,7 @@ Linux-64bit版
 
 * `jinrikisha-linux-64bit-0.10.4.tar.gz`_
 
-..  _`jinrikisha-linux-64bit-0.10.4.tar.gz`: https://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.10.4.tar.gz
+..  _`jinrikisha-linux-64bit-0.10.4.tar.gz`: http://www.asakusafw.com/download/jinrikisha/linux/jinrikisha-linux-64bit-0.10.4.tar.gz
 
 対応プラットフォーム
 --------------------
@@ -36,7 +36,7 @@ Jinrikishaは以下のプラットフォームで動作を検証しています�
       - 18.04
       - 推奨環境
 
-..  [#] https://www.ubuntu.com/
+..  [#] http://www.ubuntu.com/
 
 使い方
 ======
@@ -82,7 +82,7 @@ Jinrikishaに同梱されているEclipseをAsakusa Frameworkを使った開発�
     * - ドキュメント
       - URL
     * - バッチ設計と実装ガイド
-      - https://www.asakusafw.com/techinfo/methodology.html
+      - http://www.asakusafw.com/techinfo/methodology.html
 
 ..  _`Asakusa Framework入門`: https://docs.asakusafw.com/latest/release/ja/html/introduction/index.html
 ..  _`Asakusa Framework スタートガイド`: https://docs.asakusafw.com/latest/release/ja/html/introduction/start-guide.html
@@ -113,13 +113,13 @@ Jinrikishaには以下のソフトウェアが含まています。
       - 4.8.0 [#]_
       - Eclipse Public License - Version 1.0 [#]_
 
-..  [#] https://hadoop.apache.org/
-..  [#] https://www.apache.org/licenses/
-..  [#] https://spark.apache.org/
-..  [#] https://hive.apache.org/
-..  [#] https://eclipse.org/
+..  [#] http://hadoop.apache.org/
+..  [#] http://www.apache.org/licenses/
+..  [#] http://spark.apache.org/
+..  [#] http://hive.apache.org/
+..  [#] http://eclipse.org/
 ..  [#] Linux-64bit版が同梱されています。
-..  [#] https://www.eclipse.org/legal/epl-v10.html
+..  [#] http://www.eclipse.org/legal/epl-v10.html
 
 ライセンス
 ==========

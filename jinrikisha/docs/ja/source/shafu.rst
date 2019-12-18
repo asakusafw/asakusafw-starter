@@ -112,7 +112,7 @@ Eclipse上でShafu のアップデートサイトを利用したインストー�
     * - :guilabel:`Name:`
       - ``Jinrikisha``
     * - :guilabel:`Location:`
-      - ``httpsq://www.asakusafw.com/eclipse/jinrikisha/updates/``
+      - ``http://www.asakusafw.com/eclipse/jinrikisha/updates/``
 
 4. Install ダイアログに表示された ``[Jinrikisha (人力車)]`` カテゴリを展開して ``[Asakusa Gradle プラグインサポート]`` を選択し、 :guilabel:`Next >` ボタンを押下します。
 
@@ -248,7 +248,7 @@ Shafuを導入した開発環境では、オンライン上に公開されてい
 ..  attention::
     開発環境で初めてAsakusa Frameworkのプロジェクトを作成する際にはリモートからプロジェクトに必要なライブラリをダウンロードするため、初回のプロジェクト作成には時間がかかることがあります。
 
-..  _`サンプルプログラム集 (GitHub)`: https://github.com/asakusafw/asakusafw-examples
+..  _`サンプルプログラム集 (GitHub)`: http://github.com/asakusafw/asakusafw-examples
 
 開発用Asakusa Frameworkのインストール
 -------------------------------------
@@ -464,7 +464,7 @@ Asakusa Framework プリファレンスページ
 ..  tip::
     Asakusa Frameworkが公開しているテスト用のバージョン (スナップショットビルドやRC版）を使用したい場合は、テンプレートカタログURLを以下のURLに変更します。
 
-    https://www.asakusafw.com/download/gradle-plugin/template-catalog-develop.txt
+    http://www.asakusafw.com/download/gradle-plugin/template-catalog-develop.txt
 
 :guilabel:`フレームワークのインストール先 (ASAKUSA_HOME)`
   現在の環境で設定されている環境変数 ``ASAKUSA_HOME`` の値を表示します。
