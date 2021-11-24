@@ -16,10 +16,35 @@ Shafu は Jinrikisha でセットアップしたEclipse環境ではもちろん�
 
 ..  _`Asakusa Gradle Plugin ユーザガイド`: https://docs.asakusafw.com/latest/release/ja/html/application/gradle-plugin.html
 
+リリースノート
+==============
+
+Shafu 0.9.0
+--------------
+
+アップデート内容
+~~~~~~~~~~~~~~~~
+
+* Gradle Tooling APIのバージョンを 4.9 から 4.10.1にアップデート
+* 実行時に使用するGradleのデフォルトバージョンを 4.3.1 から 4.7 にアップデート
+* メッセージ文言の修正
+
+特記事項
+~~~~~~~~
+
+1. EclipseをJava11以降の環境で起動する場合、shafu 0.9.0 以降のバージョンを利用する必要があります。
+
+   * Eclipse 2020-09 以降はJava11以降のバージョンが必須であるため、Shafu 0.8.0 およびこれ以前のバージョンは利用できません。
+   * Eclipse 2020-06 以前のバージョンでも、Java11以降を利用する場合はShafu 0.8.0 およびこれ以前のバージョンは利用できません。
+2. Java11以降のEclipse環境でshafuを利用する場合、実行時に使用するGradleのバージョンを4.7以降に指定してください。これ以前のGradleバージョンを指定した場合は正常に動作しません。
+
+   * なおshafuは標準の設定では、実行時に使用するGradleのバージョンはプロジェクトのGradleラッパーのバージョンから取得するようになっています。この設定でAsaksua Frameworkのプロジェクトを扱う場合、Asakusa 0.10.1 以降のバージョンでGradle 4.7が利用されます。
+   * Asakusa 0.10.0 およびそれ以前のバージョンのプロジェクトをshafuで扱う場合、EclipseをJava8環境で利用してください。
+
 対応プラットフォーム
 ====================
 
-Shafuは以下のプラットフォームで動作を検証しています。
+Shafu 0.9.0 は以下のプラットフォームで動作を検証しています。
 
 ..  list-table::
     :widths: 2 3 2 3
@@ -31,16 +56,16 @@ Shafuは以下のプラットフォームで動作を検証しています。
       - 備考
     * - IDE
       - Eclipse
-      - 4.8.0
+      - 2019-03 / 2021-09
       -
     * - Java
       - Oracle JDK
-      - JDK7 / JDK8
-      - JDK8 を推奨
+      - JDK8
+      -
     * - Java
       - Open JDK
-      - JDK7 / JDK8
-      - JDK8 を推奨
+      - JDK8
+      -
 
 ..  attention::
     Asakusa Frameworkのバッチアプリケーションのコンパイルやテストの実行にはJDKが必要です。
